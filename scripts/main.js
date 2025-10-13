@@ -34,7 +34,7 @@ function createSakuraLeaves() {
     const container = document.querySelector('.sakura-container');
     if (!container) return;
     
-    const leafCount = 350; // Количество листьев
+    const leafCount = 50; // Увеличили до 50 листьев
     
     for (let i = 0; i < leafCount; i++) {
         const leaf = document.createElement('div');
@@ -79,12 +79,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const body = document.body;
         const blob1 = document.createElement('div');
         const blob2 = document.createElement('div');
+        const blob3 = document.createElement('div');
         
         blob1.className = 'blob blob-1';
         blob2.className = 'blob blob-2';
+        blob3.className = 'blob blob-3';
         
         body.appendChild(blob1);
         body.appendChild(blob2);
+        body.appendChild(blob3);
     };
 
     addBlobs();

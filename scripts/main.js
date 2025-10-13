@@ -43,17 +43,7 @@ function createSakuraLeaves() {
     }
 }
 
-// Анимация прогресс-баров
-const animateProgressBars = () => {
-    const progressBars = document.querySelectorAll('.skill-level, .progress-fill');
-    progressBars.forEach(bar => {
-        const width = bar.style.width;
-        bar.style.width = '0';
-        setTimeout(() => {
-            bar.style.width = width;
-        }, 500);
-    });
-};
+
 
 // Инициализация всех функций
 document.addEventListener('DOMContentLoaded', function() {

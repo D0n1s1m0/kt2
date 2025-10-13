@@ -34,7 +34,7 @@ function createSakuraLeaves() {
     const container = document.querySelector('.sakura-container');
     if (!container) return;
     
-    const leafCount = 35; // Количество листьев
+    const leafCount = 350; // Количество листьев
     
     for (let i = 0; i < leafCount; i++) {
         const leaf = document.createElement('div');

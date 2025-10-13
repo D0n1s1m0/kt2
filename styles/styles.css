@@ -237,7 +237,8 @@ body {
     background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
     color: white;
     transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    /* Убрана тень при наведении */
+    box-shadow: none;
 }
 
 /* Стили главной секции */
@@ -567,7 +568,8 @@ body {
     background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
     color: white;
     transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    /* Убрана тень при наведении */
+    box-shadow: none;
 }
 
 /* Стили страницы дневника */

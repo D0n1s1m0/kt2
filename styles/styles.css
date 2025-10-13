@@ -149,13 +149,6 @@ body {
 }
 
 
-.header-nav a:hover,
-.header-nav a.active {
-    background: linear-gradient(135deg, var(--peach-primary), var(--peach-accent));
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-}
 
 /* Стили главной секции */
 .intro {

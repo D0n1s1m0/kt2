@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учебный дневник | Онучин Михаил</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-brand">
+                <a href="../index.html">Онучин М.С.</a>
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="projects.html">Проекты</a></li>
+                    <li><a href="diary.html" class="active">Дневник</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="diary-page">
+            <div class="container">
+                <h1>Мой учебный прогресс</h1>
+                
+                <div class="diary-layout">
+                    <!-- Левая колонка - записи дневника -->
+                    <div class="diary-entries">
+                        <h2>Последние записи</h2>
+                        <div class="entries-list">
+                            <article class="entry-item completed">
+                                <div class="entry-date">15 декабря 2024</div>
+                                <h3 class="entry-title">Верстка макета сайта</h3>
+                                <p class="entry-description">Изучение семантической верстки, работа с макетом в Figma. Создание адаптивного лендинга.</p>
+                                <span class="entry-status">✓ Завершено</span>
+                            </article>
+
+                            <article class="entry-item completed">
+                                <div class="entry-date">10 декабря 2024</div>
+                                <h3 class="entry-title">JavaScript основы</h3>
+                                <p class="entry-description">Переменные, типы данных, функции, условия, циклы. Практика на небольших проектах.</p>
+                                <span class="entry-status">✓ Завершено</span>
+                            </article>
+
+                            <article class="entry-item in-progress">
+                                <div class="entry-date">5 декабря 2024</div>
+                                <h3 class="entry-title">Работа с формами</h3>
+                                <p class="entry-description">Валидация форм, обработка событий, работа с Local Storage для сохранения данных.</p>
+                                <span class="entry-status">⏳ В процессе</span>
+                            </article>
+
+                            <article class="entry-item in-progress">
+                                <div class="entry-date">1 декабря 2024</div>
+                                <h3 class="entry-title">Адаптивный дизайн</h3>
+                                <p class="entry-description">Media queries, mobile-first подход, работа с flexbox и grid системами.</p>
+                                <span class="entry-status">⏳ В процессе</span>
+                            </article>
+
+                            <article class="entry-item planned">
+                                <div class="entry-date">25 ноября 2024</div>
+                                <h3 class="entry-title">React компоненты</h3>
+                                <p class="entry-description">Изучение функциональных компонентов, хуков, работа с состоянием и пропсами.</p>
+                                <span class="entry-status">📅 Запланировано</span>
+                            </article>
+
+                            <article class="entry-item planned">
+                                <div class="entry-date">20 ноября 2024</div>
+                                <h3 class="entry-title">Работа с API</h3>
+                                <p class="entry-description">HTTP запросы, async/await, обработка ошибок, работа с REST API.</p>
+                                <span class="entry-status">📅 Запланировано</span>
+                            </article>
+                        </div>
+
+                        <!-- Форма добавления новой записи -->
+                        <div class="add-entry-form">
+                            <h3>Добавить новую запись</h3>
+                            <form id="diaryForm">
+                                <div class="form-group">
+                                    <label for="entryDate">Дата:</label>
+                                    <input type="date" id="entryDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="entryTitle">Название темы:</label>
+                                    <input type="text" id="entryTitle" placeholder="Введите название темы" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="entryDescription">Описание работы:</label>
+                                    <textarea id="entryDescription" placeholder="Опишите выполненную работу" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="entryStatus">Статус:</label>
+                                    <select id="entryStatus" required>
+                                        <option value="planned">Запланировано</option>
+                                        <option value="in-progress">В процессе</option>
+                                        <option value="completed">Завершено</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="button">Добавить запись</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Правая колонка - прогресс по курсам -->
+                    <div class="diary-progress">
+                        <div class="progress-card">
+                            <h2>Текущие курсы</h2>
+                            
+                            <div class="course-progress">
+                                <div class="course-info">
+                                    <span class="course-name">Веб-разработка</span>
+                                    <span class="course-percent">90%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 90%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="course-progress">
+                                <div class="course-info">
+                                    <span class="course-name">JavaScript</span>
+                                    <span class="course-percent">70%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 70%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="course-progress">
+                                <div class="course-info">
+                                    <span class="course-name">React</span>
+                                    <span class="course-percent">50%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 50%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="course-progress">
+                                <div class="course-info">
+                                    <span class="course-name">Базы данных</span>
+                                    <span class="course-percent">30%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 30%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <h3>Статистика обучения</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-number">24</div>
+                                    <div class="stat-label">Завершено тем</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">8</div>
+                                    <div class="stat-label">Текущих проектов</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">156</div>
+                                    <div class="stat-label">Часов обучения</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">6</div>
+                                    <div class="stat-label">Изученных технологий</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Онучин Михаил Сергеевич. ЭФБО-15-24</p>
+            <div class="footer-contacts">
+                <p>📧 mikhail.onuchin@edu.ru | 📱 GitHub: mikhail-onuchin</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../scripts/main.js"></script>
+</body>
+</html>

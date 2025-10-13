@@ -181,7 +181,6 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: var(--shadow);
     border-bottom: 3px solid var(--orange-accent);
 }
 
@@ -198,40 +197,7 @@ body {
     gap: 2rem;
 }
 
-.header-nav a {
-    color: var(--text-dark);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    padding: 0.5rem 1.2rem;
-    border-radius: 25px;
-    font-weight: 500;
-    position: relative;
-    overflow: hidden;
-}
 
-.header-nav a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 140, 66, 0.3), transparent);
-    transition: left 0.5s;
-}
-
-.header-nav a:hover::before {
-    left: 100%;
-}
-
-.header-nav a:hover,
-.header-nav a.active {
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
-    color: white;
-    transform: translateY(-2px);
-    /* Убрана тень при наведении */
-    box-shadow: none;
-}
 
 /* Стили главной секции */
 .intro {

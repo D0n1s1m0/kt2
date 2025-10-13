@@ -191,14 +191,6 @@ body {
     align-items: center;
 }
 
-.header-brand a {
-    color: var(--orange-brown);
-    text-decoration: none;
-    font-size: 1.8rem;
-    font-weight: bold;
-    font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 4px rgba(255, 140, 66, 0.3);
-}
 
 .header-nav ul {
     list-style: none;

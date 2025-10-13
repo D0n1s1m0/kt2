@@ -174,29 +174,6 @@ body {
 }
 
 /* Стили шапки */
-.header {
-    background: rgba(255, 243, 230, 0.95);
-    backdrop-filter: blur(15px);
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 3px solid var(--orange-accent);
-}
-
-.header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-.header-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-}
-
 
 
 /* Стили главной секции */

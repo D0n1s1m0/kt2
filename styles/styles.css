@@ -5,29 +5,359 @@
     box-sizing: border-box;
 }
 
+/* Основная оранжевая тема (по умолчанию) */
 :root {
-    --orange-primary: #ff9a76;
-    --orange-secondary: #ffb174;
-    --orange-accent: #ff8c42;
-    --orange-dark: #e67e22;
-    --orange-light: #fff0e5;
-    --orange-brown: #d35400;
-    --orange-bright: #ffa726;
+    /* Цветовая палитра */
+    --primary-color: #ff9a76;
+    --secondary-color: #ffb174;
+    --accent-color: #ff8c42;
+    --dark-color: #e67e22;
+    --light-color: #fff0e5;
+    --brown-color: #d35400;
+    --bright-color: #ffa726;
+    
+    /* Текстовые цвета */
     --text-dark: #5d4037;
     --text-light: #795548;
+    --text-white: #ffffff;
+    
+    /* Фоны */
+    --bg-primary: linear-gradient(135deg, #ffecd2 0%, #ffb174 50%, #ff9a76 100%);
+    --bg-secondary: rgba(255, 248, 240, 0.9);
+    --bg-header: rgba(255, 243, 230, 0.95);
+    --bg-card: rgba(255, 248, 240, 0.9);
+    --bg-footer: rgba(255, 243, 230, 0.95);
+    
+    /* Тени */
     --shadow: 0 8px 25px rgba(255, 154, 118, 0.4);
     --shadow-hover: 0 12px 35px rgba(255, 140, 66, 0.5);
+    --shadow-light: 0 4px 15px rgba(255, 154, 118, 0.2);
+    
+    /* Цвета листьев */
+    --leaf-color-1: #ff9a76;
+    --leaf-color-2: #ff8c42;
+    --leaf-color-3: #ffb174;
+    --leaf-color-4: #e67e22;
+    --leaf-color-5: #ffa726;
+    
+    /* Градиенты */
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--bright-color));
+    --gradient-card: linear-gradient(135deg, rgba(255, 154, 118, 0.1), rgba(255, 140, 66, 0.2));
+    
+    /* Разное */
+    --border-radius: 15px;
+    --border-radius-lg: 25px;
+    --transition: all 0.3s ease;
 }
 
+/* Бежевая тема */
+[data-theme="beige"] {
+    --primary-color: #d7ccc8;
+    --secondary-color: #bcaaa4;
+    --accent-color: #a1887f;
+    --dark-color: #8d6e63;
+    --light-color: #efebe9;
+    --brown-color: #6d4c41;
+    --bright-color: #bcaaa4;
+    
+    --text-dark: #4e342e;
+    --text-light: #795548;
+    
+    --bg-primary: linear-gradient(135deg, #efebe9 0%, #d7ccc8 50%, #bcaaa4 100%);
+    --bg-secondary: rgba(239, 235, 233, 0.9);
+    --bg-header: rgba(245, 241, 237, 0.95);
+    --bg-card: rgba(239, 235, 233, 0.9);
+    --bg-footer: rgba(245, 241, 237, 0.95);
+    
+    --shadow: 0 8px 25px rgba(183, 148, 122, 0.3);
+    --shadow-hover: 0 12px 35px rgba(161, 136, 127, 0.4);
+    --shadow-light: 0 4px 15px rgba(183, 148, 122, 0.2);
+    
+    --leaf-color-1: #d7ccc8;
+    --leaf-color-2: #bcaaa4;
+    --leaf-color-3: #a1887f;
+    --leaf-color-4: #8d6e63;
+    --leaf-color-5: #a1887f;
+    
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+}
+
+/* Темная тема */
+[data-theme="dark"] {
+    --primary-color: #bb86fc;
+    --secondary-color: #985eff;
+    --accent-color: #7c4dff;
+    --dark-color: #5e35b1;
+    --light-color: #1e1e1e;
+    --brown-color: #b39ddb;
+    --bright-color: #bb86fc;
+    
+    --text-dark: #e0e0e0;
+    --text-light: #b0b0b0;
+    --text-white: #ffffff;
+    
+    --bg-primary: linear-gradient(135deg, #121212 0%, #1e1e1e 50%, #2d2d2d 100%);
+    --bg-secondary: rgba(30, 30, 30, 0.9);
+    --bg-header: rgba(40, 40, 40, 0.95);
+    --bg-card: rgba(50, 50, 50, 0.9);
+    --bg-footer: rgba(40, 40, 40, 0.95);
+    
+    --shadow: 0 8px 25px rgba(187, 134, 252, 0.3);
+    --shadow-hover: 0 12px 35px rgba(124, 77, 255, 0.4);
+    --shadow-light: 0 4px 15px rgba(187, 134, 252, 0.2);
+    
+    --leaf-color-1: #bb86fc;
+    --leaf-color-2: #985eff;
+    --leaf-color-3: #7c4dff;
+    --leaf-color-4: #5e35b1;
+    --leaf-color-5: #985eff;
+    
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+}
+
+/* Зеленая тема */
+[data-theme="green"] {
+    --primary-color: #81c784;
+    --secondary-color: #66bb6a;
+    --accent-color: #4caf50;
+    --dark-color: #388e3c;
+    --light-color: #e8f5e9;
+    --brown-color: #2e7d32;
+    --bright-color: #66bb6a;
+    
+    --text-dark: #1b5e20;
+    --text-light: #4caf50;
+    
+    --bg-primary: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+    --bg-secondary: rgba(232, 245, 233, 0.9);
+    --bg-header: rgba(240, 248, 240, 0.95);
+    --bg-card: rgba(232, 245, 233, 0.9);
+    --bg-footer: rgba(240, 248, 240, 0.95);
+    
+    --shadow: 0 8px 25px rgba(129, 199, 132, 0.4);
+    --shadow-hover: 0 12px 35px rgba(76, 175, 80, 0.5);
+    --shadow-light: 0 4px 15px rgba(129, 199, 132, 0.2);
+    
+    --leaf-color-1: #81c784;
+    --leaf-color-2: #66bb6a;
+    --leaf-color-3: #4caf50;
+    --leaf-color-4: #388e3c;
+    --leaf-color-5: #66bb6a;
+    
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+}
+
+/* Синяя тема */
+[data-theme="blue"] {
+    --primary-color: #64b5f6;
+    --secondary-color: #42a5f5;
+    --accent-color: #2196f3;
+    --dark-color: #1976d2;
+    --light-color: #e3f2fd;
+    --brown-color: #1565c0;
+    --bright-color: #42a5f5;
+    
+    --text-dark: #0d47a1;
+    --text-light: #1976d2;
+    
+    --bg-primary: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+    --bg-secondary: rgba(227, 242, 253, 0.9);
+    --bg-header: rgba(240, 245, 250, 0.95);
+    --bg-card: rgba(227, 242, 253, 0.9);
+    --bg-footer: rgba(240, 245, 250, 0.95);
+    
+    --shadow: 0 8px 25px rgba(100, 181, 246, 0.4);
+    --shadow-hover: 0 12px 35px rgba(33, 150, 243, 0.5);
+    --shadow-light: 0 4px 15px rgba(100, 181, 246, 0.2);
+    
+    --leaf-color-1: #64b5f6;
+    --leaf-color-2: #42a5f5;
+    --leaf-color-3: #2196f3;
+    --leaf-color-4: #1976d2;
+    --leaf-color-5: #42a5f5;
+    
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+}
+
+/* Розовая тема */
+[data-theme="pink"] {
+    --primary-color: #f48fb1;
+    --secondary-color: #f06292;
+    --accent-color: #ec407a;
+    --dark-color: #d81b60;
+    --light-color: #fce4ec;
+    --brown-color: #c2185b;
+    --bright-color: #f06292;
+    
+    --text-dark: #880e4f;
+    --text-light: #ad1457;
+    
+    --bg-primary: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 50%, #f48fb1 100%);
+    --bg-secondary: rgba(252, 228, 236, 0.9);
+    --bg-header: rgba(253, 235, 240, 0.95);
+    --bg-card: rgba(252, 228, 236, 0.9);
+    --bg-footer: rgba(253, 235, 240, 0.95);
+    
+    --shadow: 0 8px 25px rgba(244, 143, 177, 0.4);
+    --shadow-hover: 0 12px 35px rgba(236, 64, 122, 0.5);
+    --shadow-light: 0 4px 15px rgba(244, 143, 177, 0.2);
+    
+    --leaf-color-1: #f48fb1;
+    --leaf-color-2: #f06292;
+    --leaf-color-3: #ec407a;
+    --leaf-color-4: #d81b60;
+    --leaf-color-5: #f06292;
+    
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+}
+
+/* Фиолетовая тема */
+[data-theme="purple"] {
+    --primary-color: #ba68c8;
+    --secondary-color: #ab47bc;
+    --accent-color: #9c27b0;
+    --dark-color: #7b1fa2;
+    --light-color: #f3e5f5;
+    --brown-color: #6a1b9a;
+    --bright-color: #ab47bc;
+    
+    --text-dark: #4a148c;
+    --text-light: #7b1fa2;
+    
+    --bg-primary: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 50%, #ce93d8 100%);
+    --bg-secondary: rgba(243, 229, 245, 0.9);
+    --bg-header: rgba(245, 235, 247, 0.95);
+    --bg-card: rgba(243, 229, 245, 0.9);
+    --bg-footer: rgba(245, 235, 247, 0.95);
+    
+    --shadow: 0 8px 25px rgba(186, 104, 200, 0.4);
+    --shadow-hover: 0 12px 35px rgba(156, 39, 176, 0.5);
+    --shadow-light: 0 4px 15px rgba(186, 104, 200, 0.2);
+    
+    --leaf-color-1: #ba68c8;
+    --leaf-color-2: #ab47bc;
+    --leaf-color-3: #9c27b0;
+    --leaf-color-4: #7b1fa2;
+    --leaf-color-5: #ab47bc;
+    
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    --gradient-secondary: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+}
+
+/* Базовые стили body */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: var(--text-dark);
-    background: linear-gradient(135deg, #ffecd2 0%, #ffb174 50%, #ff9a76 100%);
+    background: var(--bg-primary);
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    transition: var(--transition);
 }
+
+/* Контейнеры */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Кнопка смены темы */
+.theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: var(--bg-card);
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+.theme-switcher:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: var(--shadow-hover);
+}
+
+.theme-switcher-icon {
+    font-size: 1.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Панель выбора темы */
+.theme-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--bg-card);
+    backdrop-filter: blur(15px);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--primary-color);
+    z-index: 1001;
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    width: 200px;
+}
+
+.theme-panel.active {
+    display: grid;
+    animation: fadeIn 0.3s ease;
+}
+
+.theme-option {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.theme-option:hover {
+    transform: scale(1.1);
+    border-color: var(--text-dark);
+}
+
+.theme-option.active {
+    border-color: var(--text-dark);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Цвета для кнопок тем */
+.theme-orange { background: var(--gradient-primary); }
+.theme-beige { background: linear-gradient(135deg, #d7ccc8, #a1887f); }
+.theme-dark { background: linear-gradient(135deg, #333, #666); color: white; }
+.theme-green { background: linear-gradient(135deg, #81c784, #4caf50); }
+.theme-blue { background: linear-gradient(135deg, #64b5f6, #2196f3); }
+.theme-pink { background: linear-gradient(135deg, #f48fb1, #ec407a); }
+.theme-purple { background: linear-gradient(135deg, #ba68c8, #9c27b0); }
 
 /* Анимация падающих листьев сакуры */
 .sakura-container {
@@ -46,11 +376,12 @@ body {
     top: -50px;
     width: 18px;
     height: 18px;
-    background: linear-gradient(45deg, #ff9a76, #ff8c42, #ffb174);
+    background: var(--leaf-color-1);
     border-radius: 50% 0 50% 0;
     opacity: 0.8;
     animation: fall linear infinite;
-    filter: drop-shadow(0 0 3px rgba(255, 140, 66, 0.3));
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.2));
+    transform-origin: center;
 }
 
 .sakura-leaf::before {
@@ -60,12 +391,13 @@ body {
     left: -3px;
     width: 24px;
     height: 24px;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 50% 0 50% 0;
 }
 
+/* Вариации листьев */
 .sakura-leaf:nth-child(5n) {
-    background: linear-gradient(45deg, #ffb174, #ff9a76);
+    background: var(--leaf-color-2);
     width: 22px;
     height: 22px;
 }
@@ -76,7 +408,7 @@ body {
 }
 
 .sakura-leaf:nth-child(3n) {
-    background: linear-gradient(45deg, #ffd8b8, #ffb174);
+    background: var(--leaf-color-3);
     width: 16px;
     height: 16px;
 }
@@ -87,7 +419,7 @@ body {
 }
 
 .sakura-leaf:nth-child(7n) {
-    background: linear-gradient(45deg, #ffe8d6, #ffd8b8);
+    background: var(--leaf-color-4);
     width: 20px;
     height: 20px;
 }
@@ -98,7 +430,7 @@ body {
 }
 
 .sakura-leaf:nth-child(11n) {
-    background: linear-gradient(45deg, #ff8c42, #e67e22);
+    background: var(--leaf-color-5);
     width: 14px;
     height: 14px;
 }
@@ -108,81 +440,35 @@ body {
     height: 20px;
 }
 
+/* Анимация падения с случайными параметрами */
 @keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(360deg);
+    0% {
+        transform: translate(0, -50px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(var(--random-x, 0), 100vh) rotate(360deg);
+        opacity: 0;
     }
 }
 
-/* Генерация 50 листьев с разной скоростью и задержкой */
-.sakura-leaf:nth-child(1) { left: 2%; animation-duration: 25s; animation-delay: 0s; }
-.sakura-leaf:nth-child(2) { left: 5%; animation-duration: 28s; animation-delay: 1s; }
-.sakura-leaf:nth-child(3) { left: 8%; animation-duration: 22s; animation-delay: 2s; }
-.sakura-leaf:nth-child(4) { left: 12%; animation-duration: 26s; animation-delay: 3s; }
-.sakura-leaf:nth-child(5) { left: 15%; animation-duration: 24s; animation-delay: 4s; }
-.sakura-leaf:nth-child(6) { left: 18%; animation-duration: 29s; animation-delay: 5s; }
-.sakura-leaf:nth-child(7) { left: 22%; animation-duration: 23s; animation-delay: 6s; }
-.sakura-leaf:nth-child(8) { left: 25%; animation-duration: 27s; animation-delay: 7s; }
-.sakura-leaf:nth-child(9) { left: 28%; animation-duration: 21s; animation-delay: 8s; }
-.sakura-leaf:nth-child(10) { left: 32%; animation-duration: 30s; animation-delay: 9s; }
-.sakura-leaf:nth-child(11) { left: 35%; animation-duration: 24s; animation-delay: 10s; }
-.sakura-leaf:nth-child(12) { left: 38%; animation-duration: 26s; animation-delay: 11s; }
-.sakura-leaf:nth-child(13) { left: 42%; animation-duration: 22s; animation-delay: 12s; }
-.sakura-leaf:nth-child(14) { left: 45%; animation-duration: 28s; animation-delay: 13s; }
-.sakura-leaf:nth-child(15) { left: 48%; animation-duration: 25s; animation-delay: 14s; }
-.sakura-leaf:nth-child(16) { left: 52%; animation-duration: 23s; animation-delay: 15s; }
-.sakura-leaf:nth-child(17) { left: 55%; animation-duration: 27s; animation-delay: 16s; }
-.sakura-leaf:nth-child(18) { left: 58%; animation-duration: 29s; animation-delay: 17s; }
-.sakura-leaf:nth-child(19) { left: 62%; animation-duration: 21s; animation-delay: 18s; }
-.sakura-leaf:nth-child(20) { left: 65%; animation-duration: 26s; animation-delay: 19s; }
-.sakura-leaf:nth-child(21) { left: 68%; animation-duration: 24s; animation-delay: 20s; }
-.sakura-leaf:nth-child(22) { left: 72%; animation-duration: 28s; animation-delay: 21s; }
-.sakura-leaf:nth-child(23) { left: 75%; animation-duration: 22s; animation-delay: 22s; }
-.sakura-leaf:nth-child(24) { left: 78%; animation-duration: 30s; animation-delay: 23s; }
-.sakura-leaf:nth-child(25) { left: 82%; animation-duration: 25s; animation-delay: 24s; }
-.sakura-leaf:nth-child(26) { left: 85%; animation-duration: 27s; animation-delay: 25s; }
-.sakura-leaf:nth-child(27) { left: 88%; animation-duration: 23s; animation-delay: 26s; }
-.sakura-leaf:nth-child(28) { left: 92%; animation-duration: 29s; animation-delay: 27s; }
-.sakura-leaf:nth-child(29) { left: 95%; animation-duration: 26s; animation-delay: 28s; }
-.sakura-leaf:nth-child(30) { left: 3%; animation-duration: 24s; animation-delay: 29s; }
-.sakura-leaf:nth-child(31) { left: 7%; animation-duration: 28s; animation-delay: 30s; }
-.sakura-leaf:nth-child(32) { left: 10%; animation-duration: 22s; animation-delay: 31s; }
-.sakura-leaf:nth-child(33) { left: 14%; animation-duration: 26s; animation-delay: 32s; }
-.sakura-leaf:nth-child(34) { left: 17%; animation-duration: 30s; animation-delay: 33s; }
-.sakura-leaf:nth-child(35) { left: 20%; animation-duration: 25s; animation-delay: 34s; }
-.sakura-leaf:nth-child(36) { left: 24%; animation-duration: 27s; animation-delay: 35s; }
-.sakura-leaf:nth-child(37) { left: 27%; animation-duration: 23s; animation-delay: 36s; }
-.sakura-leaf:nth-child(38) { left: 30%; animation-duration: 29s; animation-delay: 37s; }
-.sakura-leaf:nth-child(39) { left: 34%; animation-duration: 21s; animation-delay: 38s; }
-.sakura-leaf:nth-child(40) { left: 37%; animation-duration: 26s; animation-delay: 39s; }
-.sakura-leaf:nth-child(41) { left: 40%; animation-duration: 24s; animation-delay: 40s; }
-.sakura-leaf:nth-child(42) { left: 44%; animation-duration: 28s; animation-delay: 41s; }
-.sakura-leaf:nth-child(43) { left: 47%; animation-duration: 22s; animation-delay: 42s; }
-.sakura-leaf:nth-child(44) { left: 50%; animation-duration: 30s; animation-delay: 43s; }
-.sakura-leaf:nth-child(45) { left: 53%; animation-duration: 25s; animation-delay: 44s; }
-.sakura-leaf:nth-child(46) { left: 57%; animation-duration: 27s; animation-delay: 45s; }
-.sakura-leaf:nth-child(47) { left: 60%; animation-duration: 23s; animation-delay: 46s; }
-.sakura-leaf:nth-child(48) { left: 63%; animation-duration: 29s; animation-delay: 47s; }
-.sakura-leaf:nth-child(49) { left: 67%; animation-duration: 26s; animation-delay: 48s; }
-.sakura-leaf:nth-child(50) { left: 70%; animation-duration: 24s; animation-delay: 49s; }
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-/* Стили шапки */
+/* Шапка сайта */
 .header {
-    background: rgba(255, 243, 230, 0.95);
+    background: var(--bg-header);
     backdrop-filter: blur(15px);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: var(--shadow);
-    border-bottom: 3px solid var(--orange-accent);
+    border-bottom: 3px solid var(--accent-color);
+    transition: var(--transition);
 }
 
 .header .container {
@@ -192,12 +478,17 @@ body {
 }
 
 .header-brand a {
-    color: var(--orange-brown);
+    color: var(--brown-color);
     text-decoration: none;
     font-size: 1.8rem;
     font-weight: bold;
     font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 4px rgba(255, 140, 66, 0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.header-brand a:hover {
+    color: var(--accent-color);
 }
 
 .header-nav ul {
@@ -209,74 +500,24 @@ body {
 .header-nav a {
     color: var(--text-dark);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     padding: 0.5rem 1.2rem;
-    border-radius: 25px;
+    border-radius: var(--border-radius-lg);
     font-weight: 500;
-    /* Убраны сложные анимации */
     position: relative;
     border: 2px solid transparent;
 }
 
-/* УБРАНО: Анимационная линия при наведении */
-/* .header-nav a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 140, 66, 0.3), transparent);
-    transition: left 0.5s;
-} */
-
-/* .header-nav a:hover::before {
-    left: 100%;
-} */
-
 .header-nav a:hover,
 .header-nav a.active {
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
-    color: white;
-    /* Убрано смещение и тени */
-    transform: none;
-    box-shadow: none;
-    /* Добавлена граница для четкости */
-    border: 2px solid var(--orange-accent);
+    background: var(--gradient-primary);
+    color: var(--text-white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+    border: 2px solid var(--accent-color);
 }
 
-/* Фильтры проектов - также убираем анимации */
-.projects-filters {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 3rem;
-}
-
-.filter-btn {
-    padding: 0.8rem 1.8rem;
-    background: rgba(255, 248, 240, 0.8);
-    border: 2px solid var(--orange-primary);
-    color: var(--orange-brown);
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    backdrop-filter: blur(5px);
-}
-
-.filter-btn.active,
-.filter-btn:hover {
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
-    color: white;
-    /* Убрано смещение */
-    transform: none;
-    box-shadow: none;
-    border: 2px solid var(--orange-accent);
-}
-
-/* Стили главной секции */
+/* Главная секция */
 .intro {
     padding: 6rem 0;
     background: transparent;
@@ -290,8 +531,8 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 30% 70%, rgba(255, 154, 118, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 70% 20%, rgba(255, 177, 116, 0.4) 0%, transparent 50%);
+    background: radial-gradient(circle at 30% 70%, rgba(255, 154, 118, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 20%, rgba(255, 177, 116, 0.3) 0%, transparent 50%);
     z-index: -1;
 }
 
@@ -309,14 +550,14 @@ body {
     object-fit: cover;
     border: 8px solid rgba(255, 140, 66, 0.4);
     box-shadow: var(--shadow);
-    transition: all 0.5s ease;
+    transition: var(--transition);
     position: relative;
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-secondary));
+    background: var(--gradient-primary);
 }
 
 .intro-photo:hover {
     transform: scale(1.05) rotate(5deg);
-    border-color: var(--orange-accent);
+    border-color: var(--accent-color);
     box-shadow: var(--shadow-hover);
 }
 
@@ -328,8 +569,8 @@ body {
 .intro-text h1 {
     font-size: 3rem;
     margin-bottom: 1.5rem;
-    color: var(--orange-brown);
-    text-shadow: 2px 2px 4px rgba(255, 140, 66, 0.3);
+    color: var(--brown-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     font-family: 'Georgia', serif;
 }
 
@@ -340,14 +581,15 @@ body {
     line-height: 1.8;
 }
 
+/* Кнопки */
 .button {
     display: inline-block;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
-    color: white;
+    background: var(--gradient-primary);
+    color: var(--text-white);
     text-decoration: none;
-    border-radius: 30px;
-    transition: all 0.3s ease;
+    border-radius: var(--border-radius-lg);
+    transition: var(--transition);
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
@@ -375,32 +617,33 @@ body {
 .button:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
-    background: linear-gradient(135deg, var(--orange-accent), var(--orange-primary));
+    background: var(--gradient-secondary);
 }
 
 .button.full-width {
     width: 100%;
 }
 
-/* Стили секции навыков */
+/* Секция навыков */
 .skills {
     padding: 5rem 0;
-    background: rgba(255, 248, 240, 0.3);
+    background: var(--bg-secondary);
     backdrop-filter: blur(10px);
-    border-radius: 25px;
+    border-radius: var(--border-radius-lg);
     margin: 2rem auto;
     max-width: 1200px;
     box-shadow: var(--shadow);
     border: 2px solid rgba(255, 140, 66, 0.2);
+    transition: var(--transition);
 }
 
 .skills h2 {
     text-align: center;
     margin-bottom: 3rem;
     font-size: 2.5rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
     font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 4px rgba(255, 140, 66, 0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .skill {
@@ -417,19 +660,19 @@ body {
 
 .skill-bar {
     background: rgba(255, 140, 66, 0.2);
-    border-radius: 15px;
+    border-radius: var(--border-radius);
     overflow: hidden;
     height: 25px;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .skill-level {
-    background: linear-gradient(90deg, var(--orange-primary), var(--orange-accent), var(--orange-bright));
+    background: var(--gradient-primary);
     height: 100%;
-    border-radius: 15px;
+    border-radius: var(--border-radius);
     text-align: right;
     padding-right: 15px;
-    color: white;
+    color: var(--text-white);
     font-size: 0.9rem;
     line-height: 25px;
     transition: width 1s ease-in-out;
@@ -453,23 +696,28 @@ body {
     100% { left: 100%; }
 }
 
-/* Стили секции проектов */
+/* Секции проектов */
 .featured-projects,
-.projects-page {
+.projects-page,
+.diary-page,
+.contacts-page {
     padding: 5rem 0;
     background: transparent;
 }
 
 .featured-projects h2,
-.projects-page h1 {
+.projects-page h1,
+.diary-page h1,
+.contacts-page h1 {
     text-align: center;
     margin-bottom: 3rem;
     font-size: 2.5rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
     font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 4px rgba(255, 140, 66, 0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Сетка проектов */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -482,12 +730,12 @@ body {
 }
 
 .project-card {
-    background: rgba(255, 248, 240, 0.9);
+    background: var(--bg-card);
     backdrop-filter: blur(15px);
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: var(--shadow);
-    transition: all 0.4s ease;
+    transition: var(--transition);
     border: 2px solid rgba(255, 140, 66, 0.3);
     position: relative;
 }
@@ -499,7 +747,7 @@ body {
     left: 0;
     right: 0;
     height: 5px;
-    background: linear-gradient(90deg, var(--orange-primary), var(--orange-accent), var(--orange-bright));
+    background: var(--gradient-primary);
 }
 
 .project-card:hover {
@@ -511,7 +759,7 @@ body {
     width: 100%;
     height: 220px;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: var(--transition);
 }
 
 .project-card:hover img {
@@ -524,7 +772,7 @@ body {
 
 .project-card h3 {
     margin-bottom: 1rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
     font-size: 1.4rem;
     font-family: 'Georgia', serif;
 }
@@ -543,13 +791,13 @@ body {
 }
 
 .tech-tag {
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
-    color: white;
+    background: var(--gradient-primary);
+    color: var(--text-white);
     padding: 0.4rem 1rem;
-    border-radius: 20px;
+    border-radius: var(--border-radius-lg);
     font-size: 0.8rem;
     font-weight: bold;
-    box-shadow: 0 2px 5px rgba(255, 140, 66, 0.3);
+    box-shadow: var(--shadow-light);
 }
 
 .project-links {
@@ -558,18 +806,18 @@ body {
 }
 
 .project-link {
-    color: var(--orange-accent);
+    color: var(--accent-color);
     text-decoration: none;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     padding: 0.5rem 1rem;
-    border-radius: 15px;
-    border: 2px solid var(--orange-primary);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
 }
 
 .project-link:hover {
-    background: var(--orange-primary);
-    color: white;
+    background: var(--primary-color);
+    color: var(--text-white);
     transform: translateY(-2px);
 }
 
@@ -588,40 +836,25 @@ body {
 
 .filter-btn {
     padding: 0.8rem 1.8rem;
-    background: rgba(255, 248, 240, 0.8);
-    border: 2px solid var(--orange-primary);
-    color: var(--orange-brown);
-    border-radius: 25px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--primary-color);
+    color: var(--brown-color);
+    border-radius: var(--border-radius-lg);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     font-weight: bold;
     backdrop-filter: blur(5px);
 }
 
 .filter-btn.active,
 .filter-btn:hover {
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
-    color: white;
+    background: var(--gradient-primary);
+    color: var(--text-white);
     transform: translateY(-2px);
-    /* Убрана тень при наведении */
-    box-shadow: none;
+    box-shadow: var(--shadow-light);
 }
 
 /* Стили страницы дневника */
-.diary-page {
-    padding: 5rem 0;
-    background: transparent;
-}
-
-.diary-page h1 {
-    text-align: center;
-    margin-bottom: 3rem;
-    font-size: 2.5rem;
-    color: var(--orange-brown);
-    font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 4px rgba(255, 140, 66, 0.3);
-}
-
 .diary-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -630,7 +863,7 @@ body {
 
 .diary-entries h2 {
     margin-bottom: 2rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
     font-family: 'Georgia', serif;
     font-size: 2rem;
 }
@@ -643,13 +876,13 @@ body {
 }
 
 .entry-item {
-    background: rgba(255, 248, 240, 0.9);
+    background: var(--bg-card);
     backdrop-filter: blur(15px);
     padding: 2rem;
-    border-radius: 15px;
+    border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    border-left: 6px solid var(--orange-primary);
-    transition: all 0.3s ease;
+    border-left: 6px solid var(--primary-color);
+    transition: var(--transition);
     position: relative;
     overflow: hidden;
 }
@@ -675,15 +908,15 @@ body {
 }
 
 .entry-item.completed {
-    border-left-color: var(--orange-accent);
+    border-left-color: var(--accent-color);
 }
 
 .entry-item.in-progress {
-    border-left-color: var(--orange-primary);
+    border-left-color: var(--primary-color);
 }
 
 .entry-item.planned {
-    border-left-color: #ffd8b8;
+    border-left-color: var(--secondary-color);
 }
 
 .entry-date {
@@ -695,7 +928,7 @@ body {
 
 .entry-title {
     margin-bottom: 1rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
     font-size: 1.3rem;
 }
 
@@ -708,42 +941,43 @@ body {
 .entry-status {
     display: inline-block;
     padding: 0.5rem 1.2rem;
-    border-radius: 20px;
+    border-radius: var(--border-radius-lg);
     font-size: 0.8rem;
     font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-light);
 }
 
 .completed .entry-status {
-    background: linear-gradient(135deg, var(--orange-accent), #ff6b35);
-    color: white;
+    background: var(--gradient-primary);
+    color: var(--text-white);
 }
 
 .in-progress .entry-status {
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
-    color: white;
+    background: var(--gradient-secondary);
+    color: var(--text-white);
 }
 
 .planned .entry-status {
-    background: linear-gradient(135deg, #ffd8b8, var(--orange-primary));
-    color: white;
+    background: linear-gradient(135deg, var(--secondary-color), var(--bright-color));
+    color: var(--text-white);
 }
 
 /* Формы */
 .add-entry-form,
 .contact-form-section {
-    background: rgba(255, 248, 240, 0.9);
+    background: var(--bg-card);
     backdrop-filter: blur(15px);
     padding: 2.5rem;
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     border: 2px solid rgba(255, 140, 66, 0.3);
+    transition: var(--transition);
 }
 
 .add-entry-form h3,
 .contact-form-section h2 {
     margin-bottom: 2rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
     font-family: 'Georgia', serif;
 }
 
@@ -764,23 +998,24 @@ body {
     width: 100%;
     padding: 1rem;
     border: 2px solid rgba(255, 140, 66, 0.3);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     background: rgba(255, 255, 255, 0.8);
+    color: var(--text-dark);
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: var(--orange-primary);
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.3);
-    background: white;
+    background: var(--text-white);
 }
 
 .error-message {
-    color: var(--orange-accent);
+    color: var(--accent-color);
     font-size: 0.8rem;
     margin-top: 0.5rem;
     display: block;
@@ -797,12 +1032,13 @@ body {
 .stats-card,
 .contact-info-card,
 .availability-card {
-    background: rgba(255, 248, 240, 0.9);
+    background: var(--bg-card);
     backdrop-filter: blur(15px);
     padding: 2.5rem;
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     border: 2px solid rgba(255, 140, 66, 0.3);
+    transition: var(--transition);
 }
 
 .progress-card h2,
@@ -810,7 +1046,7 @@ body {
 .contact-info-card h2,
 .availability-card h3 {
     margin-bottom: 2rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
     font-family: 'Georgia', serif;
 }
 
@@ -830,21 +1066,21 @@ body {
 }
 
 .course-percent {
-    color: var(--orange-accent);
+    color: var(--accent-color);
     font-weight: bold;
 }
 
 .progress-bar {
     background: rgba(255, 140, 66, 0.2);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     height: 12px;
     overflow: hidden;
 }
 
 .progress-fill {
-    background: linear-gradient(90deg, var(--orange-primary), var(--orange-accent));
+    background: var(--gradient-primary);
     height: 100%;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     transition: width 1s ease;
     position: relative;
 }
@@ -859,9 +1095,9 @@ body {
 .stat-item {
     text-align: center;
     padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(255, 154, 118, 0.2), rgba(255, 177, 116, 0.3));
-    border-radius: 15px;
-    transition: transform 0.3s ease;
+    background: var(--gradient-card);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
 }
 
 .stat-item:hover {
@@ -871,9 +1107,9 @@ body {
 .stat-number {
     font-size: 2.5rem;
     font-weight: bold;
-    color: var(--orange-accent);
+    color: var(--accent-color);
     margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(255, 140, 66, 0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .stat-label {
@@ -883,20 +1119,6 @@ body {
 }
 
 /* Стили страницы контактов */
-.contacts-page {
-    padding: 5rem 0;
-    background: transparent;
-}
-
-.contacts-page h1 {
-    text-align: center;
-    margin-bottom: 3rem;
-    font-size: 2.5rem;
-    color: var(--orange-brown);
-    font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 4px rgba(255, 140, 66, 0.3);
-}
-
 .contacts-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -922,7 +1144,7 @@ body {
 .contact-icon {
     font-size: 2rem;
     flex-shrink: 0;
-    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent));
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -931,7 +1153,7 @@ body {
 .contact-details strong {
     display: block;
     margin-bottom: 0.5rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
     font-size: 1.1rem;
 }
 
@@ -941,13 +1163,13 @@ body {
 }
 
 .contact-details a {
-    color: var(--orange-accent);
+    color: var(--accent-color);
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: var(--transition);
 }
 
 .contact-details a:hover {
-    color: var(--orange-brown);
+    color: var(--brown-color);
     text-decoration: underline;
 }
 
@@ -958,15 +1180,15 @@ body {
     gap: 1rem;
     margin-bottom: 1rem;
     padding: 1rem;
-    background: linear-gradient(135deg, rgba(255, 154, 118, 0.2), rgba(255, 177, 116, 0.3));
-    border-radius: 15px;
+    background: var(--gradient-card);
+    border-radius: var(--border-radius);
 }
 
 .status-indicator {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: var(--orange-accent);
+    background: var(--accent-color);
     animation: pulse 2s infinite;
 }
 
@@ -977,7 +1199,7 @@ body {
 }
 
 .availability-status.available .status-indicator {
-    background: var(--orange-accent);
+    background: var(--accent-color);
 }
 
 .working-hours {
@@ -988,7 +1210,7 @@ body {
 
 .working-hours h4 {
     margin-bottom: 1rem;
-    color: var(--orange-brown);
+    color: var(--brown-color);
 }
 
 .working-hours p {
@@ -998,12 +1220,13 @@ body {
 
 /* Стили подвала */
 .footer {
-    background: rgba(255, 243, 230, 0.95);
+    background: var(--bg-footer);
     backdrop-filter: blur(15px);
     padding: 3rem 0;
     text-align: center;
-    border-top: 3px solid var(--orange-accent);
+    border-top: 3px solid var(--accent-color);
     margin-top: 4rem;
+    transition: var(--transition);
 }
 
 .footer-contacts {
@@ -1013,6 +1236,63 @@ body {
 
 .footer-contacts p {
     color: var(--text-light);
+}
+
+/* Декоративные элементы */
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.4;
+    z-index: -1;
+}
+
+.blob-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary-color);
+    top: 10%;
+    left: 5%;
+    animation: float 25s infinite ease-in-out;
+}
+
+.blob-2 {
+    width: 500px;
+    height: 500px;
+    background: var(--secondary-color);
+    bottom: 10%;
+    right: 5%;
+    animation: float 30s infinite ease-in-out reverse;
+}
+
+.blob-3 {
+    width: 300px;
+    height: 300px;
+    background: var(--bright-color);
+    top: 50%;
+    left: 70%;
+    animation: float 20s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(30px, 30px) rotate(5deg); }
+    50% { transform: translate(0, 60px) rotate(0deg); }
+    75% { transform: translate(-30px, 30px) rotate(-5deg); }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.project-card,
+.entry-item,
+.progress-card,
+.contact-info-card,
+.stat-item {
+    animation: fadeIn 0.6s ease-out;
 }
 
 /* Адаптивность */
@@ -1057,6 +1337,16 @@ body {
     .project-links {
         flex-direction: column;
     }
+
+    .theme-panel {
+        width: 180px;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .theme-option {
+        width: 45px;
+        height: 45px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1081,61 +1371,38 @@ body {
         flex-direction: column;
         align-items: center;
     }
+
+    .theme-switcher {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .theme-panel {
+        top: 60px;
+        right: 10px;
+    }
 }
 
-/* Анимации */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Улучшенная анимация для листьев */
+.sakura-leaf {
+    animation: fall linear infinite;
+    animation-duration: calc(15s + (var(--animation-duration, 0) * 5s));
+    animation-delay: calc(var(--animation-delay, 0) * 10s);
+    left: calc(var(--leaf-position, 50) * 1%);
 }
 
-.project-card,
-.entry-item,
-.progress-card,
-.contact-info-card,
-.stat-item {
-    animation: fadeIn 0.6s ease-out;
+/* Плавные переходы для всех интерактивных элементов */
+a, button, .project-card, .entry-item, .theme-option, .filter-btn {
+    transition: var(--transition);
 }
 
-/* Дополнительные декоративные элементы */
-.blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0.4;
-    z-index: -1;
-}
-
-.blob-1 {
-    width: 400px;
-    height: 400px;
-    background: var(--orange-primary);
-    top: 10%;
-    left: 5%;
-    animation: float 25s infinite ease-in-out;
-}
-
-.blob-2 {
-    width: 500px;
-    height: 500px;
-    background: var(--orange-secondary);
-    bottom: 10%;
-    right: 5%;
-    animation: float 30s infinite ease-in-out reverse;
-}
-
-.blob-3 {
-    width: 300px;
-    height: 300px;
-    background: var(--orange-bright);
-    top: 50%;
-    left: 70%;
-    animation: float 20s infinite ease-in-out;
-}
-
-@keyframes float {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(30px, 30px) rotate(5deg); }
-    50% { transform: translate(0, 60px) rotate(0deg); }
-    75% { transform: translate(-30px, 30px) rotate(-5deg); }
+/* Улучшенная доступность */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

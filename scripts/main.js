@@ -1,946 +1,559 @@
-// main.js - Полный файл JavaScript для сайта-портфолио
+// main.js - Полный JavaScript с быстрой навигацией
 
-// Класс для управления плавными переходами между страницами
-class PageTransition {
+class FastNavigation {
     constructor() {
-        this.transitionElement = null;
+        this.cache = new Map();
+        this.preloadQueue = new Set();
+        this.isNavigating = false;
         this.init();
     }
 
     init() {
-        this.createTransitionElement();
-        this.handleLinkClicks();
-        this.handleBrowserNavigation();
-        this.addPageLoadClass();
+        this.createLoadingIndicator();
+        this.setupEventListeners();
+        this.preloadVisibleLinks();
+        this.cacheCurrentPage();
+        
+        console.log('🚀 Fast Navigation initialized');
     }
 
-    createTransitionElement() {
-        this.transitionElement = document.createElement('div');
-        this.transitionElement.className = 'page-transition';
-        document.body.appendChild(this.transitionElement);
+    createLoadingIndicator() {
+        this.loadingIndicator = document.createElement('div');
+        this.loadingIndicator.className = 'fast-nav-loading';
+        document.body.appendChild(this.loadingIndicator);
     }
 
-    handleLinkClicks() {
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            
-            if (link && link.href && this.isInternalLink(link)) {
-                e.preventDefault();
-                this.navigateTo(link.href);
-            }
-        });
+    setupEventListeners() {
+        // Предзагрузка при наведении
+        document.addEventListener('mouseover', this.handleLinkHover.bind(this));
+        document.addEventListener('touchstart', this.handleLinkTouch.bind(this));
+        
+        // Быстрые переходы по клику
+        document.addEventListener('click', this.handleLinkClick.bind(this));
+        
+        // Навигация браузера
+        window.addEventListener('popstate', this.handlePopState.bind(this));
+        
+        // Предзагрузка при видимости ссылок
+        this.setupIntersectionObserver();
     }
 
-    handleBrowserNavigation() {
-        window.addEventListener('popstate', () => {
-            this.showPageTransition();
-        });
+    handleLinkHover(e) {
+        const link = e.target.closest('a');
+        if (this.isPreloadable(link)) {
+            this.schedulePreload(link.href);
+        }
     }
 
-    isInternalLink(link) {
-        return link.hostname === window.location.hostname && 
-               !link.hash && 
+    handleLinkTouch(e) {
+        const link = e.target.closest('a');
+        if (this.isPreloadable(link)) {
+            this.preloadPage(link.href);
+        }
+    }
+
+    handleLinkClick(e) {
+        const link = e.target.closest('a');
+        
+        if (link && this.isPreloadable(link)) {
+            e.preventDefault();
+            this.navigate(link.href);
+        }
+    }
+
+    handlePopState() {
+        this.loadPage(window.location.href, false);
+    }
+
+    isPreloadable(link) {
+        return link && 
+               link.href &&
+               link.hostname === window.location.hostname &&
+               !link.hash &&
                link.target !== '_blank' &&
                !link.download &&
                !link.href.includes('mailto:') &&
                !link.href.includes('tel:');
     }
 
-    navigateTo(url) {
-        this.showPageTransition();
-        
-        setTimeout(() => {
-            window.location.href = url;
-        }, 400);
-    }
-
-    showPageTransition() {
-        if (this.transitionElement) {
-            this.transitionElement.classList.add('active');
-            
+    schedulePreload(url) {
+        if (!this.cache.has(url) && !this.preloadQueue.has(url)) {
+            this.preloadQueue.add(url);
             setTimeout(() => {
-                this.transitionElement.classList.remove('active');
-            }, 800);
-        }
-    }
-
-    addPageLoadClass() {
-        document.body.classList.add('page-load');
-        
-        setTimeout(() => {
-            document.body.classList.remove('page-load');
-        }, 600);
-    }
-}
-
-// Класс для управления темами
-class ThemeManager {
-    constructor() {
-        this.currentTheme = this.getSavedTheme();
-        this.themePanel = null;
-        this.init();
-    }
-
-    init() {
-        this.applyTheme(this.currentTheme);
-        this.createThemeSwitcher();
-        this.addSystemThemeListener();
-    }
-
-    getSavedTheme() {
-        const saved = localStorage.getItem('theme');
-        return saved || 'orange';
-    }
-
-    applyTheme(themeName) {
-        // Добавляем плавный переход для темы
-        document.documentElement.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        
-        setTimeout(() => {
-            document.documentElement.setAttribute('data-theme', themeName);
-            this.currentTheme = themeName;
-            localStorage.setItem('theme', themeName);
-            
-            setTimeout(() => {
-                document.documentElement.style.transition = '';
-            }, 500);
-            
-            this.updateActiveThemeButton();
-            this.updateSakuraLeaves();
-        }, 10);
-    }
-
-    createThemeSwitcher() {
-        // Создаем кнопку переключения темы
-        const themeSwitcher = document.createElement('div');
-        themeSwitcher.className = 'theme-switcher';
-        themeSwitcher.setAttribute('aria-label', 'Переключить тему');
-        themeSwitcher.innerHTML = '<div class="theme-switcher-icon">🎨</div>';
-        
-        // Создаем панель выбора темы
-        this.themePanel = document.createElement('div');
-        this.themePanel.className = 'theme-panel';
-        this.themePanel.setAttribute('aria-label', 'Выбор темы оформления');
-        
-        const themes = [
-            { name: 'orange', icon: '🍊', label: 'Оранжевая тема' },
-            { name: 'beige', icon: '🟫', label: 'Бежевая тема' },
-            { name: 'dark', icon: '🌙', label: 'Темная тема' },
-            { name: 'green', icon: '🌿', label: 'Зеленая тема' },
-            { name: 'blue', icon: '💙', label: 'Синяя тема' },
-            { name: 'pink', icon: '🌸', label: 'Розовая тема' },
-            { name: 'purple', icon: '☂️', label: 'Фиолетовая тема' }
-        ];
-        
-        themes.forEach(theme => {
-            const themeOption = document.createElement('button');
-            themeOption.className = `theme-option theme-${theme.name}`;
-            themeOption.setAttribute('data-theme', theme.name);
-            themeOption.setAttribute('aria-label', theme.label);
-            themeOption.setAttribute('title', theme.label);
-            themeOption.innerHTML = theme.icon;
-            themeOption.setAttribute('type', 'button');
-            
-            themeOption.addEventListener('click', () => {
-                this.applyTheme(theme.name);
-                this.hideThemePanel();
-            });
-            
-            this.themePanel.appendChild(themeOption);
-        });
-        
-        document.body.appendChild(themeSwitcher);
-        document.body.appendChild(this.themePanel);
-        
-        // Обработчики событий
-        themeSwitcher.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggleThemePanel();
-        });
-        
-        // Закрытие панели при клике вне ее
-        document.addEventListener('click', (e) => {
-            if (!this.themePanel.contains(e.target) && !themeSwitcher.contains(e.target)) {
-                this.hideThemePanel();
-            }
-        });
-        
-        // Закрытие панели по Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.hideThemePanel();
-            }
-        });
-    }
-
-    toggleThemePanel() {
-        this.themePanel.classList.toggle('active');
-        
-        if (this.themePanel.classList.contains('active')) {
-            // Фокусируем первую кнопку темы при открытии
-            const firstThemeButton = this.themePanel.querySelector('.theme-option');
-            if (firstThemeButton) {
-                firstThemeButton.focus();
-            }
-        }
-    }
-
-    hideThemePanel() {
-        this.themePanel.classList.remove('active');
-    }
-
-    updateActiveThemeButton() {
-        const themeButtons = this.themePanel.querySelectorAll('.theme-option');
-        themeButtons.forEach(button => {
-            button.classList.remove('active');
-            if (button.getAttribute('data-theme') === this.currentTheme) {
-                button.classList.add('active');
-                button.setAttribute('aria-current', 'true');
-            } else {
-                button.removeAttribute('aria-current');
-            }
-        });
-    }
-
-    updateSakuraLeaves() {
-        const leaves = document.querySelectorAll('.sakura-leaf');
-        leaves.forEach(leaf => {
-            leaf.style.transition = 'background-color 0.5s ease';
-        });
-    }
-
-    addSystemThemeListener() {
-        // Автоматическое переключение темы при изменении системных настроек
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        
-        const handleSystemThemeChange = (e) => {
-            if (!localStorage.getItem('theme')) {
-                // Применяем системную тему только если пользователь не выбрал тему вручную
-                this.applyTheme(e.matches ? 'dark' : 'orange');
-            }
-        };
-        
-        mediaQuery.addEventListener('change', handleSystemThemeChange);
-    }
-}
-
-// Класс для управления фильтрами проектов
-class ProjectsFilter {
-    constructor() {
-        this.filterButtons = null;
-        this.projectCards = null;
-        this.activeFilter = 'all';
-        this.init();
-    }
-
-    init() {
-        this.filterButtons = document.querySelectorAll('.filter-btn');
-        this.projectCards = document.querySelectorAll('.project-card');
-        
-        if (this.filterButtons.length > 0) {
-            this.setupEventListeners();
-            this.setInitialFilter();
-        }
-    }
-
-    setupEventListeners() {
-        this.filterButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const filter = e.target.getAttribute('data-filter');
-                this.setActiveFilter(filter);
-                this.filterProjects(filter);
-            });
-        });
-    }
-
-    setInitialFilter() {
-        const activeButton = document.querySelector('.filter-btn.active');
-        if (activeButton) {
-            this.activeFilter = activeButton.getAttribute('data-filter') || 'all';
-        }
-    }
-
-    setActiveFilter(filter) {
-        this.filterButtons.forEach(button => {
-            button.classList.remove('active');
-            if (button.getAttribute('data-filter') === filter) {
-                button.classList.add('active');
-            }
-        });
-        this.activeFilter = filter;
-    }
-
-    filterProjects(filter) {
-        this.projectCards.forEach(card => {
-            const category = card.getAttribute('data-category');
-            
-            if (filter === 'all' || category === filter) {
-                this.showProject(card);
-            } else {
-                this.hideProject(card);
-            }
-        });
-    }
-
-    showProject(card) {
-        card.style.display = 'block';
-        setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, 50);
-    }
-
-    hideProject(card) {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            card.style.display = 'none';
-        }, 300);
-    }
-}
-
-// Класс для управления анимацией листьев сакуры
-class SakuraAnimation {
-    constructor() {
-        this.container = null;
-        this.leafCount = 25;
-        this.init();
-    }
-
-    init() {
-        this.createContainer();
-        this.generateLeaves();
-        this.startAnimation();
-    }
-
-    createContainer() {
-        this.container = document.querySelector('.sakura-container');
-        if (!this.container) {
-            this.container = document.createElement('div');
-            this.container.className = 'sakura-container';
-            document.body.appendChild(this.container);
-        }
-    }
-
-    generateLeaves() {
-        // Очищаем существующие листья
-        this.container.innerHTML = '';
-        
-        for (let i = 0; i < this.leafCount; i++) {
-            const leaf = this.createLeaf(i);
-            this.container.appendChild(leaf);
-        }
-    }
-
-    createLeaf(index) {
-        const leaf = document.createElement('div');
-        const leafType = (index % 5) + 1;
-        
-        leaf.className = `sakura-leaf type-${leafType}`;
-        leaf.style.left = `${Math.random() * 100}%`;
-        leaf.style.animationDelay = `${Math.random() * 20}s`;
-        
-        // Добавляем небольшую случайную задержку для разнообразия
-        leaf.style.animationDelay = `${Math.random() * 15}s`;
-        
-        return leaf;
-    }
-
-    startAnimation() {
-        // Анимация запускается автоматически через CSS
-        // Этот метод можно использовать для перезапуска анимации при необходимости
-    }
-
-    updateLeavesForTheme() {
-        // Метод для обновления листьев при смене темы
-        this.generateLeaves();
-    }
-}
-
-// Класс для управления анимацией прогресс-баров
-class ProgressBarAnimation {
-    constructor() {
-        this.progressBars = null;
-        this.init();
-    }
-
-    init() {
-        this.progressBars = document.querySelectorAll('.skill-level, .progress-fill');
-        this.animateOnScroll();
-    }
-
-    animateOnScroll() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.animateProgressBar(entry.target);
-                    observer.unobserve(entry.target);
+                if (this.preloadQueue.has(url)) {
+                    this.preloadPage(url);
                 }
-            });
-        }, {
-            threshold: 0.5,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        this.progressBars.forEach(bar => {
-            observer.observe(bar);
-        });
-    }
-
-    animateProgressBar(bar) {
-        const width = bar.style.width;
-        bar.style.width = '0';
-        
-        setTimeout(() => {
-            bar.style.width = width;
-            bar.style.transition = 'width 1.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        }, 300);
-    }
-}
-
-// Класс для управления формой обратной связи
-class ContactForm {
-    constructor() {
-        this.form = null;
-        this.init();
-    }
-
-    init() {
-        this.form = document.getElementById('contactForm');
-        if (this.form) {
-            this.setupValidation();
-            this.setupSubmission();
+            }, 50);
         }
     }
 
-    setupValidation() {
-        const inputs = this.form.querySelectorAll('input, textarea');
-        
-        inputs.forEach(input => {
-            input.addEventListener('blur', () => {
-                this.validateField(input);
+    async preloadPage(url) {
+        if (this.cache.has(url)) return;
+
+        try {
+            const response = await fetch(url, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
             });
             
-            input.addEventListener('input', () => {
-                this.clearError(input);
-            });
-        });
-    }
-
-    validateField(field) {
-        const value = field.value.trim();
-        const errorElement = document.getElementById(field.id + 'Error');
-        
-        // Очищаем предыдущие ошибки
-        this.clearError(field);
-        
-        // Проверка обязательных полей
-        if (field.hasAttribute('required') && !value) {
-            this.showError(field, 'Это поле обязательно для заполнения');
-            return false;
-        }
-        
-        // Специфические проверки
-        switch (field.type) {
-            case 'email':
-                if (!this.isValidEmail(value)) {
-                    this.showError(field, 'Введите корректный email адрес');
-                    return false;
-                }
-                break;
-                
-            case 'text':
-                if (field.id === 'name' && value.length < 2) {
-                    this.showError(field, 'Имя должно содержать минимум 2 символа');
-                    return false;
-                }
-                break;
-                
-            case 'textarea':
-                if (field.id === 'message' && value.length < 10) {
-                    this.showError(field, 'Сообщение должно содержать минимум 10 символов');
-                    return false;
-                }
-                break;
-        }
-        
-        return true;
-    }
-
-    isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    showError(field, message) {
-        field.classList.add('error');
-        const errorElement = document.getElementById(field.id + 'Error');
-        if (errorElement) {
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-        }
-    }
-
-    clearError(field) {
-        field.classList.remove('error');
-        const errorElement = document.getElementById(field.id + 'Error');
-        if (errorElement) {
-            errorElement.textContent = '';
-            errorElement.style.display = 'none';
-        }
-    }
-
-    setupSubmission() {
-        this.form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            if (this.validateForm()) {
-                this.submitForm();
+            if (response.ok) {
+                const html = await response.text();
+                this.cachePage(url, html);
+                this.preloadQueue.delete(url);
             }
-        });
+        } catch (error) {
+            console.warn('Preload failed:', error);
+            this.preloadQueue.delete(url);
+        }
     }
 
-    validateForm() {
-        let isValid = true;
-        const inputs = this.form.querySelectorAll('input[required], textarea[required]');
+    cachePage(url, html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const content = doc.querySelector('main')?.innerHTML || doc.body.innerHTML;
         
-        inputs.forEach(input => {
-            if (!this.validateField(input)) {
-                isValid = false;
-            }
+        this.cache.set(url, {
+            content: content,
+            title: doc.title,
+            timestamp: Date.now()
         });
         
-        return isValid;
+        this.cleanupCache();
     }
 
-    async submitForm() {
-        const formData = new FormData(this.form);
-        const submitButton = this.form.querySelector('button[type="submit"]');
-        const originalText = submitButton.textContent;
+    cleanupCache() {
+        const MAX_CACHE_SIZE = 5;
+        if (this.cache.size > MAX_CACHE_SIZE) {
+            const oldest = [...this.cache.entries()].sort((a, b) => a[1].timestamp - b[1].timestamp)[0];
+            this.cache.delete(oldest[0]);
+        }
+    }
+
+    cacheCurrentPage() {
+        this.cachePage(window.location.href, document.documentElement.outerHTML);
+    }
+
+    async navigate(url) {
+        if (this.isNavigating) return;
         
-        // Показываем состояние загрузки
-        submitButton.textContent = 'Отправка...';
-        submitButton.disabled = true;
+        this.isNavigating = true;
+        this.showLoading();
         
         try {
-            // Имитация отправки формы (замените на реальный endpoint)
-            await this.simulateApiCall(formData);
-            
-            this.showSuccessMessage();
-            this.form.reset();
-            
+            await this.loadPage(url, true);
         } catch (error) {
-            this.showErrorMessage('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз.');
+            console.error('Navigation failed:', error);
+            window.location.href = url;
         } finally {
-            // Восстанавливаем кнопку
-            submitButton.textContent = originalText;
-            submitButton.disabled = false;
+            this.isNavigating = false;
+            this.hideLoading();
         }
     }
 
-    async simulateApiCall(formData) {
-        // Имитация задержки сети
-        return new Promise((resolve, reject) => {
+    async loadPage(url, pushState = true) {
+        // Показываем анимацию исчезновения
+        this.fadeOutContent();
+        
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Загружаем контент
+        let content, title;
+        
+        if (this.cache.has(url)) {
+            const cached = this.cache.get(url);
+            content = cached.content;
+            title = cached.title;
+        } else {
+            const response = await fetch(url, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            
+            if (!response.ok) throw new Error('Network error');
+            
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            content = doc.querySelector('main')?.innerHTML || doc.body.innerHTML;
+            title = doc.title;
+            
+            this.cachePage(url, html);
+        }
+        
+        // Обновляем страницу
+        this.updateContent(content, title);
+        
+        if (pushState) {
+            window.history.pushState({}, '', url);
+        }
+        
+        // Обновляем навигацию
+        this.updateNavigation();
+        
+        // Инициализируем новую страницу
+        this.initializePage();
+        
+        // Показываем анимацию появления
+        this.fadeInContent();
+        
+        // Скроллим наверх
+        window.scrollTo(0, 0);
+    }
+
+    fadeOutContent() {
+        const main = document.querySelector('main');
+        if (main) {
+            main.style.opacity = '0';
+            main.style.transform = 'translateY(10px)';
+            main.style.transition = 'all 0.15s ease-out';
+        }
+    }
+
+    fadeInContent() {
+        const main = document.querySelector('main');
+        if (main) {
             setTimeout(() => {
-                // 90% шанс успешной отправки для демонстрации
-                if (Math.random() > 0.1) {
-                    resolve({ success: true });
-                } else {
-                    reject(new Error('Network error'));
-                }
-            }, 1500);
+                main.style.opacity = '1';
+                main.style.transform = 'translateY(0)';
+            }, 50);
+        }
+    }
+
+    updateContent(content, title) {
+        const main = document.querySelector('main');
+        if (main) {
+            main.innerHTML = content;
+        }
+        document.title = title;
+    }
+
+    updateNavigation() {
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.header-nav a').forEach(link => {
+            const linkPath = link.getAttribute('href');
+            link.classList.toggle('active', linkPath === currentPath);
         });
     }
 
-    showSuccessMessage() {
-        this.showMessage('Сообщение успешно отправлено! Я свяжусь с вами в ближайшее время.', 'success');
+    initializePage() {
+        // Инициализируем специфичные для страницы компоненты
+        this.initializePageComponents();
+        
+        // Переинициализируем общие компоненты
+        this.reinitializeComponents();
+        
+        // Триггерим событие смены страницы
+        window.dispatchEvent(new CustomEvent('pagechanged'));
     }
 
-    showErrorMessage(message) {
-        this.showMessage(message, 'error');
+    initializePageComponents() {
+        const path = window.location.pathname;
+        
+        if (path.includes('projects')) {
+            this.initializeProjects();
+        } else if (path.includes('diary')) {
+            this.initializeDiary();
+        } else if (path.includes('contacts')) {
+            this.initializeContacts();
+        }
     }
 
-    showMessage(text, type) {
-        // Создаем элемент сообщения
-        const messageElement = document.createElement('div');
-        messageElement.className = `form-message form-message-${type}`;
-        messageElement.textContent = text;
-        messageElement.style.cssText = `
+    initializeProjects() {
+        // Инициализация фильтров проектов
+        const filters = document.querySelector('.projects-filters');
+        if (filters) {
+            this.initializeProjectFilters();
+        }
+    }
+
+    initializeDiary() {
+        // Инициализация формы дневника
+        const form = document.getElementById('diaryForm');
+        if (form) {
+            this.initializeDiaryForm();
+        }
+    }
+
+    initializeContacts() {
+        // Инициализация формы контактов
+        const form = document.getElementById('contactForm');
+        if (form) {
+            this.initializeContactForm();
+        }
+    }
+
+    initializeProjectFilters() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const filter = e.target.dataset.filter;
+                
+                filterButtons.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                projectCards.forEach(card => {
+                    const category = card.dataset.category;
+                    if (filter === 'all' || category === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+    }
+
+    initializeDiaryForm() {
+        const form = document.getElementById('diaryForm');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleDiarySubmit(e);
+            });
+        }
+    }
+
+    initializeContactForm() {
+        const form = document.getElementById('contactForm');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleContactSubmit(e);
+            });
+        }
+    }
+
+    handleDiarySubmit(e) {
+        const formData = new FormData(e.target);
+        const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+        
+        entries.unshift({
+            id: Date.now(),
+            date: formData.get('entryDate'),
+            title: formData.get('entryTitle'),
+            description: formData.get('entryDescription'),
+            status: formData.get('entryStatus')
+        });
+        
+        localStorage.setItem('diaryEntries', JSON.stringify(entries));
+        e.target.reset();
+        
+        this.showNotification('Запись добавлена!', 'success');
+    }
+
+    handleContactSubmit(e) {
+        const formData = new FormData(e.target);
+        
+        // Имитация отправки
+        setTimeout(() => {
+            this.showNotification('Сообщение отправлено!', 'success');
+            e.target.reset();
+        }, 1000);
+    }
+
+    showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
             padding: 1rem 1.5rem;
-            border-radius: 8px;
+            background: var(--accent-color);
             color: white;
-            font-weight: 500;
+            border-radius: var(--border-radius);
             z-index: 10000;
             transform: translateX(100%);
             transition: transform 0.3s ease;
-            max-width: 300px;
         `;
         
-        if (type === 'success') {
-            messageElement.style.background = 'var(--accent-color)';
-        } else {
-            messageElement.style.background = '#e74c3c';
-        }
+        document.body.appendChild(notification);
         
-        document.body.appendChild(messageElement);
-        
-        // Анимация появления
         setTimeout(() => {
-            messageElement.style.transform = 'translateX(0)';
+            notification.style.transform = 'translateX(0)';
         }, 100);
         
-        // Автоматическое скрытие через 5 секунд
         setTimeout(() => {
-            messageElement.style.transform = 'translateX(100%)';
+            notification.style.transform = 'translateX(100%)';
             setTimeout(() => {
-                if (messageElement.parentNode) {
-                    messageElement.parentNode.removeChild(messageElement);
-                }
+                notification.remove();
             }, 300);
-        }, 5000);
-    }
-}
-
-// Класс для управления дневником обучения
-class StudyDiary {
-    constructor() {
-        this.form = null;
-        this.entriesList = null;
-        this.init();
+        }, 3000);
     }
 
-    init() {
-        this.form = document.getElementById('diaryForm');
-        this.entriesList = document.querySelector('.entries-list');
+    reinitializeComponents() {
+        // Переинициализация общих компонентов
+        this.initializeThemeSwitcher();
+        this.initializeSmoothScroll();
+        this.initializeAnimations();
+    }
+
+    initializeThemeSwitcher() {
+        const themeSwitcher = document.querySelector('.theme-switcher');
+        const themePanel = document.querySelector('.theme-panel');
         
-        if (this.form) {
-            this.setupForm();
-            this.loadEntries();
-        }
-    }
-
-    setupForm() {
-        this.form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.addEntry();
-        });
-        
-        // Устанавливаем сегодняшнюю дату по умолчанию
-        const dateInput = document.getElementById('entryDate');
-        if (dateInput) {
-            dateInput.value = new Date().toISOString().split('T')[0];
-        }
-    }
-
-    addEntry() {
-        const formData = {
-            date: document.getElementById('entryDate').value,
-            title: document.getElementById('entryTitle').value,
-            description: document.getElementById('entryDescription').value,
-            status: document.getElementById('entryStatus').value
-        };
-        
-        if (this.validateEntry(formData)) {
-            this.saveEntry(formData);
-            this.renderEntry(formData);
-            this.form.reset();
+        if (themeSwitcher && themePanel) {
+            themeSwitcher.addEventListener('click', (e) => {
+                e.stopPropagation();
+                themePanel.classList.toggle('active');
+            });
             
-            // Сбрасываем дату на сегодняшнюю
-            document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+            document.addEventListener('click', () => {
+                themePanel.classList.remove('active');
+            });
+            
+            themePanel.querySelectorAll('.theme-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const theme = option.dataset.theme;
+                    document.documentElement.setAttribute('data-theme', theme);
+                    localStorage.setItem('theme', theme);
+                    themePanel.classList.remove('active');
+                });
+            });
         }
     }
 
-    validateEntry(data) {
-        if (!data.date || !data.title || !data.status) {
-            alert('Пожалуйста, заполните все обязательные поля');
-            return false;
-        }
-        return true;
-    }
-
-    saveEntry(entry) {
-        const entries = this.getEntries();
-        entries.unshift({
-            ...entry,
-            id: Date.now().toString()
-        });
-        localStorage.setItem('studyDiaryEntries', JSON.stringify(entries));
-    }
-
-    getEntries() {
-        const entries = localStorage.getItem('studyDiaryEntries');
-        return entries ? JSON.parse(entries) : [];
-    }
-
-    renderEntry(entry) {
-        const entryElement = document.createElement('article');
-        entryElement.className = `entry-item ${entry.status}`;
-        entryElement.innerHTML = `
-            <div class="entry-date">${this.formatDate(entry.date)}</div>
-            <h3 class="entry-title">${this.escapeHtml(entry.title)}</h3>
-            <p class="entry-description">${this.escapeHtml(entry.description)}</p>
-            <span class="entry-status">${this.getStatusText(entry.status)}</span>
-        `;
-        
-        if (this.entriesList) {
-            this.entriesList.insertBefore(entryElement, this.entriesList.firstChild);
-        }
-    }
-
-    loadEntries() {
-        const entries = this.getEntries();
-        entries.forEach(entry => this.renderEntry(entry));
-    }
-
-    formatDate(dateString) {
-        const options = { day: 'numeric', month: 'long', year: 'numeric' };
-        return new Date(dateString).toLocaleDateString('ru-RU', options);
-    }
-
-    getStatusText(status) {
-        const statusMap = {
-            'planned': '📅 Запланировано',
-            'in-progress': '⏳ В процессе',
-            'completed': '✓ Завершено'
-        };
-        return statusMap[status] || status;
-    }
-
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-}
-
-// Класс для управления плавной прокруткой
-class SmoothScroll {
-    constructor() {
-        this.init();
-    }
-
-    init() {
-        this.setupAnchorLinks();
-        this.setupScrollAnimations();
-    }
-
-    setupAnchorLinks() {
+    initializeSmoothScroll() {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = document.querySelector(anchor.getAttribute('href'));
                 if (target) {
-                    this.scrollToElement(target);
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
     }
 
-    scrollToElement(element) {
-        const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
-        const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-        
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
-    }
-
-    setupScrollAnimations() {
+    initializeAnimations() {
+        // Инициализация анимаций при скролле
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate-in');
                 }
             });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
         });
-
-        // Наблюдаем за элементами, которые должны анимироваться при скролле
-        document.querySelectorAll('.project-card, .skill, .stat-item').forEach(el => {
+        
+        document.querySelectorAll('.project-card, .skill').forEach(el => {
             observer.observe(el);
         });
     }
-}
 
-// Класс для управления декоративными элементами
-class DecorativeElements {
-    constructor() {
-        this.init();
-    }
-
-    init() {
-        this.addBlobs();
-        this.addParticles();
-    }
-
-    addBlobs() {
-        const blobs = [
-            { className: 'blob blob-1', size: '400px' },
-            { className: 'blob blob-2', size: '500px' },
-            { className: 'blob blob-3', size: '300px' }
-        ];
-
-        blobs.forEach(blob => {
-            const element = document.createElement('div');
-            element.className = blob.className;
-            element.style.width = blob.size;
-            element.style.height = blob.size;
-            document.body.appendChild(element);
+    setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const link = entry.target.closest('a');
+                    if (this.isPreloadable(link)) {
+                        this.preloadPage(link.href);
+                    }
+                }
+            });
+        });
+        
+        document.querySelectorAll('.header-nav a, .project-card a').forEach(link => {
+            observer.observe(link);
         });
     }
 
-    addParticles() {
-        // Можно добавить дополнительные декоративные элементы при необходимости
-    }
-}
-
-// Главный класс приложения
-class PortfolioApp {
-    constructor() {
-        this.modules = {};
-        this.init();
+    showLoading() {
+        this.loadingIndicator.classList.add('active');
     }
 
-    init() {
-        // Инициализируем все модули
-        this.modules.pageTransition = new PageTransition();
-        this.modules.themeManager = new ThemeManager();
-        this.modules.sakuraAnimation = new SakuraAnimation();
-        this.modules.smoothScroll = new SmoothScroll();
-        this.modules.decorativeElements = new DecorativeElements();
-        
-        // Инициализируем модули для конкретных страниц
-        this.initPageSpecificModules();
-        
-        // Устанавливаем глобальные обработчики
-        this.setupGlobalHandlers();
-        
-        console.log('Portfolio App initialized successfully!');
+    hideLoading() {
+        this.loadingIndicator.classList.remove('active');
     }
 
-    initPageSpecificModules() {
-        // Проекты - фильтрация
-        if (document.querySelector('.projects-filters')) {
-            this.modules.projectsFilter = new ProjectsFilter();
-        }
-        
-        // Контакты - форма
-        if (document.getElementById('contactForm')) {
-            this.modules.contactForm = new ContactForm();
-        }
-        
-        // Дневник - управление записями
-        if (document.getElementById('diaryForm')) {
-            this.modules.studyDiary = new StudyDiary();
-        }
-        
-        // Навыки - анимация прогресс-баров
-        if (document.querySelector('.skill-level')) {
-            this.modules.progressBarAnimation = new ProgressBarAnimation();
-        }
-    }
-
-    setupGlobalHandlers() {
-        // Обработчик для обновления активной ссылки в навигации
-        this.updateActiveNavLink();
-        
-        // Обработчик для ленивой загрузки изображений
-        this.setupLazyLoading();
-        
-        // Обработчик для улучшения производительности
-        this.setupPerformanceOptimizations();
-    }
-
-    updateActiveNavLink() {
-        const currentPath = window.location.pathname;
-        const navLinks = document.querySelectorAll('.header-nav a');
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentPath) {
-                link.classList.add('active');
+    // Публичные методы
+    preloadAll() {
+        document.querySelectorAll('.header-nav a').forEach(link => {
+            if (this.isPreloadable(link)) {
+                this.preloadPage(link.href);
             }
         });
     }
 
-    setupLazyLoading() {
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.remove('lazy');
-                        imageObserver.unobserve(img);
-                    }
-                });
-            });
+    clearCache() {
+        this.cache.clear();
+        this.cacheCurrentPage();
+    }
+}
 
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
+// Инициализация приложения
+class PortfolioApp {
+    constructor() {
+        this.fastNav = null;
+        this.init();
     }
 
-    setupPerformanceOptimizations() {
-        // Предзагрузка критических ресурсов
-        this.preloadCriticalResources();
+    init() {
+        // Загружаем сохраненную тему
+        this.loadTheme();
         
-        // Оптимизация для мобильных устройств
-        this.optimizeForMobile();
+        // Инициализируем быструю навигацию
+        this.fastNav = new FastNavigation();
+        
+        // Инициализируем дополнительные компоненты
+        this.initializeComponents();
+        
+        console.log('🎯 Portfolio App initialized');
     }
 
-    preloadCriticalResources() {
-        // Можно добавить предзагрузку важных ресурсов
+    loadTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'orange';
+        document.documentElement.setAttribute('data-theme', savedTheme);
     }
 
-    optimizeForMobile() {
-        // Оптимизации для мобильных устройств
-        if ('ontouchstart' in window) {
-            document.body.classList.add('touch-device');
+    initializeComponents() {
+        // Инициализация сакуры
+        this.initializeSakura();
+        
+        // Предзагрузка всех страниц через 2 секунды
+        setTimeout(() => {
+            this.fastNav.preloadAll();
+        }, 2000);
+    }
+
+    initializeSakura() {
+        const container = document.querySelector('.sakura-container');
+        if (!container) return;
+        
+        for (let i = 0; i < 15; i++) {
+            const leaf = document.createElement('div');
+            leaf.className = 'sakura-leaf';
+            leaf.style.left = `${Math.random() * 100}%`;
+            leaf.style.animationDuration = `${15 + Math.random() * 10}s`;
+            leaf.style.animationDelay = `${Math.random() * 10}s`;
+            container.appendChild(leaf);
         }
     }
 }
 
-// Инициализация приложения когда DOM полностью загружен
-document.addEventListener('DOMContentLoaded', function() {
-    // Создаем экземпляр приложения
-    window.portfolioApp = new PortfolioApp();
-    
-    // Добавляем глобальные обработчики ошибок
-    window.addEventListener('error', (e) => {
-        console.error('Global error:', e.error);
-    });
+// Запуск приложения
+document.addEventListener('DOMContentLoaded', () => {
+    window.app = new PortfolioApp();
 });
 
 // Service Worker для оффлайн-работы (опционально)
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
+    window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-                console.log('ServiceWorker registration successful');
+            .then(registration => {
+                console.log('SW registered:', registration);
             })
-            .catch(function(error) {
-                console.log('ServiceWorker registration failed: ', error);
+            .catch(error => {
+                console.log('SW registration failed:', error);
             });
     });
-}
-
-// Экспортируем классы для использования в других модулях (если нужно)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        PortfolioApp,
-        ThemeManager,
-        PageTransition,
-        ProjectsFilter,
-        SakuraAnimation,
-        ContactForm,
-        StudyDiary
-    };
 }

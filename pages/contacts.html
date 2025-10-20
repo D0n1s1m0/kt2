@@ -1,143 +1,167 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="orange">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контакты | Онучин Михаил</title>
-    <link rel="stylesheet" href="../styles/styles.css">
+    <title>Портфолио - Контакты</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Контейнер для листьев сакуры -->
-<div class="sakura-container"></div>
-    <header class="header">
-        <div class="container">
-            <div class="header-brand">
-                <a href="../index.html">Онучин М.С.</a>
-            </div>
-            <nav class="header-nav">
-                <ul>
-                    <li><a href="../index.html">Главная</a></li>
-                    <li><a href="projects.html">Проекты</a></li>
-                    <li><a href="diary.html">Дневник</a></li>
-                    <li><a href="contacts.html" class="active">Контакты</a></li>
-                </ul>
-            </nav>
+    <div class="page-container">
+        <div class="fast-nav-progress"></div>
+        <div class="sakura-container"></div>
+        
+        <div class="theme-switcher">
+            <span class="theme-switcher-icon">🎨</span>
         </div>
-    </header>
+        
+        <div class="theme-panel">
+            <div class="theme-option theme-orange active" data-theme="orange">🍊</div>
+            <div class="theme-option theme-beige" data-theme="beige">🏾</div>
+            <div class="theme-option theme-dark" data-theme="dark">🌙</div>
+            <div class="theme-option theme-green" data-theme="green">🌿</div>
+            <div class="theme-option theme-blue" data-theme="blue">💙</div>
+            <div class="theme-option theme-pink" data-theme="pink">🌸</div>
+            <div class="theme-option theme-purple" data-theme="purple">💜</div>
+        </div>
 
-    <main>
-        <section class="contacts-page">
+        <header class="header">
             <div class="container">
-                <h1>Свяжитесь со мной</h1>
-                
-                <div class="contacts-layout">
-                    <!-- Левая колонка - контактная форма -->
-                    <div class="contact-form-section">
-                        <h2>Напишите мне</h2>
-                        <form class="contact-form" id="contactForm">
-                            <div class="form-group">
-                                <label for="name">Ваше имя *</label>
-                                <input type="text" id="name" name="name" required>
-                                <span class="error-message" id="nameError"></span>
-                            </div>
+                <div class="header-brand">
+                    <a href="index.html">Мое Портфолио</a>
+                </div>
+                <nav class="header-nav">
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="projects.html">Проекты</a></li>
+                        <li><a href="diary.html">Дневник</a></li>
+                        <li><a href="contacts.html" class="active">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-                            <div class="form-group">
-                                <label for="email">Email адрес *</label>
-                                <input type="email" id="email" name="email" required>
-                                <span class="error-message" id="emailError"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="subject">Тема сообщения</label>
-                                <input type="text" id="subject" name="subject">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="message">Сообщение *</label>
-                                <textarea id="message" name="message" rows="6" required placeholder="Расскажите о вашем проекте или задайте вопрос..."></textarea>
-                                <span class="error-message" id="messageError"></span>
-                            </div>
-
-                            <button type="submit" class="button full-width">Отправить сообщение</button>
-                        </form>
-                    </div>
-
-                    <!-- Правая колонка - контактная информация -->
-                    <div class="contact-info-section">
-                        <div class="contact-info-card">
-                            <h2>Контактная информация</h2>
-                            
+        <main>
+            <section class="contacts-page">
+                <div class="container">
+                    <h1>Контакты</h1>
+                    
+                    <div class="contacts-layout">
+                        <div class="contact-info">
                             <div class="contact-item">
                                 <div class="contact-icon">📧</div>
                                 <div class="contact-details">
                                     <strong>Email</strong>
-                                    <p>mikhail.onuchin@edu.ru</p>
-                                    <p>onuchin.work@mail.ru</p>
+                                    <p>example@portfolio.com</p>
+                                    <a href="mailto:example@portfolio.com">Написать письмо</a>
                                 </div>
                             </div>
-
+                            
                             <div class="contact-item">
                                 <div class="contact-icon">📱</div>
                                 <div class="contact-details">
-                                    <strong>Социальные сети</strong>
-                                    <p>
-                                        <a href="https://github.com/D0n1s1m0" target="_blank">GitHub: D0n1s1m0</a>
-                                    </p>
-                                    <p>
-                                        <a href="https://t.me/mikhail_onuchin" target="_blank">Telegram: @mikhail_onuchin</a>
-                                    </p>
+                                    <strong>Телефон</strong>
+                                    <p>+7 (999) 123-45-67</p>
+                                    <a href="tel:+79991234567">Позвонить</a>
                                 </div>
                             </div>
-
+                            
                             <div class="contact-item">
-                                <div class="contact-icon">📍</div>
+                                <div class="contact-icon">💼</div>
                                 <div class="contact-details">
-                                    <strong>Местоположение</strong>
-                                    <p>Москва, Россия</p>
-                                    <p>Готов к удаленной работе</p>
+                                    <strong>LinkedIn</strong>
+                                    <p>linkedin.com/in/yourprofile</p>
+                                    <a href="https://linkedin.com" target="_blank">Перейти в профиль</a>
                                 </div>
                             </div>
-
+                            
                             <div class="contact-item">
-                                <div class="contact-icon">🎓</div>
+                                <div class="contact-icon">🐙</div>
                                 <div class="contact-details">
-                                    <strong>Образование</strong>
-                                    <p>Студент ЭФБО-15-24</p>
-                                    <p>Специализация: Веб-разработка</p>
+                                    <strong>GitHub</strong>
+                                    <p>github.com/yourusername</p>
+                                    <a href="https://github.com" target="_blank">Посмотреть репозитории</a>
                                 </div>
+                            </div>
+                            
+                            <div class="contact-form-section">
+                                <h2>Связаться со мной</h2>
+                                <form id="contactForm">
+                                    <div class="form-group">
+                                        <label for="contactName">Ваше имя</label>
+                                        <input type="text" id="contactName" name="contactName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contactEmail">Ваш email</label>
+                                        <input type="email" id="contactEmail" name="contactEmail" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contactSubject">Тема сообщения</label>
+                                        <input type="text" id="contactSubject" name="contactSubject" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contactMessage">Сообщение</label>
+                                        <textarea id="contactMessage" name="contactMessage" rows="5" required></textarea>
+                                    </div>
+                                    <button type="submit" class="button">Отправить сообщение</button>
+                                </form>
                             </div>
                         </div>
-
-                        <div class="availability-card">
-                            <h3>Доступность</h3>
-                            <div class="availability-status available">
-                                <div class="status-indicator"></div>
-                                <span>Открыт для новых проектов</span>
+                        
+                        <div class="contact-sidebar">
+                            <div class="availability-card">
+                                <h3>Доступность</h3>
+                                <div class="availability-status">
+                                    <div class="status-indicator"></div>
+                                    <span>Сейчас доступен для проектов</span>
+                                </div>
+                                <p>Готов рассмотреть интересные предложения по сотрудничеству и новые проекты.</p>
+                                
+                                <div class="working-hours">
+                                    <h4>Рабочие часы</h4>
+                                    <p>Понедельник - Пятница: 9:00 - 18:00</p>
+                                    <p>Суббота: 10:00 - 15:00</p>
+                                    <p>Воскресенье: Выходной</p>
+                                </div>
                             </div>
-                            <p>Обычно отвечаю в течение 24 часов</p>
                             
-                            <div class="working-hours">
-                                <h4>Часы работы:</h4>
-                                <p>Пн-Пт: 9:00 - 18:00</p>
-                                <p>Сб-Вс: По договоренности</p>
+                            <div class="stats-card">
+                                <h3>Быстрая связь</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <div class="stat-number">&lt; 1ч</div>
+                                        <div class="stat-label">Ответ на email</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">24/7</div>
+                                        <div class="stat-label">Поддержка</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">100%</div>
+                                        <div class="stat-label">Надежность</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number">50+</div>
+                                        <div class="stat-label">Довольных клиентов</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Онучин Михаил Сергеевич. ЭФБО-15-24</p>
-            <div class="footer-contacts">
-                <p>📧 mikhail.onuchin@edu.ru | 📱 GitHub: mikhail-onuchin</p>
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 Мое Портфолио. Все права защищены.</p>
+                <div class="footer-contacts">
+                    <p>Email: example@portfolio.com | Телефон: +7 (999) 123-45-67</p>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
-    <script src="../scripts/form-validation.js"></script>
-   <script src="../scripts/main.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -32,32 +32,42 @@ function createSakuraLeaves() {
     const container = document.querySelector('.sakura-container');
     if (!container) return;
     
-    const leafCount = 50;
+    const leafCount = 30; // Уменьшим количество для лучшей производительности
     
     for (let i = 0; i < leafCount; i++) {
         const leaf = document.createElement('div');
-        leaf.className = 'sakura-leaf';
+        
+        // Случайный тип листа (1-5)
+        const leafType = Math.floor(Math.random() * 5) + 1;
+        leaf.className = `sakura-leaf type-${leafType}`;
+        
+        // Случайная траектория (1-5)
+        const trajectory = Math.floor(Math.random() * 5) + 1;
+        leaf.classList.add(`trajectory-${trajectory}`);
         
         // Случайная позиция по горизонтали
         const left = Math.random() * 100;
         
-        // Случайная длительность анимации
-        const duration = 15 + Math.random() * 20;
-        
         // Случайная задержка начала анимации
         const delay = Math.random() * 20;
         
-        // Случайное смещение по горизонтали во время падения
-        const horizontalMove = (Math.random() - 0.5) * 100;
+        // Случайная длительность анимации
+        const duration = 15 + Math.random() * 15;
         
         leaf.style.left = `${left}%`;
-        leaf.style.animationDuration = `${duration}s`;
         leaf.style.animationDelay = `${delay}s`;
-        
-        // Добавляем случайное движение по горизонтали
-        leaf.style.setProperty('--random-x', `${horizontalMove}vw`);
+        leaf.style.animationDuration = `${duration}s`;
         
         container.appendChild(leaf);
+    }
+}
+
+// Обновление листьев при смене темы
+function updateSakuraLeaves() {
+    const container = document.querySelector('.sakura-container');
+    if (container) {
+        container.innerHTML = '';
+        createSakuraLeaves();
     }
 }
 
@@ -160,7 +170,6 @@ function setTheme(themeName) {
     // Обновляем листья сакуры
     updateSakuraLeaves();
 }
-
 function updateSakuraLeaves() {
     const leaves = document.querySelectorAll('.sakura-leaf');
     leaves.forEach(leaf => {

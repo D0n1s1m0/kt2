@@ -1,4 +1,4 @@
-// main.js - Полный JavaScript с быстрой навигацией
+// script.js - Мгновенные переходы между страницами
 
 class FastNavigation {
     constructor() {
@@ -14,38 +14,27 @@ class FastNavigation {
         this.preloadVisibleLinks();
         this.cacheCurrentPage();
         
-        console.log('🚀 Fast Navigation initialized');
+        console.log('🚀 Fast Navigation initialized - Instant transitions');
     }
 
     createLoadingIndicator() {
         this.loadingIndicator = document.createElement('div');
-        this.loadingIndicator.className = 'fast-nav-loading';
+        this.loadingIndicator.className = 'fast-nav-progress';
         document.body.appendChild(this.loadingIndicator);
     }
 
     setupEventListeners() {
         // Предзагрузка при наведении
         document.addEventListener('mouseover', this.handleLinkHover.bind(this));
-        document.addEventListener('touchstart', this.handleLinkTouch.bind(this));
         
-        // Быстрые переходы по клику
+        // Мгновенные переходы по клику
         document.addEventListener('click', this.handleLinkClick.bind(this));
         
         // Навигация браузера
         window.addEventListener('popstate', this.handlePopState.bind(this));
-        
-        // Предзагрузка при видимости ссылок
-        this.setupIntersectionObserver();
     }
 
     handleLinkHover(e) {
-        const link = e.target.closest('a');
-        if (this.isPreloadable(link)) {
-            this.schedulePreload(link.href);
-        }
-    }
-
-    handleLinkTouch(e) {
         const link = e.target.closest('a');
         if (this.isPreloadable(link)) {
             this.preloadPage(link.href);
@@ -76,33 +65,17 @@ class FastNavigation {
                !link.href.includes('tel:');
     }
 
-    schedulePreload(url) {
-        if (!this.cache.has(url) && !this.preloadQueue.has(url)) {
-            this.preloadQueue.add(url);
-            setTimeout(() => {
-                if (this.preloadQueue.has(url)) {
-                    this.preloadPage(url);
-                }
-            }, 50);
-        }
-    }
-
     async preloadPage(url) {
         if (this.cache.has(url)) return;
 
         try {
-            const response = await fetch(url, {
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            });
-            
+            const response = await fetch(url);
             if (response.ok) {
                 const html = await response.text();
                 this.cachePage(url, html);
-                this.preloadQueue.delete(url);
             }
         } catch (error) {
             console.warn('Preload failed:', error);
-            this.preloadQueue.delete(url);
         }
     }
 
@@ -116,16 +89,6 @@ class FastNavigation {
             title: doc.title,
             timestamp: Date.now()
         });
-        
-        this.cleanupCache();
-    }
-
-    cleanupCache() {
-        const MAX_CACHE_SIZE = 5;
-        if (this.cache.size > MAX_CACHE_SIZE) {
-            const oldest = [...this.cache.entries()].sort((a, b) => a[1].timestamp - b[1].timestamp)[0];
-            this.cache.delete(oldest[0]);
-        }
     }
 
     cacheCurrentPage() {
@@ -142,6 +105,7 @@ class FastNavigation {
             await this.loadPage(url, true);
         } catch (error) {
             console.error('Navigation failed:', error);
+            // Fallback к обычной навигации
             window.location.href = url;
         } finally {
             this.isNavigating = false;
@@ -150,10 +114,7 @@ class FastNavigation {
     }
 
     async loadPage(url, pushState = true) {
-        // Показываем анимацию исчезновения
-        this.fadeOutContent();
-        
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // МИГНОВЕННАЯ СМЕНА - без анимаций
         
         // Загружаем контент
         let content, title;
@@ -163,9 +124,7 @@ class FastNavigation {
             content = cached.content;
             title = cached.title;
         } else {
-            const response = await fetch(url, {
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            });
+            const response = await fetch(url);
             
             if (!response.ok) throw new Error('Network error');
             
@@ -179,7 +138,7 @@ class FastNavigation {
             this.cachePage(url, html);
         }
         
-        // Обновляем страницу
+        // МГНОВЕННОЕ обновление страницы
         this.updateContent(content, title);
         
         if (pushState) {
@@ -192,30 +151,8 @@ class FastNavigation {
         // Инициализируем новую страницу
         this.initializePage();
         
-        // Показываем анимацию появления
-        this.fadeInContent();
-        
-        // Скроллим наверх
+        // Скроллим наверх мгновенно
         window.scrollTo(0, 0);
-    }
-
-    fadeOutContent() {
-        const main = document.querySelector('main');
-        if (main) {
-            main.style.opacity = '0';
-            main.style.transform = 'translateY(10px)';
-            main.style.transition = 'all 0.15s ease-out';
-        }
-    }
-
-    fadeInContent() {
-        const main = document.querySelector('main');
-        if (main) {
-            setTimeout(() => {
-                main.style.opacity = '1';
-                main.style.transform = 'translateY(0)';
-            }, 50);
-        }
     }
 
     updateContent(content, title) {
@@ -229,7 +166,7 @@ class FastNavigation {
     updateNavigation() {
         const currentPath = window.location.pathname;
         document.querySelectorAll('.header-nav a').forEach(link => {
-            const linkPath = link.getAttribute('href');
+            const linkPath = new URL(link.href).pathname;
             link.classList.toggle('active', linkPath === currentPath);
         });
     }
@@ -240,9 +177,6 @@ class FastNavigation {
         
         // Переинициализируем общие компоненты
         this.reinitializeComponents();
-        
-        // Триггерим событие смены страницы
-        window.dispatchEvent(new CustomEvent('pagechanged'));
     }
 
     initializePageComponents() {
@@ -258,7 +192,6 @@ class FastNavigation {
     }
 
     initializeProjects() {
-        // Инициализация фильтров проектов
         const filters = document.querySelector('.projects-filters');
         if (filters) {
             this.initializeProjectFilters();
@@ -266,7 +199,6 @@ class FastNavigation {
     }
 
     initializeDiary() {
-        // Инициализация формы дневника
         const form = document.getElementById('diaryForm');
         if (form) {
             this.initializeDiaryForm();
@@ -274,7 +206,6 @@ class FastNavigation {
     }
 
     initializeContacts() {
-        // Инициализация формы контактов
         const form = document.getElementById('contactForm');
         if (form) {
             this.initializeContactForm();
@@ -296,16 +227,8 @@ class FastNavigation {
                     const category = card.dataset.category;
                     if (filter === 'all' || category === filter) {
                         card.style.display = 'block';
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'scale(1)';
-                        }, 50);
                     } else {
-                        card.style.opacity = '0';
-                        card.style.transform = 'scale(0.8)';
-                        setTimeout(() => {
-                            card.style.display = 'none';
-                        }, 300);
+                        card.style.display = 'none';
                     }
                 });
             });
@@ -357,45 +280,31 @@ class FastNavigation {
         setTimeout(() => {
             this.showNotification('Сообщение отправлено!', 'success');
             e.target.reset();
-        }, 1000);
+        }, 500);
     }
 
     showNotification(message, type) {
         const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
+        notification.className = `notification ${type === 'success' ? 'notification-success' : ''}`;
         notification.textContent = message;
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            background: var(--accent-color);
-            color: white;
-            border-radius: var(--border-radius);
-            z-index: 10000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        `;
         
         document.body.appendChild(notification);
         
         setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
+            notification.classList.add('show');
+        }, 10);
         
         setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
+            notification.classList.remove('show');
             setTimeout(() => {
                 notification.remove();
-            }, 300);
-        }, 3000);
+            }, 200);
+        }, 2000);
     }
 
     reinitializeComponents() {
-        // Переинициализация общих компонентов
         this.initializeThemeSwitcher();
         this.initializeSmoothScroll();
-        this.initializeAnimations();
     }
 
     initializeThemeSwitcher() {
@@ -418,8 +327,18 @@ class FastNavigation {
                     document.documentElement.setAttribute('data-theme', theme);
                     localStorage.setItem('theme', theme);
                     themePanel.classList.remove('active');
+                    
+                    // Обновляем активную тему в панели
+                    themePanel.querySelectorAll('.theme-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    option.classList.add('active');
                 });
             });
+            
+            // Устанавливаем активную тему в панели
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'orange';
+            themePanel.querySelector(`.theme-option[data-theme="${currentTheme}"]`)?.classList.add('active');
         }
     }
 
@@ -435,58 +354,20 @@ class FastNavigation {
         });
     }
 
-    initializeAnimations() {
-        // Инициализация анимаций при скролле
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
-            });
-        });
-        
-        document.querySelectorAll('.project-card, .skill').forEach(el => {
-            observer.observe(el);
-        });
-    }
-
-    setupIntersectionObserver() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const link = entry.target.closest('a');
-                    if (this.isPreloadable(link)) {
-                        this.preloadPage(link.href);
-                    }
-                }
-            });
-        });
-        
-        document.querySelectorAll('.header-nav a, .project-card a').forEach(link => {
-            observer.observe(link);
-        });
-    }
-
     showLoading() {
-        this.loadingIndicator.classList.add('active');
+        this.loadingIndicator.classList.add('loading');
     }
 
     hideLoading() {
-        this.loadingIndicator.classList.remove('active');
+        this.loadingIndicator.classList.remove('loading');
     }
 
-    // Публичные методы
     preloadAll() {
         document.querySelectorAll('.header-nav a').forEach(link => {
             if (this.isPreloadable(link)) {
                 this.preloadPage(link.href);
             }
         });
-    }
-
-    clearCache() {
-        this.cache.clear();
-        this.cacheCurrentPage();
     }
 }
 
@@ -498,16 +379,11 @@ class PortfolioApp {
     }
 
     init() {
-        // Загружаем сохраненную тему
         this.loadTheme();
-        
-        // Инициализируем быструю навигацию
         this.fastNav = new FastNavigation();
-        
-        // Инициализируем дополнительные компоненты
         this.initializeComponents();
         
-        console.log('🎯 Portfolio App initialized');
+        console.log('🎯 Portfolio App initialized - Instant mode');
     }
 
     loadTheme() {
@@ -516,13 +392,12 @@ class PortfolioApp {
     }
 
     initializeComponents() {
-        // Инициализация сакуры
         this.initializeSakura();
         
-        // Предзагрузка всех страниц через 2 секунды
+        // Предзагрузка всех страниц сразу
         setTimeout(() => {
             this.fastNav.preloadAll();
-        }, 2000);
+        }, 100);
     }
 
     initializeSakura() {
@@ -531,7 +406,7 @@ class PortfolioApp {
         
         for (let i = 0; i < 15; i++) {
             const leaf = document.createElement('div');
-            leaf.className = 'sakura-leaf';
+            leaf.className = `sakura-leaf type-${Math.floor(Math.random() * 5) + 1}`;
             leaf.style.left = `${Math.random() * 100}%`;
             leaf.style.animationDuration = `${15 + Math.random() * 10}s`;
             leaf.style.animationDelay = `${Math.random() * 10}s`;
@@ -544,16 +419,3 @@ class PortfolioApp {
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new PortfolioApp();
 });
-
-// Service Worker для оффлайн-работы (опционально)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered:', registration);
-            })
-            .catch(error => {
-                console.log('SW registration failed:', error);
-            });
-    });
-}

@@ -99,6 +99,11 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+    
+    .sakura-leaf {
+        animation: none !important;
+        display: none !important;
+    }
 }
 
 body {
@@ -110,6 +115,264 @@ body {
     position: relative;
     overflow-x: hidden;
 }
+
+/* Улучшенный эффект падающих листьев сакуры */
+.sakura-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.sakura-leaf {
+    position: absolute;
+    top: -100px;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #ff9a76, #ff8c42, #ffb174);
+    border-radius: 50% 0 50% 0;
+    opacity: 0.9;
+    animation: fall linear infinite;
+    filter: 
+        drop-shadow(0 0 2px rgba(255, 140, 66, 0.6))
+        drop-shadow(0 0 5px rgba(255, 154, 118, 0.4));
+    will-change: transform;
+    transform-origin: center;
+    z-index: 1;
+}
+
+/* Создание более реалистичной формы лепестка */
+.sakura-leaf::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+    border-radius: 50% 0 50% 0;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.sakura-leaf::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 50%);
+    border-radius: 50% 0 50% 0;
+    opacity: 0.6;
+}
+
+/* Разные размеры и цвета лепестков */
+.sakura-leaf:nth-child(5n) {
+    background: linear-gradient(135deg, #ffb174, #ff9a76, #ff8c42);
+    width: 24px;
+    height: 24px;
+    filter: 
+        drop-shadow(0 0 3px rgba(255, 177, 116, 0.7))
+        drop-shadow(0 0 8px rgba(255, 154, 118, 0.5));
+}
+
+.sakura-leaf:nth-child(3n) {
+    background: linear-gradient(135deg, #ffd8b8, #ffb174, #ff9a76);
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+    filter: 
+        drop-shadow(0 0 2px rgba(255, 216, 184, 0.6))
+        drop-shadow(0 0 6px rgba(255, 177, 116, 0.4));
+}
+
+.sakura-leaf:nth-child(7n) {
+    background: linear-gradient(135deg, #ffe8d6, #ffd8b8, #ffb174);
+    width: 22px;
+    height: 22px;
+    opacity: 0.7;
+    filter: 
+        drop-shadow(0 0 2px rgba(255, 232, 214, 0.5))
+        drop-shadow(0 0 7px rgba(255, 216, 184, 0.3));
+}
+
+.sakura-leaf:nth-child(11n) {
+    background: linear-gradient(135deg, #ff8c42, #e67e22, #ff6b35);
+    width: 16px;
+    height: 16px;
+    opacity: 0.85;
+    filter: 
+        drop-shadow(0 0 3px rgba(255, 140, 66, 0.8))
+        drop-shadow(0 0 9px rgba(230, 126, 34, 0.5));
+}
+
+/* Улучшенная анимация падения с качанием */
+@keyframes fall {
+    0% {
+        transform: 
+            translate3d(0, -100px, 0) 
+            rotate(0deg) 
+            scale(0.8);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+        transform: 
+            translate3d(10px, 10vh, 0) 
+            rotate(36deg) 
+            scale(1);
+    }
+    20% {
+        transform: 
+            translate3d(-8px, 20vh, 0) 
+            rotate(72deg) 
+            scale(0.95);
+    }
+    30% {
+        transform: 
+            translate3d(12px, 30vh, 0) 
+            rotate(108deg) 
+            scale(1.05);
+    }
+    40% {
+        transform: 
+            translate3d(-10px, 40vh, 0) 
+            rotate(144deg) 
+            scale(0.98);
+    }
+    50% {
+        transform: 
+            translate3d(15px, 50vh, 0) 
+            rotate(180deg) 
+            scale(1.02);
+    }
+    60% {
+        transform: 
+            translate3d(-12px, 60vh, 0) 
+            rotate(216deg) 
+            scale(0.96);
+    }
+    70% {
+        transform: 
+            translate3d(8px, 70vh, 0) 
+            rotate(252deg) 
+            scale(1.03);
+    }
+    80% {
+        transform: 
+            translate3d(-15px, 80vh, 0) 
+            rotate(288deg) 
+            scale(0.99);
+    }
+    90% {
+        transform: 
+            translate3d(10px, 90vh, 0) 
+            rotate(324deg) 
+            scale(1.01);
+        opacity: 0.9;
+    }
+    100% {
+        transform: 
+            translate3d(0, 100vh, 0) 
+            rotate(360deg) 
+            scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Анимация мерцания */
+@keyframes shimmer {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translateX(-2px) translateY(-2px);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateX(2px) translateY(2px);
+    }
+}
+
+/* Анимация легкого дрожания */
+@keyframes float {
+    0%, 100% {
+        transform: translateX(0) rotate(0deg);
+    }
+    25% {
+        transform: translateX(-3px) rotate(-1deg);
+    }
+    75% {
+        transform: translateX(3px) rotate(1deg);
+    }
+}
+
+/* Применяем дрожание к некоторым лепесткам */
+.sakura-leaf:nth-child(2n) {
+    animation: 
+        fall linear infinite,
+        float 4s ease-in-out infinite;
+}
+
+.sakura-leaf:nth-child(3n) {
+    animation: 
+        fall linear infinite,
+        float 3s ease-in-out infinite;
+}
+
+/* Генерация 50 лепестков с разными параметрами */
+.sakura-leaf:nth-child(1) { left: 2%; animation-duration: 18s; animation-delay: 0s; }
+.sakura-leaf:nth-child(2) { left: 5%; animation-duration: 22s; animation-delay: 1s; }
+.sakura-leaf:nth-child(3) { left: 8%; animation-duration: 25s; animation-delay: 2s; }
+.sakura-leaf:nth-child(4) { left: 12%; animation-duration: 20s; animation-delay: 3s; }
+.sakura-leaf:nth-child(5) { left: 15%; animation-duration: 28s; animation-delay: 4s; }
+.sakura-leaf:nth-child(6) { left: 18%; animation-duration: 24s; animation-delay: 5s; }
+.sakura-leaf:nth-child(7) { left: 22%; animation-duration: 19s; animation-delay: 6s; }
+.sakura-leaf:nth-child(8) { left: 25%; animation-duration: 26s; animation-delay: 7s; }
+.sakura-leaf:nth-child(9) { left: 28%; animation-duration: 23s; animation-delay: 8s; }
+.sakura-leaf:nth-child(10) { left: 32%; animation-duration: 30s; animation-delay: 9s; }
+.sakura-leaf:nth-child(11) { left: 35%; animation-duration: 21s; animation-delay: 10s; }
+.sakura-leaf:nth-child(12) { left: 38%; animation-duration: 27s; animation-delay: 11s; }
+.sakura-leaf:nth-child(13) { left: 42%; animation-duration: 24s; animation-delay: 12s; }
+.sakura-leaf:nth-child(14) { left: 45%; animation-duration: 29s; animation-delay: 13s; }
+.sakura-leaf:nth-child(15) { left: 48%; animation-duration: 22s; animation-delay: 14s; }
+.sakura-leaf:nth-child(16) { left: 52%; animation-duration: 25s; animation-delay: 15s; }
+.sakura-leaf:nth-child(17) { left: 55%; animation-duration: 31s; animation-delay: 16s; }
+.sakura-leaf:nth-child(18) { left: 58%; animation-duration: 26s; animation-delay: 17s; }
+.sakura-leaf:nth-child(19) { left: 62%; animation-duration: 23s; animation-delay: 18s; }
+.sakura-leaf:nth-child(20) { left: 65%; animation-duration: 28s; animation-delay: 19s; }
+.sakura-leaf:nth-child(21) { left: 68%; animation-duration: 20s; animation-delay: 20s; }
+.sakura-leaf:nth-child(22) { left: 72%; animation-duration: 32s; animation-delay: 21s; }
+.sakura-leaf:nth-child(23) { left: 75%; animation-duration: 27s; animation-delay: 22s; }
+.sakura-leaf:nth-child(24) { left: 78%; animation-duration: 24s; animation-delay: 23s; }
+.sakura-leaf:nth-child(25) { left: 82%; animation-duration: 29s; animation-delay: 24s; }
+.sakura-leaf:nth-child(26) { left: 85%; animation-duration: 21s; animation-delay: 25s; }
+.sakura-leaf:nth-child(27) { left: 88%; animation-duration: 26s; animation-delay: 26s; }
+.sakura-leaf:nth-child(28) { left: 92%; animation-duration: 30s; animation-delay: 27s; }
+.sakura-leaf:nth-child(29) { left: 95%; animation-duration: 25s; animation-delay: 28s; }
+.sakura-leaf:nth-child(30) { left: 98%; animation-duration: 28s; animation-delay: 29s; }
+.sakura-leaf:nth-child(31) { left: 3%; animation-duration: 23s; animation-delay: 30s; }
+.sakura-leaf:nth-child(32) { left: 7%; animation-duration: 27s; animation-delay: 31s; }
+.sakura-leaf:nth-child(33) { left: 10%; animation-duration: 32s; animation-delay: 32s; }
+.sakura-leaf:nth-child(34) { left: 14%; animation-duration: 24s; animation-delay: 33s; }
+.sakura-leaf:nth-child(35) { left: 17%; animation-duration: 29s; animation-delay: 34s; }
+.sakura-leaf:nth-child(36) { left: 20%; animation-duration: 26s; animation-delay: 35s; }
+.sakura-leaf:nth-child(37) { left: 24%; animation-duration: 31s; animation-delay: 36s; }
+.sakura-leaf:nth-child(38) { left: 27%; animation-duration: 22s; animation-delay: 37s; }
+.sakura-leaf:nth-child(39) { left: 30%; animation-duration: 28s; animation-delay: 38s; }
+.sakura-leaf:nth-child(40) { left: 34%; animation-duration: 25s; animation-delay: 39s; }
+.sakura-leaf:nth-child(41) { left: 37%; animation-duration: 30s; animation-delay: 40s; }
+.sakura-leaf:nth-child(42) { left: 40%; animation-duration: 23s; animation-delay: 41s; }
+.sakura-leaf:nth-child(43) { left: 44%; animation-duration: 27s; animation-delay: 42s; }
+.sakura-leaf:nth-child(44) { left: 47%; animation-duration: 32s; animation-delay: 43s; }
+.sakura-leaf:nth-child(45) { left: 50%; animation-duration: 26s; animation-delay: 44s; }
+.sakura-leaf:nth-child(46) { left: 53%; animation-duration: 29s; animation-delay: 45s; }
+.sakura-leaf:nth-child(47) { left: 57%; animation-duration: 24s; animation-delay: 46s; }
+.sakura-leaf:nth-child(48) { left: 60%; animation-duration: 31s; animation-delay: 47s; }
+.sakura-leaf:nth-child(49) { left: 63%; animation-duration: 27s; animation-delay: 48s; }
+.sakura-leaf:nth-child(50) { left: 67%; animation-duration: 22s; animation-delay: 49s; }
 
 /* Переключатель темы */
 .theme-switcher {
@@ -209,124 +472,6 @@ body {
 .theme-blue { background: linear-gradient(45deg, #4fc3f7, #0288d1); }
 .theme-green { background: linear-gradient(45deg, #66bb6a, #2e7d32); }
 .theme-purple { background: linear-gradient(45deg, #ba68c8, #8e24aa); }
-
-/* Оптимизированные анимации сакуры */
-.sakura-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.sakura-leaf {
-    position: absolute;
-    top: -50px;
-    width: 18px;
-    height: 18px;
-    background: linear-gradient(45deg, #ff9a76, #ff8c42, #ffb174);
-    border-radius: 50% 0 50% 0;
-    opacity: 0.8;
-    animation: fall linear infinite;
-    filter: drop-shadow(0 0 3px rgba(255, 140, 66, 0.3));
-    will-change: transform;
-}
-
-.sakura-leaf::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    width: 24px;
-    height: 24px;
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 50% 0 50% 0;
-}
-
-.sakura-leaf:nth-child(5n) {
-    background: linear-gradient(45deg, #ffb174, #ff9a76);
-    width: 22px;
-    height: 22px;
-}
-
-.sakura-leaf:nth-child(5n)::before {
-    width: 28px;
-    height: 28px;
-}
-
-.sakura-leaf:nth-child(3n) {
-    background: linear-gradient(45deg, #ffd8b8, #ffb174);
-    width: 16px;
-    height: 16px;
-}
-
-.sakura-leaf:nth-child(3n)::before {
-    width: 22px;
-    height: 22px;
-}
-
-.sakura-leaf:nth-child(7n) {
-    background: linear-gradient(45deg, #ffe8d6, #ffd8b8);
-    width: 20px;
-    height: 20px;
-}
-
-.sakura-leaf:nth-child(7n)::before {
-    width: 26px;
-    height: 26px;
-}
-
-.sakura-leaf:nth-child(11n) {
-    background: linear-gradient(45deg, #ff8c42, #e67e22);
-    width: 14px;
-    height: 14px;
-}
-
-.sakura-leaf:nth-child(11n)::before {
-    width: 20px;
-    height: 20px;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(360deg);
-    }
-}
-
-/* Генерация 30 листьев (уменьшено для производительности) */
-.sakura-leaf:nth-child(1) { left: 2%; animation-duration: 25s; animation-delay: 0s; }
-.sakura-leaf:nth-child(2) { left: 5%; animation-duration: 28s; animation-delay: 1s; }
-.sakura-leaf:nth-child(3) { left: 8%; animation-duration: 22s; animation-delay: 2s; }
-.sakura-leaf:nth-child(4) { left: 12%; animation-duration: 26s; animation-delay: 3s; }
-.sakura-leaf:nth-child(5) { left: 15%; animation-duration: 24s; animation-delay: 4s; }
-.sakura-leaf:nth-child(6) { left: 18%; animation-duration: 29s; animation-delay: 5s; }
-.sakura-leaf:nth-child(7) { left: 22%; animation-duration: 23s; animation-delay: 6s; }
-.sakura-leaf:nth-child(8) { left: 25%; animation-duration: 27s; animation-delay: 7s; }
-.sakura-leaf:nth-child(9) { left: 28%; animation-duration: 21s; animation-delay: 8s; }
-.sakura-leaf:nth-child(10) { left: 32%; animation-duration: 30s; animation-delay: 9s; }
-.sakura-leaf:nth-child(11) { left: 35%; animation-duration: 24s; animation-delay: 10s; }
-.sakura-leaf:nth-child(12) { left: 38%; animation-duration: 26s; animation-delay: 11s; }
-.sakura-leaf:nth-child(13) { left: 42%; animation-duration: 22s; animation-delay: 12s; }
-.sakura-leaf:nth-child(14) { left: 45%; animation-duration: 28s; animation-delay: 13s; }
-.sakura-leaf:nth-child(15) { left: 48%; animation-duration: 25s; animation-delay: 14s; }
-.sakura-leaf:nth-child(16) { left: 52%; animation-duration: 23s; animation-delay: 15s; }
-.sakura-leaf:nth-child(17) { left: 55%; animation-duration: 27s; animation-delay: 16s; }
-.sakura-leaf:nth-child(18) { left: 58%; animation-duration: 29s; animation-delay: 17s; }
-.sakura-leaf:nth-child(19) { left: 62%; animation-duration: 21s; animation-delay: 18s; }
-.sakura-leaf:nth-child(20) { left: 65%; animation-duration: 26s; animation-delay: 19s; }
-.sakura-leaf:nth-child(21) { left: 68%; animation-duration: 24s; animation-delay: 20s; }
-.sakura-leaf:nth-child(22) { left: 72%; animation-duration: 28s; animation-delay: 21s; }
-.sakura-leaf:nth-child(23) { left: 75%; animation-duration: 22s; animation-delay: 22s; }
-.sakura-leaf:nth-child(24) { left: 78%; animation-duration: 30s; animation-delay: 23s; }
-.sakura-leaf:nth-child(25) { left: 82%; animation-duration: 25s; animation-delay: 24s; }
-.sakura-leaf:nth-child(26) { left: 85%; animation-duration: 27s; animation-delay: 25s; }
-.sakura-leaf:nth-child(27) { left: 88%; animation-duration: 23s; animation-delay: 26s; }
-.sakura-leaf:nth-child(28) { left: 92%; animation-duration: 29s; animation-delay: 27s; }
-.sakura-leaf:nth-child(29) { left: 95%; animation-duration: 26s; animation-delay: 28s; }
-.sakura-leaf:nth-child(30) { left: 98%; animation-duration: 24s; animation-delay: 29s; }
 
 .container {
     width: 90%;
@@ -1419,7 +1564,7 @@ body {
     background: var(--orange-primary);
     top: 10%;
     left: 5%;
-    animation: float 20s infinite ease-in-out;
+    animation: blob-float 20s infinite ease-in-out;
 }
 
 .blob-2 {
@@ -1428,10 +1573,10 @@ body {
     background: var(--orange-secondary);
     bottom: 10%;
     right: 5%;
-    animation: float 25s infinite ease-in-out reverse;
+    animation: blob-float 25s infinite ease-in-out reverse;
 }
 
-@keyframes float {
+@keyframes blob-float {
     0%, 100% { transform: translate(0, 0) rotate(0deg); }
     50% { transform: translate(20px, 20px) rotate(180deg); }
 }
@@ -1500,15 +1645,15 @@ body {
 
 /* Улучшения для других тем */
 [data-theme="blue"] .sakura-leaf {
-    background: linear-gradient(45deg, #4fc3f7, #0288d1, #29b6f6);
+    background: linear-gradient(135deg, #4fc3f7, #0288d1, #29b6f6);
 }
 
 [data-theme="green"] .sakura-leaf {
-    background: linear-gradient(45deg, #66bb6a, #2e7d32, #4caf50);
+    background: linear-gradient(135deg, #66bb6a, #2e7d32, #4caf50);
 }
 
 [data-theme="purple"] .sakura-leaf {
-    background: linear-gradient(45deg, #ba68c8, #8e24aa, #ab47bc);
+    background: linear-gradient(135deg, #ba68c8, #8e24aa, #ab47bc);
 }
 
 /* Анимация для плавной смены темы */

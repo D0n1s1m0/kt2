@@ -1374,6 +1374,62 @@ body {
     --shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
     --shadow-hover: 0 12px 35px rgba(255, 87, 34, 0.4);
     --background: #1a1a1a;
+    /* Улучшения для тёмной темы */
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 50%, #000000 100%);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .header {
+    background: rgba(45, 45, 45, 0.95);
+    border-bottom-color: var(--orange-accent);
+}
+
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .entry-item,
+[data-theme="dark"] .progress-card,
+[data-theme="dark"] .contact-info-card,
+[data-theme="dark"] .availability-card,
+[data-theme="dark"] .add-entry-form,
+[data-theme="dark"] .contact-form-section {
+    background: rgba(45, 45, 45, 0.9);
+    color: var(--text-dark);
+    border-color: rgba(255, 87, 34, 0.3);
+}
+
+[data-theme="dark"] .skills {
+    background: rgba(45, 45, 45, 0.3);
+    border-color: rgba(255, 87, 34, 0.2);
+}
+
+[data-theme="dark"] .footer {
+    background: rgba(45, 45, 45, 0.95);
+    border-top-color: var(--orange-accent);
+}
+
+[data-theme="dark"] .theme-switcher,
+[data-theme="dark"] .theme-panel {
+    background: rgba(45, 45, 45, 0.9);
+    border-color: var(--orange-primary);
+}
+
+/* Улучшения для других тем */
+[data-theme="blue"] .sakura-leaf {
+    background: linear-gradient(45deg, #4fc3f7, #0288d1, #29b6f6);
+}
+
+[data-theme="green"] .sakura-leaf {
+    background: linear-gradient(45deg, #66bb6a, #2e7d32, #4caf50);
+}
+
+[data-theme="purple"] .sakura-leaf {
+    background: linear-gradient(45deg, #ba68c8, #8e24aa, #ab47bc);
+}
+
+/* Анимация для плавной смены темы */
+.theme-transition * {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
 }
 
 :root[data-theme="blue"] {

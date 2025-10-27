@@ -1,5 +1,5 @@
-// Оптимизированная валидация формы
-class FormValidator {
+// Улучшенная валидация форм с поддержкой доступности
+class AccessibleFormValidator {
     constructor(formId) {
         this.form = document.getElementById(formId);
         if (!this.form) return;
@@ -7,6 +7,7 @@ class FormValidator {
         this.fields = new Map();
         this.errors = new Set();
         this.submitButton = this.form.querySelector('button[type="submit"]');
+        this.isSubmitting = false;
         
         this.init();
     }
@@ -16,26 +17,44 @@ class FormValidator {
         this.form.querySelectorAll('input, textarea, select').forEach(field => {
             this.fields.set(field.name || field.id, field);
             
-            // События валидации
+            // События валидации с улучшенной доступностью
             field.addEventListener('blur', () => this.validateField(field));
-            field.addEventListener('input', () => this.clearError(field));
+            field.addEventListener('input', () => this.handleInput(field));
+            field.addEventListener('invalid', (e) => this.handleInvalid(e));
         });
 
         // Обработка отправки формы
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
 
-        // Дебаунс для полей с большим количеством ввода
-        this.setupDebouncedValidation();
+        // Инициализация ARIA-атрибутов
+        this.initAriaAttributes();
     }
 
-    setupDebouncedValidation() {
-        const debouncedValidate = this.debounce((field) => {
-            this.validateField(field);
-        }, 300);
-
-        this.form.querySelectorAll('textarea, input[type="text"]').forEach(field => {
-            field.addEventListener('input', () => debouncedValidate(field));
+    initAriaAttributes() {
+        this.fields.forEach(field => {
+            if (field.required) {
+                field.setAttribute('aria-required', 'true');
+            }
+            
+            if (field.type === 'email') {
+                field.setAttribute('aria-describedby', `${field.id}-hint`);
+            }
         });
+    }
+
+    handleInput(field) {
+        this.clearError(field);
+        
+        // Динамическое обновление ARIA-атрибутов
+        if (field.value.trim().length > 0) {
+            field.removeAttribute('aria-invalid');
+        }
+    }
+
+    handleInvalid(e) {
+        e.preventDefault();
+        const field = e.target;
+        this.validateField(field);
     }
 
     validateField(field) {
@@ -43,11 +62,16 @@ class FormValidator {
         let isValid = true;
         let message = '';
 
+        // Сбрасываем состояние ошибки
+        field.setAttribute('aria-invalid', 'false');
+        this.clearError(field);
+
+        // Валидация в зависимости от типа поля
         switch(field.type) {
             case 'text':
                 if (field.required && value.length < 2) {
                     isValid = false;
-                    message = 'Минимум 2 символа';
+                    message = 'Имя должно содержать минимум 2 символа';
                 }
                 break;
                 
@@ -55,6 +79,9 @@ class FormValidator {
                 if (field.required && !this.isValidEmail(value)) {
                     isValid = false;
                     message = 'Введите корректный email адрес';
+                } else if (field.required && value.length === 0) {
+                    isValid = false;
+                    message = 'Email обязателен для заполнения';
                 }
                 break;
                 
@@ -67,7 +94,7 @@ class FormValidator {
         }
 
         // Дополнительная валидация по ID
-        if (field.id === 'name' && value.length < 2) {
+        if (field.id === 'name' && field.required && value.length < 2) {
             isValid = false;
             message = 'Имя должно содержать минимум 2 символа';
         }
@@ -75,6 +102,11 @@ class FormValidator {
         if (!isValid) {
             this.showError(field, message);
             this.errors.add(field.name || field.id);
+            
+            // Обновляем live region для скринридеров
+            if (window.accessibilityUtils) {
+                window.accessibilityUtils.updateLiveRegion(`Ошибка в поле ${field.labels[0]?.textContent}: ${message}`, 'error');
+            }
         } else {
             this.clearError(field);
             this.errors.delete(field.name || field.id);
@@ -92,14 +124,24 @@ class FormValidator {
     showError(field, message) {
         this.clearError(field);
         
-        const errorElement = document.createElement('div');
+        // Обновляем ARIA-атрибуты
+        field.setAttribute('aria-invalid', 'true');
+        field.setAttribute('aria-describedby', `${field.id}Error`);
+        
+        const errorElement = document.createElement('span');
         errorElement.className = 'error-message';
         errorElement.textContent = message;
         errorElement.id = `${field.id}Error`;
+        errorElement.setAttribute('role', 'alert');
+        errorElement.setAttribute('aria-live', 'polite');
         
         field.parentNode.appendChild(errorElement);
-        field.setAttribute('aria-invalid', 'true');
         field.style.borderColor = 'var(--orange-accent)';
+        
+        // Фокусируемся на поле с ошибкой
+        if (!this.isSubmitting) {
+            field.focus();
+        }
     }
 
     clearError(field) {
@@ -108,6 +150,7 @@ class FormValidator {
             existingError.remove();
         }
         field.removeAttribute('aria-invalid');
+        field.removeAttribute('aria-describedby');
         field.style.borderColor = '';
     }
 
@@ -121,12 +164,15 @@ class FormValidator {
                 return value.length > 0 && !this.errors.has(field.name || field.id);
             });
 
-            this.submitButton.disabled = !allRequiredValid;
+            this.submitButton.disabled = !allRequiredValid || this.isSubmitting;
+            this.submitButton.setAttribute('aria-disabled', this.submitButton.disabled);
         }
     }
 
     async handleSubmit(e) {
         e.preventDefault();
+        
+        if (this.isSubmitting) return;
         
         // Валидация всех полей перед отправкой
         let allValid = true;
@@ -137,7 +183,16 @@ class FormValidator {
         });
 
         if (!allValid) {
-            this.showGeneralError('Пожалуйста, исправьте ошибки в форме');
+            // Фокусируемся на первом поле с ошибкой
+            const firstErrorField = Array.from(this.fields.values())
+                .find(field => this.errors.has(field.name || field.id));
+            if (firstErrorField) {
+                firstErrorField.focus();
+            }
+            
+            if (window.accessibilityUtils) {
+                window.accessibilityUtils.updateLiveRegion('В форме есть ошибки. Пожалуйста, исправьте их перед отправкой.', 'error');
+            }
             return;
         }
 
@@ -147,14 +202,20 @@ class FormValidator {
     async submitForm() {
         if (!this.submitButton) return;
 
-        const originalText = this.submitButton.textContent;
-        const originalHTML = this.submitButton.innerHTML;
+        this.isSubmitting = true;
+        this.updateSubmitButton();
         
-        this.submitButton.disabled = true;
-        this.submitButton.textContent = 'Отправка...';
+        const originalText = this.submitButton.querySelector('.button-text').textContent;
+        
         this.submitButton.classList.add('loading');
+        this.submitButton.setAttribute('aria-busy', 'true');
 
         try {
+            // Сохраняем элемент с фокусом для возврата
+            if (window.accessibilityUtils) {
+                window.accessibilityUtils.setLastFocused(document.activeElement);
+            }
+
             // Сбор данных формы
             const formData = new FormData(this.form);
             const data = Object.fromEntries(formData);
@@ -169,18 +230,22 @@ class FormValidator {
             
         } catch (error) {
             console.error('Form submission error:', error);
-            this.showGeneralError('Ошибка отправки. Попробуйте еще раз.');
+            this.showError('Ошибка отправки. Попробуйте еще раз.');
+            
+            if (window.accessibilityUtils) {
+                window.accessibilityUtils.updateLiveRegion('Ошибка при отправке формы. Пожалуйста, попробуйте еще раз.', 'error');
+            }
         } finally {
-            this.submitButton.disabled = false;
-            this.submitButton.textContent = originalText;
-            this.submitButton.innerHTML = originalHTML;
+            this.isSubmitting = false;
             this.submitButton.classList.remove('loading');
+            this.submitButton.removeAttribute('aria-busy');
+            this.updateSubmitButton();
         }
     }
 
     async sendFormData(data) {
         // Имитация задержки сети
-        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+        await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
         
         // В реальном приложении здесь будет fetch запрос
         console.log('Form data to be sent:', data);
@@ -191,52 +256,40 @@ class FormValidator {
 
     showSuccess(message) {
         this.showMessage(message, 'success');
+        
+        if (window.accessibilityUtils) {
+            window.accessibilityUtils.updateLiveRegion(message, 'success');
+        }
     }
 
-    showGeneralError(message) {
+    showError(message) {
         this.showMessage(message, 'error');
     }
 
     showMessage(message, type) {
         // Удаление существующих сообщений
-        const existingMessage = this.form.querySelector('.form-message');
+        const existingMessage = document.getElementById('success-message');
         if (existingMessage) {
             existingMessage.remove();
         }
         
-        const messageElement = document.createElement('div');
-        messageElement.className = `form-message form-message--${type}`;
-        messageElement.textContent = message;
-        messageElement.style.cssText = `
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            background: ${type === 'success' ? '#d4edda' : '#f8d7da'};
-            color: ${type === 'success' ? '#155724' : '#721c24'};
-            border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
-        `;
-        
-        this.form.insertBefore(messageElement, this.form.firstChild);
-        
-        // Автоматическое скрытие сообщения
-        setTimeout(() => {
-            messageElement.remove();
-        }, 5000);
+        const messageElement = document.getElementById('success-message');
+        if (messageElement) {
+            const messageText = messageElement.querySelector('.message-text');
+            messageText.textContent = message;
+            
+            messageElement.className = `status-message ${type}-message`;
+            messageElement.setAttribute('aria-hidden', 'false');
+            messageElement.setAttribute('role', 'alert');
+            
+            // Автоматическое скрытие сообщения
+            setTimeout(() => {
+                messageElement.setAttribute('aria-hidden', 'true');
+            }, 5000);
+        }
     }
 
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // Публичный метод для ручной валидации
+    // Публичный метод для программной валидации
     validateForm() {
         let isValid = true;
         this.fields.forEach(field => {
@@ -247,12 +300,21 @@ class FormValidator {
         return isValid;
     }
 
+    // Публичный метод для сброса формы
+    resetForm() {
+        this.form.reset();
+        this.errors.clear();
+        this.fields.forEach(field => this.clearError(field));
+        this.updateSubmitButton();
+    }
+
     // Деструктор для очистки
     destroy() {
         this.form.removeEventListener('submit', this.handleSubmit);
         this.fields.forEach(field => {
             field.removeEventListener('blur', this.validateField);
-            field.removeEventListener('input', this.clearError);
+            field.removeEventListener('input', this.handleInput);
+            field.removeEventListener('invalid', this.handleInvalid);
         });
     }
 }
@@ -260,18 +322,13 @@ class FormValidator {
 // Автоматическая инициализация
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
-    const diaryForm = document.getElementById('diaryForm');
     
     if (contactForm) {
-        window.contactValidator = new FormValidator('contactForm');
-    }
-    
-    if (diaryForm) {
-        window.diaryValidator = new FormValidator('diaryForm');
+        window.contactValidator = new AccessibleFormValidator('contactForm');
     }
 });
 
 // Экспорт для использования в других модулях
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = FormValidator;
+    module.exports = AccessibleFormValidator;
 }

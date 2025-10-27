@@ -17,6 +17,9 @@
     <!-- Анимированный фон -->
     <div class="sakura-container" aria-hidden="true"></div>
 
+    <!-- Пропуск навигации для скринридеров -->
+    <a href="#main-content" class="skip-link">Перейти к основному содержанию</a>
+
     <!-- Шапка сайта -->
     <header class="header" role="banner">
         <div class="container">
@@ -24,168 +27,228 @@
                 <a href="../index.html">Онучин М.С.</a>
             </div>
             <nav class="header-nav" aria-label="Основная навигация">
-                <ul>
-                    <li><a href="../index.html">Главная</a></li>
-                    <li><a href="projects.html">Проекты</a></li>
-                    <li><a href="diary.html">Дневник</a></li>
-                    <li><a href="contacts.html" class="active">Контакты</a></li>
+                <ul role="menubar">
+                    <li role="none">
+                        <a href="../index.html" role="menuitem">Главная</a>
+                    </li>
+                    <li role="none">
+                        <a href="projects.html" role="menuitem">Проекты</a>
+                    </li>
+                    <li role="none">
+                        <a href="diary.html" role="menuitem">Дневник</a>
+                    </li>
+                    <li role="none">
+                        <a href="contacts.html" class="active" role="menuitem" aria-current="page">Контакты</a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main role="main">
-        <section class="contacts-page">
+    <main id="main-content" role="main" tabindex="-1">
+        <section class="contacts-page" aria-labelledby="contacts-heading">
             <div class="container">
-                <h1>Свяжитесь со мной</h1>
+                <h1 id="contacts-heading">Свяжитесь со мной</h1>
 
                 <div class="contacts-layout">
                     <!-- Левая колонка - контактная форма -->
-                    <div class="contact-form-section">
-                        <h2>Напишите мне</h2>
-                        <form class="contact-form" id="contactForm" novalidate>
-                            <div class="form-group">
-                                <label for="name">Ваше имя *</label>
-                                <input 
-                                    type="text" 
-                                    id="name" 
-                                    name="name" 
-                                    required
-                                    minlength="2"
-                                    maxlength="50"
-                                    autocomplete="name"
-                                >
-                                <span class="error-message" id="nameError" aria-live="polite"></span>
-                            </div>
+                    <section aria-labelledby="contact-form-heading">
+                        <div class="contact-form-section">
+                            <h2 id="contact-form-heading">Напишите мне</h2>
+                            
+                            <form class="contact-form" id="contactForm" novalidate aria-labelledby="contact-form-heading">
+                                <fieldset>
+                                    <legend class="visually-hidden">Контактная информация</legend>
+                                    
+                                    <div class="form-group">
+                                        <label for="name" class="required-field">
+                                            Ваше имя <span class="required-asterisk" aria-hidden="true">*</span>
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            id="name" 
+                                            name="name" 
+                                            required
+                                            minlength="2"
+                                            maxlength="50"
+                                            autocomplete="name"
+                                            aria-required="true"
+                                            aria-describedby="name-hint"
+                                        >
+                                        <span id="name-hint" class="field-hint">Минимум 2 символа</span>
+                                        <span class="error-message" id="nameError" aria-live="polite"></span>
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="email">Email адрес *</label>
-                                <input 
-                                    type="email" 
-                                    id="email" 
-                                    name="email" 
-                                    required
-                                    autocomplete="email"
-                                >
-                                <span class="error-message" id="emailError" aria-live="polite"></span>
-                            </div>
+                                    <div class="form-group">
+                                        <label for="email" class="required-field">
+                                            Email адрес <span class="required-asterisk" aria-hidden="true">*</span>
+                                        </label>
+                                        <input 
+                                            type="email" 
+                                            id="email" 
+                                            name="email" 
+                                            required
+                                            autocomplete="email"
+                                            aria-required="true"
+                                            aria-describedby="email-hint"
+                                        >
+                                        <span id="email-hint" class="field-hint">Например: example@mail.com</span>
+                                        <span class="error-message" id="emailError" aria-live="polite"></span>
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="subject">Тема сообщения</label>
-                                <input 
-                                    type="text" 
-                                    id="subject" 
-                                    name="subject"
-                                    maxlength="100"
-                                >
-                            </div>
+                                    <div class="form-group">
+                                        <label for="subject">Тема сообщения</label>
+                                        <input 
+                                            type="text" 
+                                            id="subject" 
+                                            name="subject"
+                                            maxlength="100"
+                                            aria-describedby="subject-hint"
+                                        >
+                                        <span id="subject-hint" class="field-hint">Необязательное поле</span>
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="message">Сообщение *</label>
-                                <textarea 
-                                    id="message" 
-                                    name="message" 
-                                    rows="6" 
-                                    required 
-                                    minlength="10"
-                                    maxlength="1000"
-                                    placeholder="Расскажите о вашем проекте или задайте вопрос..."
-                                ></textarea>
-                                <span class="error-message" id="messageError" aria-live="polite"></span>
-                            </div>
+                                    <div class="form-group">
+                                        <label for="message" class="required-field">
+                                            Сообщение <span class="required-asterisk" aria-hidden="true">*</span>
+                                        </label>
+                                        <textarea 
+                                            id="message" 
+                                            name="message" 
+                                            rows="6" 
+                                            required 
+                                            minlength="10"
+                                            maxlength="1000"
+                                            placeholder="Расскажите о вашем проекте или задайте вопрос..."
+                                            aria-required="true"
+                                            aria-describedby="message-hint"
+                                        ></textarea>
+                                        <span id="message-hint" class="field-hint">Минимум 10 символов</span>
+                                        <span class="error-message" id="messageError" aria-live="polite"></span>
+                                    </div>
+                                </fieldset>
 
-                            <button type="submit" class="button full-width" id="submitBtn">
-                                Отправить сообщение
-                            </button>
-                        </form>
-                    </div>
+                                <div class="form-submit">
+                                    <button 
+                                        type="submit" 
+                                        class="button full-width" 
+                                        id="submitBtn"
+                                        aria-describedby="submit-hint"
+                                    >
+                                        <span class="button-text">Отправить сообщение</span>
+                                        <span class="button-loading" aria-hidden="true">Отправка...</span>
+                                    </button>
+                                    <span id="submit-hint" class="field-hint">Все поля отмеченные * обязательны для заполнения</span>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
 
                     <!-- Правая колонка - контактная информация -->
-                    <div class="contact-info-section">
-                        <div class="contact-info-card">
-                            <h2>Контактная информация</h2>
+                    <aside aria-labelledby="contact-info-heading">
+                        <div class="contact-info-section">
+                            <section aria-labelledby="contact-info-heading">
+                                <div class="contact-info-card">
+                                    <h2 id="contact-info-heading">Контактная информация</h2>
 
-                            <div class="contact-item">
-                                <div class="contact-icon" aria-hidden="true">📧</div>
-                                <div class="contact-details">
-                                    <strong>Email</strong>
-                                    <p>
-                                        <a href="mailto:mikhail.onuchin@edu.ru" class="contact-link">
-                                            mikhail.onuchin@edu.ru
-                                        </a>
-                                    </p>
-                                    <p>
-                                        <a href="mailto:onuchin.work@mail.ru" class="contact-link">
-                                            onuchin.work@mail.ru
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
+                                    <div class="contact-item">
+                                        <div class="contact-icon" aria-hidden="true">📧</div>
+                                        <div class="contact-details">
+                                            <strong>Email</strong>
+                                            <p>
+                                                <a href="mailto:mikhail.onuchin@edu.ru" class="contact-link">
+                                                    mikhail.onuchin@edu.ru
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <a href="mailto:onuchin.work@mail.ru" class="contact-link">
+                                                    onuchin.work@mail.ru
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
 
-                            <div class="contact-item">
-                                <div class="contact-icon" aria-hidden="true">📱</div>
-                                <div class="contact-details">
-                                    <strong>Социальные сети</strong>
-                                    <p>
-                                        <a href="https://github.com/D0n1s1m0" target="_blank" rel="noopener noreferrer" class="contact-link">
-                                            GitHub: D0n1s1m0
-                                        </a>
-                                    </p>
-                                    <p>
-                                        <a href="https://t.me/mikhail_onuchin" target="_blank" rel="noopener noreferrer" class="contact-link">
-                                            Telegram: @mikhail_onuchin
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
+                                    <div class="contact-item">
+                                        <div class="contact-icon" aria-hidden="true">📱</div>
+                                        <div class="contact-details">
+                                            <strong>Социальные сети</strong>
+                                            <p>
+                                                <a href="https://github.com/D0n1s1m0" target="_blank" rel="noopener noreferrer" class="contact-link">
+                                                    GitHub: D0n1s1m0
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <a href="https://t.me/mikhail_onuchin" target="_blank" rel="noopener noreferrer" class="contact-link">
+                                                    Telegram: @mikhail_onuchin
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
 
-                            <div class="contact-item">
-                                <div class="contact-icon" aria-hidden="true">📍</div>
-                                <div class="contact-details">
-                                    <strong>Местоположение</strong>
-                                    <p>Москва, Россия</p>
-                                    <p>Готов к удаленной работе</p>
-                                </div>
-                            </div>
+                                    <div class="contact-item">
+                                        <div class="contact-icon" aria-hidden="true">📍</div>
+                                        <div class="contact-details">
+                                            <strong>Местоположение</strong>
+                                            <p>Москва, Россия</p>
+                                            <p>Готов к удаленной работе</p>
+                                        </div>
+                                    </div>
 
-                            <div class="contact-item">
-                                <div class="contact-icon" aria-hidden="true">🎓</div>
-                                <div class="contact-details">
-                                    <strong>Образование</strong>
-                                    <p>Студент ЭФБО-15-24</p>
-                                    <p>Специализация: Веб-разработка</p>
+                                    <div class="contact-item">
+                                        <div class="contact-icon" aria-hidden="true">🎓</div>
+                                        <div class="contact-details">
+                                            <strong>Образование</strong>
+                                            <p>Студент ЭФБО-15-24</p>
+                                            <p>Специализация: Веб-разработка</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
+
+                            <section aria-labelledby="availability-heading">
+                                <div class="availability-card">
+                                    <h3 id="availability-heading">Доступность</h3>
+                                    <div class="availability-status available" role="status" aria-live="polite">
+                                        <div class="status-indicator" aria-hidden="true"></div>
+                                        <span>Открыт для новых проектов</span>
+                                    </div>
+                                    <p>Обычно отвечаю в течение 24 часов</p>
+
+                                    <div class="working-hours">
+                                        <h4 id="working-hours-heading">Часы работы:</h4>
+                                        <p>Пн-Пт: 9:00 - 18:00</p>
+                                        <p>Сб-Вс: По договоренности</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Быстрые действия -->
+                            <section aria-labelledby="quick-actions-heading">
+                                <div class="quick-actions">
+                                    <h3 id="quick-actions-heading">Быстрые действия</h3>
+                                    <div class="action-buttons">
+                                        <button 
+                                            class="button outline" 
+                                            onclick="window.location.href='../assets/resume.pdf'"
+                                            aria-describedby="resume-hint"
+                                        >
+                                            📄 Скачать резюме
+                                        </button>
+                                        <span id="resume-hint" class="visually-hidden">Откроет PDF файл с резюме</span>
+                                        
+                                        <button 
+                                            class="button outline" 
+                                            onclick="window.location.href='projects.html'"
+                                            aria-describedby="projects-hint"
+                                        >
+                                            💼 Посмотреть проекты
+                                        </button>
+                                        <span id="projects-hint" class="visually-hidden">Перейти на страницу проектов</span>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
-
-                        <div class="availability-card">
-                            <h3>Доступность</h3>
-                            <div class="availability-status available">
-                                <div class="status-indicator" aria-hidden="true"></div>
-                                <span>Открыт для новых проектов</span>
-                            </div>
-                            <p>Обычно отвечаю в течение 24 часов</p>
-
-                            <div class="working-hours">
-                                <h4>Часы работы:</h4>
-                                <p>Пн-Пт: 9:00 - 18:00</p>
-                                <p>Сб-Вс: По договоренности</p>
-                            </div>
-                        </div>
-
-                        <!-- Быстрые действия -->
-                        <div class="quick-actions">
-                            <h3>Быстрые действия</h3>
-                            <div class="action-buttons">
-                                <button class="button outline" onclick="window.location.href='../assets/resume.pdf'" download>
-                                    📄 Скачать резюме
-                                </button>
-                                <button class="button outline" onclick="window.location.href='projects.html'">
-                                    💼 Посмотреть проекты
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    </aside>
                 </div>
             </div>
         </section>
@@ -200,25 +263,112 @@
         </div>
     </footer>
 
-      <script src="../scripts/form-validation.js" defer></script>
+    <!-- Сообщение об успешной отправке -->
+    <div 
+        id="success-message" 
+        class="status-message success-message" 
+        role="alert" 
+        aria-live="polite" 
+        aria-hidden="true"
+    >
+        <span class="message-text">Сообщение успешно отправлено!</span>
+        <button 
+            class="message-close" 
+            onclick="this.parentElement.setAttribute('aria-hidden', 'true')"
+            aria-label="Закрыть сообщение"
+        >
+            ×
+        </button>
+    </div>
+
+    <script src="../scripts/form-validation.js" defer></script>
     <script src="../scripts/theme-switcher.js" defer></script>
     
-    <!-- Inline скрипт для быстрой инициализации -->
+    <!-- Inline скрипт для улучшенной доступности -->
     <script>
-        // Быстрая инициализация формы
+        // Улучшенная инициализация доступности
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('contactForm');
-            if (form) {
-                // Предзагрузка валидатора
-                const script = document.createElement('script');
-                script.src = '../scripts/form-validation.js';
-                script.onload = function() {
-                    if (window.FormValidator) {
-                        new window.FormValidator('contactForm');
+            // Установка языка для динамического контента
+            document.documentElement.setAttribute('lang', 'ru');
+            
+            // Управление фокусом для модальных окон
+            let lastFocusedElement;
+            
+            // Обработка всех интерактивных элементов
+            const interactiveElements = document.querySelectorAll(
+                'button, input, select, textarea, a[href]'
+            );
+            
+            interactiveElements.forEach(element => {
+                // Добавляем обработчики клавиатуры
+                element.addEventListener('keydown', function(e) {
+                    // Enter и Space для кнопок
+                    if ((e.key === 'Enter' || e.key === ' ') && 
+                        (this.tagName === 'BUTTON' || this.getAttribute('role') === 'button')) {
+                        e.preventDefault();
+                        this.click();
                     }
-                };
-                document.head.appendChild(script);
+                    
+                    // Escape для закрытия сообщений
+                    if (e.key === 'Escape') {
+                        const message = document.getElementById('success-message');
+                        if (message && message.getAttribute('aria-hidden') === 'false') {
+                            message.setAttribute('aria-hidden', 'true');
+                            if (lastFocusedElement) {
+                                lastFocusedElement.focus();
+                            }
+                        }
+                    }
+                });
+                
+                // Улучшенные focus стили
+                element.addEventListener('focus', function() {
+                    this.style.outline = '3px solid var(--orange-accent)';
+                    this.style.outlineOffset = '2px';
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.style.outline = '';
+                    this.style.outlineOffset = '';
+                });
+            });
+            
+            // Динамическое обновление live regions
+            function updateLiveRegion(message, type = 'info') {
+                const liveRegion = document.createElement('div');
+                liveRegion.setAttribute('role', 'status');
+                liveRegion.setAttribute('aria-live', 'polite');
+                liveRegion.setAttribute('aria-atomic', 'true');
+                liveRegion.className = `visually-hidden ${type}-message`;
+                liveRegion.textContent = message;
+                
+                document.body.appendChild(liveRegion);
+                
+                // Удаляем через некоторое время
+                setTimeout(() => {
+                    liveRegion.remove();
+                }, 5000);
             }
+            
+            // Экспортируем функцию для использования в других скриптах
+            window.accessibilityUtils = {
+                updateLiveRegion: updateLiveRegion,
+                setLastFocused: (element) => { lastFocusedElement = element; }
+            };
+            
+            // Проверка поддержки reduced motion
+            const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            if (reducedMotionQuery.matches) {
+                document.documentElement.classList.add('reduced-motion');
+            }
+            
+            reducedMotionQuery.addEventListener('change', (e) => {
+                if (e.matches) {
+                    document.documentElement.classList.add('reduced-motion');
+                } else {
+                    document.documentElement.classList.remove('reduced-motion');
+                }
+            });
         });
     </script>
 </body>

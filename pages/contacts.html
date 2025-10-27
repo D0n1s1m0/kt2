@@ -4,15 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Контакты | Онучин Михаил</title>
+    <meta name="description" content="Свяжитесь с Онучиным Михаилом для сотрудничества и обсуждения проектов">
+    
+    <!-- Preload критичных ресурсов -->
+    <link rel="preload" href="../styles/styles.css" as="style">
+    <link rel="preload" href="../scripts/form-validation.js" as="script">
+    
+    <!-- Основные стили -->
     <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
-    <header class="header">
+    <!-- Анимированный фон -->
+    <div class="sakura-container" aria-hidden="true"></div>
+
+    <!-- Шапка сайта -->
+    <header class="header" role="banner">
         <div class="container">
             <div class="header-brand">
                 <a href="../index.html">Онучин М.С.</a>
             </div>
-            <nav class="header-nav">
+            <nav class="header-nav" aria-label="Основная навигация">
                 <ul>
                     <li><a href="../index.html">Главная</a></li>
                     <li><a href="projects.html">Проекты</a></li>
@@ -23,7 +34,7 @@
         </div>
     </header>
 
-    <main>
+    <main role="main">
         <section class="contacts-page">
             <div class="container">
                 <h1>Свяжитесь со мной</h1>
@@ -32,31 +43,60 @@
                     <!-- Левая колонка - контактная форма -->
                     <div class="contact-form-section">
                         <h2>Напишите мне</h2>
-                        <form class="contact-form" id="contactForm">
+                        <form class="contact-form" id="contactForm" novalidate>
                             <div class="form-group">
                                 <label for="name">Ваше имя *</label>
-                                <input type="text" id="name" name="name" required>
-                                <span class="error-message" id="nameError"></span>
+                                <input 
+                                    type="text" 
+                                    id="name" 
+                                    name="name" 
+                                    required
+                                    minlength="2"
+                                    maxlength="50"
+                                    autocomplete="name"
+                                >
+                                <span class="error-message" id="nameError" aria-live="polite"></span>
                             </div>
 
                             <div class="form-group">
                                 <label for="email">Email адрес *</label>
-                                <input type="email" id="email" name="email" required>
-                                <span class="error-message" id="emailError"></span>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    required
+                                    autocomplete="email"
+                                >
+                                <span class="error-message" id="emailError" aria-live="polite"></span>
                             </div>
 
                             <div class="form-group">
                                 <label for="subject">Тема сообщения</label>
-                                <input type="text" id="subject" name="subject">
+                                <input 
+                                    type="text" 
+                                    id="subject" 
+                                    name="subject"
+                                    maxlength="100"
+                                >
                             </div>
 
                             <div class="form-group">
                                 <label for="message">Сообщение *</label>
-                                <textarea id="message" name="message" rows="6" required placeholder="Расскажите о вашем проекте или задайте вопрос..."></textarea>
-                                <span class="error-message" id="messageError"></span>
+                                <textarea 
+                                    id="message" 
+                                    name="message" 
+                                    rows="6" 
+                                    required 
+                                    minlength="10"
+                                    maxlength="1000"
+                                    placeholder="Расскажите о вашем проекте или задайте вопрос..."
+                                ></textarea>
+                                <span class="error-message" id="messageError" aria-live="polite"></span>
                             </div>
 
-                            <button type="submit" class="button full-width">Отправить сообщение</button>
+                            <button type="submit" class="button full-width" id="submitBtn">
+                                Отправить сообщение
+                            </button>
                         </form>
                     </div>
 
@@ -66,29 +106,41 @@
                             <h2>Контактная информация</h2>
 
                             <div class="contact-item">
-                                <div class="contact-icon">📧</div>
+                                <div class="contact-icon" aria-hidden="true">📧</div>
                                 <div class="contact-details">
                                     <strong>Email</strong>
-                                    <p>mikhail.onuchin@edu.ru</p>
-                                    <p>onuchin.work@mail.ru</p>
+                                    <p>
+                                        <a href="mailto:mikhail.onuchin@edu.ru" class="contact-link">
+                                            mikhail.onuchin@edu.ru
+                                        </a>
+                                    </p>
+                                    <p>
+                                        <a href="mailto:onuchin.work@mail.ru" class="contact-link">
+                                            onuchin.work@mail.ru
+                                        </a>
+                                    </p>
                                 </div>
                             </div>
 
                             <div class="contact-item">
-                                <div class="contact-icon">📱</div>
+                                <div class="contact-icon" aria-hidden="true">📱</div>
                                 <div class="contact-details">
                                     <strong>Социальные сети</strong>
                                     <p>
-                                        <a href="https://github.com/D0n1s1m0" target="_blank">GitHub: D0n1s1m0</a>
+                                        <a href="https://github.com/D0n1s1m0" target="_blank" rel="noopener noreferrer" class="contact-link">
+                                            GitHub: D0n1s1m0
+                                        </a>
                                     </p>
                                     <p>
-                                        <a href="https://t.me/mikhail_onuchin" target="_blank">Telegram: @mikhail_onuchin</a>
+                                        <a href="https://t.me/mikhail_onuchin" target="_blank" rel="noopener noreferrer" class="contact-link">
+                                            Telegram: @mikhail_onuchin
+                                        </a>
                                     </p>
                                 </div>
                             </div>
 
                             <div class="contact-item">
-                                <div class="contact-icon">📍</div>
+                                <div class="contact-icon" aria-hidden="true">📍</div>
                                 <div class="contact-details">
                                     <strong>Местоположение</strong>
                                     <p>Москва, Россия</p>
@@ -97,7 +149,7 @@
                             </div>
 
                             <div class="contact-item">
-                                <div class="contact-icon">🎓</div>
+                                <div class="contact-icon" aria-hidden="true">🎓</div>
                                 <div class="contact-details">
                                     <strong>Образование</strong>
                                     <p>Студент ЭФБО-15-24</p>
@@ -109,7 +161,7 @@
                         <div class="availability-card">
                             <h3>Доступность</h3>
                             <div class="availability-status available">
-                                <div class="status-indicator"></div>
+                                <div class="status-indicator" aria-hidden="true"></div>
                                 <span>Открыт для новых проектов</span>
                             </div>
                             <p>Обычно отвечаю в течение 24 часов</p>
@@ -120,21 +172,53 @@
                                 <p>Сб-Вс: По договоренности</p>
                             </div>
                         </div>
+
+                        <!-- Быстрые действия -->
+                        <div class="quick-actions">
+                            <h3>Быстрые действия</h3>
+                            <div class="action-buttons">
+                                <button class="button outline" onclick="window.location.href='../assets/resume.pdf'" download>
+                                    📄 Скачать резюме
+                                </button>
+                                <button class="button outline" onclick="window.location.href='projects.html'">
+                                    💼 Посмотреть проекты
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
             <p>&copy; 2024 Онучин Михаил Сергеевич. ЭФБО-15-24</p>
             <div class="footer-contacts">
-                <p>📧 mikhail.onuchin@edu.ru | 📱 GitHub: mikhail-onuchin</p>
+                <p>📧 mikhail.onuchin@edu.ru | 📱 GitHub: D0n1s1m0</p>
             </div>
         </div>
     </footer>
 
-    <script src="../scripts/form-validation.js"></script>
+    <script src="../scripts/form-validation.js" defer></script>
+    
+    <!-- Inline скрипт для быстрой инициализации -->
+    <script>
+        // Быстрая инициализация формы
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            if (form) {
+                // Предзагрузка валидатора
+                const script = document.createElement('script');
+                script.src = '../scripts/form-validation.js';
+                script.onload = function() {
+                    if (window.FormValidator) {
+                        new window.FormValidator('contactForm');
+                    }
+                };
+                document.head.appendChild(script);
+            }
+        });
+    </script>
 </body>
 </html>

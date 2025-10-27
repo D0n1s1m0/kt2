@@ -1,142 +1,310 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="orange">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Портфолио - Проекты</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Проекты | Онучин Михаил</title>
+    <meta name="description" content="Портфолио проектов Онучина Михаила - веб-разработчика">
+    
+    <!-- Preload критичных ресурсов -->
+    <link rel="preload" href="../styles/styles.css" as="style">
+    <link rel="preload" href="../scripts/filters.js" as="script">
+    <link rel="preload" href="../scripts/project-viewer.js" as="script">
+    
+    <!-- Предзагрузка ключевых изображений проектов -->
+    <link rel="preload" href="../images/projects/ecommerce.jpg" as="image">
+    <link rel="preload" href="../images/projects/task-manager.jpg" as="image">
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
-    <div class="page-container">
-        <div class="fast-nav-progress"></div>
-        <div class="sakura-container"></div>
-        
-        <div class="theme-switcher">
-            <span class="theme-switcher-icon">🎨</span>
-        </div>
-        
-        <div class="theme-panel">
-            <div class="theme-option theme-orange active" data-theme="orange">🍊</div>
-            <div class="theme-option theme-beige" data-theme="beige">🏾</div>
-            <div class="theme-option theme-dark" data-theme="dark">🌙</div>
-            <div class="theme-option theme-green" data-theme="green">🌿</div>
-            <div class="theme-option theme-blue" data-theme="blue">💙</div>
-            <div class="theme-option theme-pink" data-theme="pink">🌸</div>
-            <div class="theme-option theme-purple" data-theme="purple">💜</div>
-        </div>
+    <!-- Анимированный фон -->
+    <div class="sakura-container" aria-hidden="true"></div>
 
-        <header class="header">
-            <div class="container">
-                <div class="header-brand">
-                    <a href="index.html">Мое Портфолио</a>
-                </div>
-                <nav class="header-nav">
-                    <ul>
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="projects.html" class="active">Проекты</a></li>
-                        <li><a href="diary.html">Дневник</a></li>
-                        <li><a href="contacts.html">Контакты</a></li>
-                    </ul>
-                </nav>
+    <!-- Шапка сайта -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-brand">
+                <a href="../index.html">Онучин М.С.</a>
             </div>
-        </header>
+            <nav class="header-nav" aria-label="Основная навигация">
+                <ul>
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="projects.html" class="active">Проекты</a></li>
+                    <li><a href="diary.html">Дневник</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-        <main>
-            <section class="projects-page">
-                <div class="container">
-                    <h1>Мои проекты</h1>
+    <main role="main">
+        <section class="projects-page">
+            <div class="container">
+                <h1>Мои проекты</h1>
+                
+                <!-- Поиск и фильтры -->
+                <div class="projects-controls">
+                    <div class="search-box">
+                        <input 
+                            type="text" 
+                            id="projectSearch" 
+                            placeholder="Поиск проектов..."
+                            aria-label="Поиск проектов"
+                        >
+                        <span class="search-icon">🔍</span>
+                    </div>
                     
                     <div class="projects-filters">
                         <button class="filter-btn active" data-filter="all">Все</button>
                         <button class="filter-btn" data-filter="web">Веб-приложения</button>
                         <button class="filter-btn" data-filter="mobile">Мобильные</button>
                         <button class="filter-btn" data-filter="design">Дизайн</button>
+                        <button class="filter-btn" data-filter="learning">Учебные</button>
                     </div>
-                    
-                    <div class="projects-grid full-grid">
-                        <div class="project-card" data-category="web">
-                            <img src="https://via.placeholder.com/400x220" alt="Интернет-магазин">
-                            <div class="project-card-content">
-                                <h3>Интернет-магазин</h3>
-                                <p>Полнофункциональный интернет-магазин с системой оплаты, корзиной и личным кабинетом.</p>
-                                <div class="project-tech">
-                                    <span class="tech-tag">React</span>
-                                    <span class="tech-tag">Node.js</span>
-                                    <span class="tech-tag">MongoDB</span>
-                                    <span class="tech-tag">Stripe</span>
-                                </div>
-                                <div class="project-links">
-                                    <a href="#" class="project-link">Демо</a>
-                                    <a href="#" class="project-link">Код</a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="project-card" data-category="mobile">
-                            <img src="https://via.placeholder.com/400x220" alt="Мобильное приложение">
-                            <div class="project-card-content">
-                                <h3>Task Manager App</h3>
-                                <p>Приложение для управления задачами с оффлайн-режимом и синхронизацией между устройствами.</p>
-                                <div class="project-tech">
-                                    <span class="tech-tag">React Native</span>
-                                    <span class="tech-tag">Firebase</span>
-                                    <span class="tech-tag">Redux</span>
-                                </div>
-                                <div class="project-links">
-                                    <a href="#" class="project-link">Демо</a>
-                                    <a href="#" class="project-link">Код</a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="project-card" data-category="design">
-                            <img src="https://via.placeholder.com/400x220" alt="UI/UX Дизайн">
-                            <div class="project-card-content">
-                                <h3>UI/UX Дизайн системы</h3>
-                                <p>Полный дизайн веб-приложения с прототипами, мокапами и дизайн-системой.</p>
-                                <div class="project-tech">
-                                    <span class="tech-tag">Figma</span>
-                                    <span class="tech-tag">Adobe XD</span>
-                                    <span class="tech-tag">Photoshop</span>
-                                </div>
-                                <div class="project-links">
-                                    <a href="#" class="project-link">Прототип</a>
-                                    <a href="#" class="project-link">Кейс</a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="project-card" data-category="web">
-                            <img src="https://via.placeholder.com/400x220" alt="Портал">
-                            <div class="project-card-content">
-                                <h3>Корпоративный портал</h3>
-                                <p>Внутренняя система для управления проектами и сотрудниками компании.</p>
-                                <div class="project-tech">
-                                    <span class="tech-tag">Vue.js</span>
-                                    <span class="tech-tag">Express</span>
-                                    <span class="tech-tag">PostgreSQL</span>
-                                </div>
-                                <div class="project-links">
-                                    <a href="#" class="project-link">Демо</a>
-                                    <a href="#" class="project-link">Код</a>
-                                </div>
-                            </div>
-                        </div>
+
+                    <div class="sort-controls">
+                        <label for="projectSort">Сортировка:</label>
+                        <select id="projectSort" aria-label="Сортировка проектов">
+                            <option value="newest">Сначала новые</option>
+                            <option value="oldest">Сначала старые</option>
+                            <option value="name">По названию</option>
+                            <option value="complexity">По сложности</option>
+                        </select>
                     </div>
                 </div>
-            </section>
-        </main>
+                
+                <!-- Сетка проектов -->
+                <div class="projects-grid full-grid" id="projectsGrid">
+                    <!-- Проект 1 -->
+                    <article class="project-card" data-category="web" data-date="2024-01-15" data-complexity="high">
+                        <img 
+                            src="../images/projects/ecommerce.jpg" 
+                            alt="Интернет-магазин электроники"
+                            loading="lazy"
+                            width="400"
+                            height="220"
+                        >
+                        <div class="project-card-content">
+                            <div class="project-meta">
+                                <span class="project-date">Январь 2024</span>
+                                <span class="project-complexity">Сложный</span>
+                            </div>
+                            <h3>Интернет-магазин электроники</h3>
+                            <p>Полнофункциональный интернет-магазин с системой оплаты, корзиной, личным кабинетом и админ-панелью.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">MongoDB</span>
+                                <span class="tech-tag">Stripe</span>
+                                <span class="tech-tag">Redux</span>
+                            </div>
+                            <div class="project-features">
+                                <span class="feature">🔐 Авторизация</span>
+                                <span class="feature">💰 Платежи</span>
+                                <span class="feature">📱 Адаптив</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link" aria-label="Демонстрация проекта">Демо</a>
+                                <a href="#" class="project-link" aria-label="Исходный код на GitHub">Код</a>
+                                <button class="project-link more-info" data-project="ecommerce">Подробнее</button>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Проект 2 -->
+                    <article class="project-card" data-category="mobile" data-date="2024-01-10" data-complexity="medium">
+                        <img 
+                            src="../images/projects/task-manager.jpg" 
+                            alt="Мобильное приложение для управления задачами"
+                            loading="lazy"
+                            width="400"
+                            height="220"
+                        >
+                        <div class="project-card-content">
+                            <div class="project-meta">
+                                <span class="project-date">Январь 2024</span>
+                                <span class="project-complexity">Средний</span>
+                            </div>
+                            <h3>Task Manager App</h3>
+                            <p>Кроссплатформенное мобильное приложение для управления задачами с оффлайн-режимом и синхронизацией между устройствами.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React Native</span>
+                                <span class="tech-tag">Firebase</span>
+                                <span class="tech-tag">Redux</span>
+                                <span class="tech-tag">SQLite</span>
+                            </div>
+                            <div class="project-features">
+                                <span class="feature">📱 Кроссплатформенность</span>
+                                <span class="feature">🔌 Оффлайн-режим</span>
+                                <span class="feature">☁️ Синхронизация</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link" aria-label="Демонстрация проекта">Демо</a>
+                                <a href="#" class="project-link" aria-label="Исходный код на GitHub">Код</a>
+                                <button class="project-link more-info" data-project="task-manager">Подробнее</button>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Проект 3 -->
+                    <article class="project-card" data-category="design" data-date="2023-12-20" data-complexity="medium">
+                        <img 
+                            src="../images/projects/ui-design.jpg" 
+                            alt="UI/UX дизайн системы"
+                            loading="lazy"
+                            width="400"
+                            height="220"
+                        >
+                        <div class="project-card-content">
+                            <div class="project-meta">
+                                <span class="project-date">Декабрь 2023</span>
+                                <span class="project-complexity">Средний</span>
+                            </div>
+                            <h3>UI/UX Дизайн системы</h3>
+                            <p>Полный дизайн веб-приложения с прототипами, мокапами, дизайн-системой и интерактивными прототипами.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Figma</span>
+                                <span class="tech-tag">Adobe XD</span>
+                                <span class="tech-tag">Photoshop</span>
+                                <span class="tech-tag">Illustrator</span>
+                            </div>
+                            <div class="project-features">
+                                <span class="feature">🎨 Дизайн-система</span>
+                                <span class="feature">📱 Responsive</span>
+                                <span class="feature">🎭 Прототипы</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link" aria-label="Просмотр прототипа">Прототип</a>
+                                <a href="#" class="project-link" aria-label="Просмотр кейса">Кейс</a>
+                                <button class="project-link more-info" data-project="ui-design">Подробнее</button>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- Проект 4 -->
+                    <article class="project-card" data-category="web" data-date="2023-11-15" data-complexity="high">
+                        <img 
+                            src="../images/projects/corporate-portal.jpg" 
+                            alt="Корпоративный портал"
+                            loading="lazy"
+                            width="400"
+                            height="220"
+                        >
+                        <div class="project-card-content">
+                            <div class="project-meta">
+                                <span class="project-date">Ноябрь 2023</span>
+                                <span class="project-complexity">Сложный</span>
+                            </div>
+                            <h3>Корпоративный портал</h3>
+                            <p>Внутренняя система для управления проектами, сотрудниками и задачами компании с ролевой моделью доступа.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Vue.js</span>
+                                <span class="tech-tag">Express</span>
+                                <span class="tech-tag">PostgreSQL</span>
+                                <span class="tech-tag">JWT</span>
+                            </div>
+                            <div class="project-features">
+                                <span class="feature">👥 Ролевая модель</span>
+                                <span class="feature">📊 Дашборды</span>
+                                <span class="feature">🔐 Безопасность</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link" aria-label="Демонстрация проекта">Демо</a>
+                                <a href="#" class="project-link" aria-label="Исходный код на GitHub">Код</a>
+                                <button class="project-link more-info" data-project="corporate-portal">Подробнее</button>
+                            </div>
+                        </div>
+                    </article>
 
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; 2024 Мое Портфолио. Все права защищены.</p>
-                <div class="footer-contacts">
-                    <p>Email: example@portfolio.com | Телефон: +7 (999) 123-45-67</p>
+                    <!-- Проект 5 -->
+                    <article class="project-card" data-category="learning" data-date="2023-10-01" data-complexity="low">
+                        <img 
+                            src="../images/projects/personal-website.jpg" 
+                            alt="Личный сайт-визитка"
+                            loading="lazy"
+                            width="400"
+                            height="220"
+                        >
+                        <div class="project-card-content">
+                            <div class="project-meta">
+                                <span class="project-date">Октябрь 2023</span>
+                                <span class="project-complexity">Начальный</span>
+                            </div>
+                            <h3>Личный сайт-визитка</h3>
+                            <p>Мой первый проект в веб-разработке. Адаптивный дизайн, семантическая верстка, оптимизация производительности.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">Git</span>
+                            </div>
+                            <div class="project-features">
+                                <span class="feature">📱 Адаптивность</span>
+                                <span class="feature">⚡ Быстрая загрузка</span>
+                                <span class="feature">♿ Доступность</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="project-link" aria-label="Демонстрация проекта">Демо</a>
+                                <a href="#" class="project-link" aria-label="Исходный код на GitHub">Код</a>
+                                <button class="project-link more-info" data-project="personal-website">Подробнее</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Пагинация -->
+                <div class="pagination" id="pagination">
+                    <button class="pagination-btn" disabled>← Назад</button>
+                    <span class="pagination-info">Страница 1 из 3</span>
+                    <button class="pagination-btn">Вперед →</button>
+                </div>
+
+                <!-- Модальное окно деталей проекта -->
+                <div class="modal" id="projectModal" aria-hidden="true">
+                    <div class="modal-content">
+                        <button class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
+                        <div class="modal-body" id="modalBody">
+                            <!-- Контент будет загружен динамически -->
+                        </div>
+                    </div>
                 </div>
             </div>
-        </footer>
-    </div>
+        </section>
+    </main>
 
-    <script src="script.js"></script>
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p>&copy; 2024 Онучин Михаил Сергеевич. ЭФБО-15-24</p>
+            <div class="footer-contacts">
+                <p>📧 mikhail.onuchin@edu.ru | 📱 GitHub: D0n1s1m0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../scripts/filters.js" defer></script>
+    <script src="../scripts/project-viewer.js" defer></script>
+    
+    <!-- Inline скрипт для быстрой инициализации -->
+    <script>
+        // Быстрая инициализация проектов
+        document.addEventListener('DOMContentLoaded', function() {
+            // Предзагрузка данных проектов
+            const projectsData = {
+                'ecommerce': {
+                    title: 'Интернет-магазин электроники',
+                    description: 'Полнофункциональная платформа для онлайн-продаж электроники...',
+                    // ... остальные данные
+                }
+                // ... другие проекты
+            };
+
+            // Сохранение в localStorage для быстрого доступа
+            if (!localStorage.getItem('projectsData')) {
+                localStorage.setItem('projectsData', JSON.stringify(projectsData));
+            }
+        });
+    </script>
 </body>
 </html>

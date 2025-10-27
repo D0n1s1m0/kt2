@@ -12,8 +12,10 @@
     <link rel="preload" href="../scripts/project-viewer.js" as="script">
     
     <!-- Предзагрузка ключевых изображений проектов -->
-    <link rel="preload" href="../images/project2.jpg" as="image">
     <link rel="preload" href="../images/project1.jpg" as="image">
+    <link rel="preload" href="../images/project2.jpg" as="image">
+    <link rel="preload" href="../images/project3.jpg" as="image">
+    <link rel="preload" href="../images/project4.jpg" as="image">
     
     <!-- Основные стили -->
     <link rel="stylesheet" href="../styles/styles.css">
@@ -80,11 +82,12 @@
                     <!-- Проект 1 -->
                     <article class="project-card" data-category="web" data-date="2024-01-15" data-complexity="high">
                         <img 
-                            src="../images/projects/ecommerce.jpg" 
+                            src="../images/project1.jpg" 
                             alt="Интернет-магазин электроники"
                             loading="lazy"
                             width="400"
                             height="220"
+                            onerror="this.src='https://via.placeholder.com/400x220/ff9a76/ffffff?text=Интернет-магазин'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -116,11 +119,12 @@
                     <!-- Проект 2 -->
                     <article class="project-card" data-category="mobile" data-date="2024-01-10" data-complexity="medium">
                         <img 
-                            src="../images/project3.jpg" 
+                            src="../images/project2.jpg" 
                             alt="Мобильное приложение для управления задачами"
                             loading="lazy"
                             width="400"
                             height="220"
+                            onerror="this.src='https://via.placeholder.com/400x220/ffb174/ffffff?text=Task+Manager'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -151,11 +155,12 @@
                     <!-- Проект 3 -->
                     <article class="project-card" data-category="design" data-date="2023-12-20" data-complexity="medium">
                         <img 
-                            src="../images/project4.jpg" 
+                            src="../images/project3.jpg" 
                             alt="UI/UX дизайн системы"
                             loading="lazy"
                             width="400"
                             height="220"
+                            onerror="this.src='https://via.placeholder.com/400x220/ff8c42/ffffff?text=UI/UX+Design'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -186,11 +191,12 @@
                     <!-- Проект 4 -->
                     <article class="project-card" data-category="web" data-date="2023-11-15" data-complexity="high">
                         <img 
-                            src="../images/project3.jpg" 
+                            src="../images/project4.jpg" 
                             alt="Корпоративный портал"
                             loading="lazy"
                             width="400"
                             height="220"
+                            onerror="this.src='https://via.placeholder.com/400x220/e67e22/ffffff?text=Корпоративный+портал'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -221,11 +227,12 @@
                     <!-- Проект 5 -->
                     <article class="project-card" data-category="learning" data-date="2023-10-01" data-complexity="low">
                         <img 
-                            src="../images/project2.jpg" 
+                            src="../images/project1.jpg" 
                             alt="Личный сайт-визитка"
                             loading="lazy"
                             width="400"
                             height="220"
+                            onerror="this.src='https://via.placeholder.com/400x220/ffa726/ffffff?text=Сайт-визитка'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -305,6 +312,18 @@
             if (!localStorage.getItem('projectsData')) {
                 localStorage.setItem('projectsData', JSON.stringify(projectsData));
             }
+
+            // Проверка загрузки изображений
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    console.warn('Не удалось загрузить изображение:', this.src);
+                });
+                
+                img.addEventListener('load', function() {
+                    console.log('Изображение загружено:', this.src);
+                });
+            });
         });
     </script>
 </body>

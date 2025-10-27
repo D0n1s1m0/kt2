@@ -1816,3 +1816,343 @@ body {
         font-size: 1rem;
     }
 }
+/* Стили для улучшенной доступности */
+
+/* Пропуск навигации */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--orange-accent);
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 10000;
+    transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+    top: 6px;
+    outline: 3px solid var(--orange-primary);
+    outline-offset: 2px;
+}
+
+/* Скрытые элементы для скринридеров */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Улучшенные focus стили */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+a:focus {
+    outline: 3px solid var(--orange-accent) !important;
+    outline-offset: 2px !important;
+}
+
+/* Улучшенная навигация с клавиатурой */
+.header-nav a:focus,
+.filter-btn:focus,
+.button:focus,
+.project-link:focus,
+.pagination-btn:focus,
+.modal-close:focus {
+    outline: 3px solid var(--orange-accent) !important;
+    outline-offset: 2px !important;
+    background: var(--orange-primary) !important;
+    color: white !important;
+}
+
+/* Индикаторы обязательных полей */
+.required-field::after {
+    content: " (обязательно)";
+    color: var(--orange-accent);
+    font-size: 0.9em;
+}
+
+.required-asterisk {
+    color: var(--orange-accent);
+    font-weight: bold;
+}
+
+/* Подсказки для полей формы */
+.field-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Сообщения статуса */
+.status-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 10000;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.message-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Состояния полей формы */
+.form-group input:invalid,
+.form-group textarea:invalid {
+    border-color: var(--orange-accent);
+}
+
+.form-group input:valid,
+.form-group textarea:valid {
+    border-color: #66bb6a;
+}
+
+.form-group input:focus:invalid,
+.form-group textarea:focus:invalid {
+    box-shadow: 0 0 0 3px rgba(255, 140, 66, 0.3);
+}
+
+/* Улучшенная доступность для reduced motion */
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+}
+
+.reduced-motion .sakura-leaf {
+    animation: none !important;
+}
+
+/* Улучшенные стили для fieldset и legend */
+fieldset {
+    border: 2px solid rgba(255, 140, 66, 0.3);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+legend {
+    padding: 0 0.5rem;
+    font-weight: bold;
+    color: var(--orange-brown);
+}
+
+/* Улучшенная доступность для кнопок */
+.button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.button:disabled:hover {
+    transform: none !important;
+    box-shadow: var(--shadow) !important;
+}
+
+/* Состояния загрузки */
+.button-loading {
+    display: none;
+}
+
+.button.loading .button-text {
+    display: none;
+}
+
+.button.loading .button-loading {
+    display: inline;
+}
+
+/* Улучшенная доступность для модальных окон */
+.modal[aria-hidden="false"] {
+    display: flex !important;
+}
+
+.modal[aria-hidden="true"] {
+    display: none !important;
+}
+
+/* Улучшенная семантика для списков навигации */
+.header-nav ul[role="menubar"] {
+    list-style: none;
+}
+
+.header-nav li[role="none"] {
+    display: inline-block;
+}
+
+.header-nav a[role="menuitem"] {
+    display: block;
+}
+
+/* Улучшенная доступность для состояний */
+[aria-current="page"] {
+    background: linear-gradient(135deg, var(--orange-primary), var(--orange-accent)) !important;
+    color: white !important;
+}
+
+[aria-invalid="true"] {
+    border-color: var(--orange-accent) !important;
+    background: #f8d7da !important;
+}
+
+[aria-required="true"] {
+    border-left: 3px solid var(--orange-accent);
+}
+
+/* Улучшенная доступность для живых регионов */
+[aria-live="polite"],
+[aria-live="assertive"] {
+    pointer-events: none;
+}
+
+/* Улучшенная доступность для скринридеров */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Улучшенная доступность для ссылок */
+.contact-link:focus {
+    outline: 2px solid var(--orange-accent);
+    outline-offset: 2px;
+    text-decoration: underline;
+}
+
+/* Улучшенная доступность для иконок */
+[aria-hidden="true"] {
+    pointer-events: none;
+}
+
+/* Улучшенная доступность для состояний фокуса в формах */
+.form-group:focus-within label {
+    color: var(--orange-accent);
+    font-weight: bold;
+}
+
+/* Улучшенная доступность для табличных данных на мобильных */
+@media (max-width: 768px) {
+    .skip-link {
+        font-size: 0.9rem;
+        padding: 6px;
+    }
+    
+    fieldset {
+        padding: 1rem;
+    }
+    
+    .status-message {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+/* Высококонтрастный режим */
+@media (prefers-contrast: high) {
+    :root {
+        --orange-primary: #d35400;
+        --orange-accent: #a04000;
+        --text-dark: #000000;
+        --text-light: #333333;
+    }
+    
+    .button {
+        border: 2px solid var(--orange-primary);
+    }
+    
+    .project-card {
+        border: 2px solid var(--orange-primary);
+    }
+}
+
+/* Улучшенная доступность для пользователей с ограниченной моторикой */
+@media (hover: none) and (pointer: coarse) {
+    .button,
+    .project-link,
+    .filter-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .header-nav a {
+        padding: 12px 16px;
+    }
+}
+
+/* Улучшенная доступность для пользователей с дальтонизмом */
+.feature::before {
+    content: "• ";
+    color: var(--orange-accent);
+    font-weight: bold;
+}
+
+/* Улучшенная доступность для скринридеров - скрытие декоративных элементов */
+.sakura-container[aria-hidden="true"],
+.blob[aria-hidden="true"] {
+    display: none;
+}
+
+/* Улучшенная доступность для фокуса в модальных окнах */
+.modal:focus {
+    outline: none;
+}
+
+.modal-content:focus {
+    outline: 3px solid var(--orange-accent);
+    outline-offset: 2px;
+}

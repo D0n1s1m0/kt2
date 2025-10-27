@@ -6,15 +6,144 @@
     <title>Портфолио | Онучин Михаил Сергеевич</title>
     <meta name="description" content="Портфолио Онучина Михаила - студента ЭФБО-15-24, веб-разработчика">
     
+    <!-- Preconnect для внешних ресурсов -->
+    <link rel="preconnect" href="https://gc.kis.v2.scr.kaspersky-labs.com">
+    <link rel="dns-prefetch" href="https://gc.kis.v2.scr.kaspersky-labs.com">
+    
+    <!-- Критический CSS -->
+    <style>
+        /* Критические стили для первого экрана */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            z-index: 10000;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .skip-link:focus {
+            top: 6px;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-brand a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .header-nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+        .header-nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .header-nav a:hover,
+        .header-nav a.active {
+            color: #3498db;
+        }
+        main {
+            margin-top: 80px;
+        }
+        .intro {
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .intro-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .intro-photo {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3498db;
+        }
+        .intro-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        .intro-text p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        /* Скелетоны для загрузки */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+
     <!-- Preload критичных ресурсов -->
-    <link rel="preload" href="./styles/styles.css" as="style">
-    <link rel="preload" href="./scripts/main.js" as="script">
+    <link rel="preload" href="./styles/styles.min.css" as="style">
+    <link rel="preload" href="./scripts/bundle.min.js" as="script">
     
     <!-- Предзагрузка ключевых изображений -->
-    <link rel="preload" href="./images/photo.jpg" as="image" importance="high">
+    <link rel="preload" href="./images/photo.webp" as="image" fetchpriority="high">
     
     <!-- Основные стили -->
-    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/styles.min.css" media="print" onload="this.media='all'">
+    
+    <!-- Асинхронная загрузка внешнего скрипта -->
+    <script async src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=d1EGPkTAQvJRjxuDLTY0tHd6OHQqubA68lzJgoLICXdqJ935nTU4Z65ZyFGl5RkjKtVwGLmgHSE6jbGw3NwNKA" charset="UTF-8" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Добавлен noscript для случаев без JavaScript -->
@@ -55,14 +184,19 @@
         <section class="intro" aria-labelledby="intro-heading">
             <div class="container">
                 <div class="intro-wrapper">
-                    <img 
-                        src="./images/photo.jpg" 
-                        alt="Фотография Онучина Михаила"
-                        class="intro-photo"
-                        loading="eager"
-                        width="280"
-                        height="280"
-                    >
+                    <picture>
+                        <source srcset="./images/photo.webp" type="image/webp">
+                        <source srcset="./images/photo.avif" type="image/avif">
+                        <img 
+                            src="./images/photo.jpg" 
+                            alt="Фотография Онучина Михаила"
+                            class="intro-photo"
+                            loading="eager"
+                            width="280"
+                            height="280"
+                            fetchpriority="high"
+                        >
+                    </picture>
                     <div class="intro-text">
                         <h1 id="intro-heading">Привет! Я Онучин Михаил</h1>
                         <p>Студент ЭФБО-15-24</p>
@@ -127,13 +261,18 @@
                 <div class="projects-grid">
                     <!-- Проект 1 -->
                     <article class="project-card" role="article" aria-labelledby="project1-title">
-                        <img 
-                            src="./images/project1.jpg" 
-                            alt="Скриншот личного сайта-визитки с адаптивным дизайном"
-                            loading="lazy"
-                            width="400"
-                            height="220"
-                        >
+                        <picture>
+                            <source srcset="./images/project1.webp" type="image/webp">
+                            <source srcset="./images/project1.avif" type="image/avif">
+                            <img 
+                                src="./images/project1.jpg" 
+                                alt="Скриншот личного сайта-визитки с адаптивным дизайном"
+                                loading="lazy"
+                                width="400"
+                                height="220"
+                                decoding="async"
+                            >
+                        </picture>
                         <div class="project-card-content">
                             <h3 id="project1-title">Личный сайт-визитка</h3>
                             <p>Мой первый проект в веб-разработке. Адаптивный дизайн, семантическая верстка.</p>
@@ -147,13 +286,18 @@
                     
                     <!-- Проект 2 -->
                     <article class="project-card" role="article" aria-labelledby="project2-title">
-                        <img 
-                            src="./images/project2.jpg" 
-                            alt="Интерфейс приложения для управления задачами"
-                            loading="lazy"
-                            width="400"
-                            height="220"
-                        >
+                        <picture>
+                            <source srcset="./images/project2.webp" type="image/webp">
+                            <source srcset="./images/project2.avif" type="image/avif">
+                            <img 
+                                src="./images/project2.jpg" 
+                                alt="Интерфейс приложения для управления задачами"
+                                loading="lazy"
+                                width="400"
+                                height="220"
+                                decoding="async"
+                            >
+                        </picture>
                         <div class="project-card-content">
                             <h3 id="project2-title">Todo приложение</h3>
                             <p>Приложение для управления задачами с возможностью добавления, удаления и отметки выполненных дел.</p>
@@ -167,13 +311,18 @@
                     
                     <!-- Проект 3 -->
                     <article class="project-card" role="article" aria-labelledby="project3-title">
-                        <img 
-                            src="./images/project3.jpg" 
-                            alt="Главная страница интернет-магазина с товарами"
-                            loading="lazy"
-                            width="400"
-                            height="220"
-                        >
+                        <picture>
+                            <source srcset="./images/project3.webp" type="image/webp">
+                            <source srcset="./images/project3.avif" type="image/avif">
+                            <img 
+                                src="./images/project3.jpg" 
+                                alt="Главная страница интернет-магазина с товарами"
+                                loading="lazy"
+                                width="400"
+                                height="220"
+                                decoding="async"
+                            >
+                        </picture>
                         <div class="project-card-content">
                             <h3 id="project3-title">Интернет-магазин</h3>
                             <p>Учебный проект интернет-магазина с корзиной товаров и фильтрацией по категориям.</p>
@@ -203,8 +352,18 @@
     </footer>
 
     <!-- Скрипты в конце body для быстрой загрузки -->
-    <script src="./scripts/main.js" defer></script>
-    <script src="./scripts/theme-switcher.js" defer></script>
-    <script src="./scripts/filters.js" defer></script>
+    <script src="./scripts/bundle.min.js" defer></script>
+    
+    <!-- Preload для следующих страниц -->
+    <link rel="preload" href="pages/projects.html" as="document" importance="low">
+    
+    <!-- Service Worker регистрация -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
 </body>
 </html>

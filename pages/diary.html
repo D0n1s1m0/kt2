@@ -17,6 +17,9 @@
     <!-- Анимированный фон -->
     <div class="sakura-container" aria-hidden="true"></div>
 
+    <!-- Пропуск навигации для скринридеров -->
+    <a href="#main-content" class="skip-link">Перейти к основному содержанию</a>
+
     <!-- Шапка сайта -->
     <header class="header" role="banner">
         <div class="container">
@@ -24,172 +27,233 @@
                 <a href="../index.html">Онучин М.С.</a>
             </div>
             <nav class="header-nav" aria-label="Основная навигация">
-                <ul>
-                    <li><a href="../index.html">Главная</a></li>
-                    <li><a href="projects.html">Проекты</a></li>
-                    <li><a href="diary.html" class="active">Дневник</a></li>
-                    <li><a href="contacts.html">Контакты</a></li>
+                <ul role="menubar">
+                    <li role="none">
+                        <a href="../index.html" role="menuitem">Главная</a>
+                    </li>
+                    <li role="none">
+                        <a href="projects.html" role="menuitem">Проекты</a>
+                    </li>
+                    <li role="none">
+                        <a href="diary.html" class="active" role="menuitem" aria-current="page">Дневник</a>
+                    </li>
+                    <li role="none">
+                        <a href="contacts.html" role="menuitem">Контакты</a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main role="main">
-        <section class="diary-page">
+    <main id="main-content" role="main" tabindex="-1">
+        <section class="diary-page" aria-labelledby="diary-heading">
             <div class="container">
-                <h1>Дневник разработки</h1>
+                <h1 id="diary-heading">Дневник разработки</h1>
                 
                 <!-- Быстрая навигация -->
-                <nav class="diary-quick-nav" aria-label="Быстрая навигация по дневнику">
-                    <button class="filter-btn active" data-filter="all">Все записи</button>
-                    <button class="filter-btn" data-filter="completed">Завершённые</button>
-                    <button class="filter-btn" data-filter="in-progress">В процессе</button>
-                    <button class="filter-btn" data-filter="planned">Запланированные</button>
+                <nav class="diary-quick-nav" aria-label="Фильтрация записей дневника">
+                    <button class="filter-btn active" data-filter="all" aria-pressed="true">Все записи</button>
+                    <button class="filter-btn" data-filter="completed" aria-pressed="false">Завершённые</button>
+                    <button class="filter-btn" data-filter="in-progress" aria-pressed="false">В процессе</button>
+                    <button class="filter-btn" data-filter="planned" aria-pressed="false">Запланированные</button>
                 </nav>
 
                 <div class="diary-layout">
                     <!-- Основной контент -->
-                    <div class="diary-entries">
+                    <div class="diary-entries" role="region" aria-labelledby="entries-heading">
                         <div class="entries-header">
-                            <h2>Последние записи</h2>
-                            <button class="button small" id="toggleFormBtn">
-                                ✏️ Добавить запись
+                            <h2 id="entries-heading">Последние записи</h2>
+                            <button class="button small" id="toggleFormBtn" aria-expanded="false" aria-controls="addEntryForm">
+                                <span class="button-icon" aria-hidden="true">✏️</span>
+                                Добавить запись
                             </button>
                         </div>
                         
-                        <div class="entries-list" id="entriesList">
+                        <div class="entries-list" id="entriesList" aria-live="polite" aria-atomic="true">
                             <!-- Записи будут загружены через JavaScript -->
                             <div class="loading-state" id="loadingState">
-                                <div class="loading-spinner"></div>
+                                <div class="loading-spinner" aria-hidden="true"></div>
                                 <p>Загрузка записей...</p>
                             </div>
                         </div>
                         
-                        <!-- Форма добавления записи (скрыта по умолчанию) -->
-                        <div class="add-entry-form hidden" id="addEntryForm">
-                            <h3>Добавить новую запись</h3>
+                        <!-- Форма добавления записи -->
+                        <div class="add-entry-form hidden" id="addEntryForm" role="dialog" aria-labelledby="form-heading" aria-describedby="form-description">
+                            <div class="form-header">
+                                <h3 id="form-heading">Добавить новую запись</h3>
+                                <p id="form-description" class="visually-hidden">Заполните форму для добавления новой записи в дневник разработки</p>
+                                <button class="form-close" id="cancelFormBtn" aria-label="Закрыть форму добавления записи">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
                             <form id="diaryForm" novalidate>
-                                <div class="form-group">
-                                    <label for="entryDate">Дата *</label>
-                                    <input 
-                                        type="date" 
-                                        id="entryDate" 
-                                        name="entryDate" 
-                                        required
-                                        max=""
-                                    >
-                                </div>
-                                <div class="form-group">
-                                    <label for="entryTitle">Заголовок *</label>
-                                    <input 
-                                        type="text" 
-                                        id="entryTitle" 
-                                        name="entryTitle" 
-                                        required
-                                        minlength="5"
-                                        maxlength="100"
-                                    >
-                                </div>
-                                <div class="form-group">
-                                    <label for="entryDescription">Описание *</label>
-                                    <textarea 
-                                        id="entryDescription" 
-                                        name="entryDescription" 
-                                        rows="4" 
-                                        required
-                                        minlength="10"
-                                        maxlength="500"
-                                        placeholder="Опишите ваши достижения, проблемы или планы..."
-                                    ></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="entryStatus">Статус *</label>
-                                    <select id="entryStatus" name="entryStatus" required>
-                                        <option value="">Выберите статус</option>
-                                        <option value="planned">Запланировано</option>
-                                        <option value="in-progress">В процессе</option>
-                                        <option value="completed">Завершено</option>
-                                    </select>
-                                </div>
+                                <fieldset>
+                                    <legend class="visually-hidden">Информация о записи</legend>
+                                    
+                                    <div class="form-group">
+                                        <label for="entryDate" class="required-field">
+                                            Дата <span class="required-asterisk" aria-hidden="true">*</span>
+                                        </label>
+                                        <input 
+                                            type="date" 
+                                            id="entryDate" 
+                                            name="entryDate" 
+                                            required
+                                            max=""
+                                            aria-required="true"
+                                            aria-describedby="date-hint"
+                                        >
+                                        <span id="date-hint" class="field-hint">Выберите дату записи</span>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="entryTitle" class="required-field">
+                                            Заголовок <span class="required-asterisk" aria-hidden="true">*</span>
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            id="entryTitle" 
+                                            name="entryTitle" 
+                                            required
+                                            minlength="5"
+                                            maxlength="100"
+                                            aria-required="true"
+                                            aria-describedby="title-hint"
+                                            placeholder="Название записи"
+                                        >
+                                        <span id="title-hint" class="field-hint">Минимум 5 символов</span>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="entryDescription" class="required-field">
+                                            Описание <span class="required-asterisk" aria-hidden="true">*</span>
+                                        </label>
+                                        <textarea 
+                                            id="entryDescription" 
+                                            name="entryDescription" 
+                                            rows="4" 
+                                            required
+                                            minlength="10"
+                                            maxlength="500"
+                                            aria-required="true"
+                                            aria-describedby="description-hint"
+                                            placeholder="Опишите ваши достижения, проблемы или планы..."
+                                        ></textarea>
+                                        <span id="description-hint" class="field-hint">Минимум 10 символов</span>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="entryStatus" class="required-field">
+                                            Статус <span class="required-asterisk" aria-hidden="true">*</span>
+                                        </label>
+                                        <select id="entryStatus" name="entryStatus" required aria-required="true" aria-describedby="status-hint">
+                                            <option value="">Выберите статус</option>
+                                            <option value="planned">Запланировано</option>
+                                            <option value="in-progress">В процессе</option>
+                                            <option value="completed">Завершено</option>
+                                        </select>
+                                        <span id="status-hint" class="field-hint">Выберите текущий статус задачи</span>
+                                    </div>
+                                </fieldset>
+                                
                                 <div class="form-actions">
-                                    <button type="submit" class="button">Добавить запись</button>
-                                    <button type="button" class="button outline" id="cancelFormBtn">Отмена</button>
+                                    <button type="submit" class="button" id="submitEntryBtn">
+                                        <span class="button-text">Добавить запись</span>
+                                        <span class="button-loading" aria-hidden="true">Добавление...</span>
+                                    </button>
+                                    <button type="button" class="button outline" id="cancelFormBtn2">
+                                        Отмена
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                     
                     <!-- Боковая панель -->
-                    <div class="diary-progress">
-                        <div class="progress-card">
-                            <h2>Прогресс обучения</h2>
-                            <div class="course-progress">
-                                <div class="course-info">
-                                    <span class="course-name">React Advanced</span>
-                                    <span class="course-percent">85%</span>
+                    <aside class="diary-progress" aria-labelledby="progress-heading">
+                        <section aria-labelledby="progress-heading">
+                            <div class="progress-card">
+                                <h2 id="progress-heading">Прогресс обучения</h2>
+                                <div class="course-progress" aria-labelledby="react-progress">
+                                    <div class="course-info">
+                                        <span id="react-progress" class="course-name">React Advanced</span>
+                                        <span class="course-percent">85%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 85%" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-labelledby="react-progress"></div>
+                                    </div>
                                 </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 85%" aria-label="Прогресс: 85%"></div>
+                                <div class="course-progress" aria-labelledby="node-progress">
+                                    <div class="course-info">
+                                        <span id="node-progress" class="course-name">Node.js Backend</span>
+                                        <span class="course-percent">70%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 70%" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-labelledby="node-progress"></div>
+                                    </div>
+                                </div>
+                                <div class="course-progress" aria-labelledby="design-progress">
+                                    <div class="course-info">
+                                        <span id="design-progress" class="course-name">UI/UX Design</span>
+                                        <span class="course-percent">60%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 60%" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-labelledby="design-progress"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="course-progress">
-                                <div class="course-info">
-                                    <span class="course-name">Node.js Backend</span>
-                                    <span class="course-percent">70%</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 70%" aria-label="Прогресс: 70%"></div>
-                                </div>
-                            </div>
-                            <div class="course-progress">
-                                <div class="course-info">
-                                    <span class="course-name">UI/UX Design</span>
-                                    <span class="course-percent">60%</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 60%" aria-label="Прогресс: 60%"></div>
-                                </div>
-                            </div>
-                        </div>
+                        </section>
                         
-                        <div class="stats-card">
-                            <h3>Статистика</h3>
-                            <div class="stats-grid">
-                                <div class="stat-item">
-                                    <div class="stat-number" id="completedCount">24</div>
-                                    <div class="stat-label">Завершенных проекта</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="codingHours">156</div>
-                                    <div class="stat-label">Часов кодинга</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="successRate">89%</div>
-                                    <div class="stat-label">Успешность</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="techCount">12</div>
-                                    <div class="stat-label">Технологий</div>
+                        <section aria-labelledby="stats-heading">
+                            <div class="stats-card">
+                                <h3 id="stats-heading">Статистика</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <div class="stat-number" id="completedCount">24</div>
+                                        <div class="stat-label">Завершенных проекта</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number" id="codingHours">156</div>
+                                        <div class="stat-label">Часов кодинга</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number" id="successRate">89%</div>
+                                        <div class="stat-label">Успешность</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-number" id="techCount">12</div>
+                                        <div class="stat-label">Технологий</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </section>
 
                         <!-- Быстрый экспорт -->
-                        <div class="export-card">
-                            <h3>Экспорт данных</h3>
-                            <div class="export-actions">
-                                <button class="button small outline" id="exportJSON">
-                                    📊 JSON
-                                </button>
-                                <button class="button small outline" id="exportPDF">
-                                    📄 PDF
-                                </button>
-                                <button class="button small outline" id="printDiary">
-                                    🖨️ Печать
-                                </button>
+                        <section aria-labelledby="export-heading">
+                            <div class="export-card">
+                                <h3 id="export-heading">Экспорт данных</h3>
+                                <div class="export-actions">
+                                    <button class="button small outline" id="exportJSON" aria-describedby="json-hint">
+                                        <span aria-hidden="true">📊</span>
+                                        JSON
+                                    </button>
+                                    <span id="json-hint" class="visually-hidden">Экспорт данных в формате JSON</span>
+                                    
+                                    <button class="button small outline" id="exportPDF" aria-describedby="pdf-hint">
+                                        <span aria-hidden="true">📄</span>
+                                        PDF
+                                    </button>
+                                    <span id="pdf-hint" class="visually-hidden">Экспорт данных в формате PDF</span>
+                                    
+                                    <button class="button small outline" id="printDiary" aria-describedby="print-hint">
+                                        <span aria-hidden="true">🖨️</span>
+                                        Печать
+                                    </button>
+                                    <span id="print-hint" class="visually-hidden">Печать данных дневника</span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </section>
+                    </aside>
                 </div>
             </div>
         </section>
@@ -203,8 +267,18 @@
             </div>
         </div>
     </footer>
+
+    <!-- Сообщения для пользователя -->
+    <div id="diary-message" class="status-message" role="alert" aria-live="polite" aria-hidden="true">
+        <span class="message-text"></span>
+        <button class="message-close" aria-label="Закрыть сообщение">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
     <script src="../scripts/diary-manager.js" defer></script>
     <script src="../scripts/theme-switcher.js" defer></script>
+    
     <!-- Inline скрипт для быстрой инициализации -->
     <script>
         // Быстрая инициализация дневника
@@ -212,8 +286,25 @@
             // Установка максимальной даты как сегодня
             const dateInput = document.getElementById('entryDate');
             if (dateInput) {
-                dateInput.max = new Date().toISOString().split('T')[0];
+                const today = new Date().toISOString().split('T')[0];
+                dateInput.max = today;
+                dateInput.value = today;
             }
+
+            // Обработка сообщений
+            const messageElement = document.getElementById('diary-message');
+            const messageClose = messageElement.querySelector('.message-close');
+            
+            messageClose.addEventListener('click', function() {
+                messageElement.setAttribute('aria-hidden', 'true');
+            });
+
+            // Закрытие сообщения по Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && messageElement.getAttribute('aria-hidden') === 'false') {
+                    messageElement.setAttribute('aria-hidden', 'true');
+                }
+            });
 
             // Быстрая загрузка записей
             setTimeout(() => {
@@ -224,6 +315,23 @@
                 }
             }, 500);
         });
+
+        // Функция для показа сообщений
+        function showDiaryMessage(message, type = 'info') {
+            const messageElement = document.getElementById('diary-message');
+            const messageText = messageElement.querySelector('.message-text');
+            
+            messageText.textContent = message;
+            messageElement.className = `status-message ${type}-message`;
+            messageElement.setAttribute('aria-hidden', 'false');
+            
+            // Автоскрытие для информационных сообщений
+            if (type === 'info' || type === 'success') {
+                setTimeout(() => {
+                    messageElement.setAttribute('aria-hidden', 'true');
+                }, 5000);
+            }
+        }
     </script>
 </body>
 </html>

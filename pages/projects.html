@@ -24,6 +24,9 @@
     <!-- Анимированный фон -->
     <div class="sakura-container" aria-hidden="true"></div>
 
+    <!-- Пропуск навигации для скринридеров -->
+    <a href="#main-content" class="skip-link">Перейти к основному содержанию</a>
+
     <!-- Шапка сайта -->
     <header class="header" role="banner">
         <div class="container">
@@ -31,39 +34,48 @@
                 <a href="../index.html">Онучин М.С.</a>
             </div>
             <nav class="header-nav" aria-label="Основная навигация">
-                <ul>
-                    <li><a href="../index.html">Главная</a></li>
-                    <li><a href="projects.html" class="active">Проекты</a></li>
-                    <li><a href="diary.html">Дневник</a></li>
-                    <li><a href="contacts.html">Контакты</a></li>
+                <ul role="menubar">
+                    <li role="none">
+                        <a href="../index.html" role="menuitem">Главная</a>
+                    </li>
+                    <li role="none">
+                        <a href="projects.html" class="active" role="menuitem" aria-current="page">Проекты</a>
+                    </li>
+                    <li role="none">
+                        <a href="diary.html" role="menuitem">Дневник</a>
+                    </li>
+                    <li role="none">
+                        <a href="contacts.html" role="menuitem">Контакты</a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main role="main">
-        <section class="projects-page">
+    <main id="main-content" role="main" tabindex="-1">
+        <section class="projects-page" aria-labelledby="projects-heading">
             <div class="container">
-                <h1>Мои проекты</h1>
+                <h1 id="projects-heading">Мои проекты</h1>
                 
                 <!-- Поиск и фильтры -->
                 <div class="projects-controls">
                     <div class="search-box">
+                        <label for="projectSearch" class="visually-hidden">Поиск проектов</label>
                         <input 
                             type="text" 
                             id="projectSearch" 
                             placeholder="Поиск проектов..."
                             aria-label="Поиск проектов"
                         >
-                        <span class="search-icon">🔍</span>
+                        <span class="search-icon" aria-hidden="true">🔍</span>
                     </div>
                     
-                    <div class="projects-filters">
-                        <button class="filter-btn active" data-filter="all">Все</button>
-                        <button class="filter-btn" data-filter="web">Веб-приложения</button>
-                        <button class="filter-btn" data-filter="mobile">Мобильные</button>
-                        <button class="filter-btn" data-filter="design">Дизайн</button>
-                        <button class="filter-btn" data-filter="learning">Учебные</button>
+                    <div class="projects-filters" role="toolbar" aria-label="Фильтры проектов">
+                        <button class="filter-btn active" data-filter="all" aria-pressed="true">Все</button>
+                        <button class="filter-btn" data-filter="web" aria-pressed="false">Веб-приложения</button>
+                        <button class="filter-btn" data-filter="mobile" aria-pressed="false">Мобильные</button>
+                        <button class="filter-btn" data-filter="design" aria-pressed="false">Дизайн</button>
+                        <button class="filter-btn" data-filter="learning" aria-pressed="false">Учебные</button>
                     </div>
 
                     <div class="sort-controls">
@@ -78,16 +90,15 @@
                 </div>
                 
                 <!-- Сетка проектов -->
-                <div class="projects-grid full-grid" id="projectsGrid">
+                <div class="projects-grid full-grid" id="projectsGrid" aria-live="polite" aria-atomic="true">
                     <!-- Проект 1 -->
                     <article class="project-card" data-category="web" data-date="2024-01-15" data-complexity="high">
                         <img 
                             src="../images/project1.jpg" 
-                            alt="Интернет-магазин электроники"
+                            alt="Интерфейс интернет-магазина электроники с товарами и корзиной"
                             loading="lazy"
                             width="400"
                             height="220"
-                            onerror="this.src='https://via.placeholder.com/400x220/ff9a76/ffffff?text=Интернет-магазин'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -109,9 +120,9 @@
                                 <span class="feature">📱 Адаптив</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="project-link" aria-label="Демонстрация проекта">Демо</a>
-                                <a href="#" class="project-link" aria-label="Исходный код на GitHub">Код</a>
-                                <button class="project-link more-info" data-project="ecommerce">Подробнее</button>
+                                <a href="#" class="project-link" aria-label="Демонстрация проекта интернет-магазина">Демо</a>
+                                <a href="#" class="project-link" aria-label="Исходный код интернет-магазина на GitHub">Код</a>
+                                <button class="project-link more-info" data-project="ecommerce" aria-haspopup="dialog">Подробнее</button>
                             </div>
                         </div>
                     </article>
@@ -120,11 +131,10 @@
                     <article class="project-card" data-category="mobile" data-date="2024-01-10" data-complexity="medium">
                         <img 
                             src="../images/project2.jpg" 
-                            alt="Мобильное приложение для управления задачами"
+                            alt="Интерфейс мобильного приложения для управления задачами"
                             loading="lazy"
                             width="400"
                             height="220"
-                            onerror="this.src='https://via.placeholder.com/400x220/ffb174/ffffff?text=Task+Manager'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -145,9 +155,9 @@
                                 <span class="feature">☁️ Синхронизация</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="project-link" aria-label="Демонстрация проекта">Демо</a>
-                                <a href="#" class="project-link" aria-label="Исходный код на GitHub">Код</a>
-                                <button class="project-link more-info" data-project="task-manager">Подробнее</button>
+                                <a href="#" class="project-link" aria-label="Демонстрация приложения для управления задачами">Демо</a>
+                                <a href="#" class="project-link" aria-label="Исходный код приложения на GitHub">Код</a>
+                                <button class="project-link more-info" data-project="task-manager" aria-haspopup="dialog">Подробнее</button>
                             </div>
                         </div>
                     </article>
@@ -156,11 +166,10 @@
                     <article class="project-card" data-category="design" data-date="2023-12-20" data-complexity="medium">
                         <img 
                             src="../images/project3.jpg" 
-                            alt="UI/UX дизайн системы"
+                            alt="Дизайн-система и прототипы пользовательского интерфейса"
                             loading="lazy"
                             width="400"
                             height="220"
-                            onerror="this.src='https://via.placeholder.com/400x220/ff8c42/ffffff?text=UI/UX+Design'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -181,9 +190,9 @@
                                 <span class="feature">🎭 Прототипы</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="project-link" aria-label="Просмотр прототипа">Прототип</a>
-                                <a href="#" class="project-link" aria-label="Просмотр кейса">Кейс</a>
-                                <button class="project-link more-info" data-project="ui-design">Подробнее</button>
+                                <a href="#" class="project-link" aria-label="Просмотр интерактивного прототипа">Прототип</a>
+                                <a href="#" class="project-link" aria-label="Просмотр кейса дизайн-проекта">Кейс</a>
+                                <button class="project-link more-info" data-project="ui-design" aria-haspopup="dialog">Подробнее</button>
                             </div>
                         </div>
                     </article>
@@ -192,11 +201,10 @@
                     <article class="project-card" data-category="web" data-date="2023-11-15" data-complexity="high">
                         <img 
                             src="../images/project4.jpg" 
-                            alt="Корпоративный портал"
+                            alt="Интерфейс корпоративного портала с дашбордами"
                             loading="lazy"
                             width="400"
                             height="220"
-                            onerror="this.src='https://via.placeholder.com/400x220/e67e22/ffffff?text=Корпоративный+портал'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -217,9 +225,9 @@
                                 <span class="feature">🔐 Безопасность</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="project-link" aria-label="Демонстрация проекта">Демо</a>
-                                <a href="#" class="project-link" aria-label="Исходный код на GitHub">Код</a>
-                                <button class="project-link more-info" data-project="corporate-portal">Подробнее</button>
+                                <a href="#" class="project-link" aria-label="Демонстрация корпоративного портала">Демо</a>
+                                <a href="#" class="project-link" aria-label="Исходный код портала на GitHub">Код</a>
+                                <button class="project-link more-info" data-project="corporate-portal" aria-haspopup="dialog">Подробнее</button>
                             </div>
                         </div>
                     </article>
@@ -228,11 +236,10 @@
                     <article class="project-card" data-category="learning" data-date="2023-10-01" data-complexity="low">
                         <img 
                             src="../images/project1.jpg" 
-                            alt="Личный сайт-визитка"
+                            alt="Главная страница личного сайта-визитки"
                             loading="lazy"
                             width="400"
                             height="220"
-                            onerror="this.src='https://via.placeholder.com/400x220/ffa726/ffffff?text=Сайт-визитка'"
                         >
                         <div class="project-card-content">
                             <div class="project-meta">
@@ -253,25 +260,25 @@
                                 <span class="feature">♿ Доступность</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="project-link" aria-label="Демонстрация проекта">Демо</a>
-                                <a href="#" class="project-link" aria-label="Исходный код на GitHub">Код</a>
-                                <button class="project-link more-info" data-project="personal-website">Подробнее</button>
+                                <a href="#" class="project-link" aria-label="Демонстрация сайта-визитки">Демо</a>
+                                <a href="#" class="project-link" aria-label="Исходный код сайта на GitHub">Код</a>
+                                <button class="project-link more-info" data-project="personal-website" aria-haspopup="dialog">Подробнее</button>
                             </div>
                         </div>
                     </article>
                 </div>
 
                 <!-- Пагинация -->
-                <div class="pagination" id="pagination">
-                    <button class="pagination-btn" disabled>← Назад</button>
-                    <span class="pagination-info">Страница 1 из 3</span>
-                    <button class="pagination-btn">Вперед →</button>
-                </div>
+                <nav class="pagination" id="pagination" aria-label="Навигация по страницам проектов">
+                    <button class="pagination-btn" disabled aria-label="Предыдущая страница">← Назад</button>
+                    <span class="pagination-info">Страница <span id="current-page">1</span> из <span id="total-pages">3</span></span>
+                    <button class="pagination-btn" aria-label="Следующая страница">Вперед →</button>
+                </nav>
 
                 <!-- Модальное окно деталей проекта -->
-                <div class="modal" id="projectModal" aria-hidden="true">
+                <div class="modal" id="projectModal" aria-hidden="true" aria-labelledby="modal-title" aria-modal="true" role="dialog">
                     <div class="modal-content">
-                        <button class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
+                        <button class="modal-close" id="modalClose" aria-label="Закрыть диалоговое окно">×</button>
                         <div class="modal-body" id="modalBody">
                             <!-- Контент будет загружен динамически -->
                         </div>
@@ -313,15 +320,12 @@
                 localStorage.setItem('projectsData', JSON.stringify(projectsData));
             }
 
-            // Проверка загрузки изображений
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                img.addEventListener('error', function() {
-                    console.warn('Не удалось загрузить изображение:', this.src);
-                });
-                
-                img.addEventListener('load', function() {
-                    console.log('Изображение загружено:', this.src);
+            // Инициализация доступности фильтров
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const isPressed = this.getAttribute('aria-pressed') === 'true';
+                    this.setAttribute('aria-pressed', !isPressed);
                 });
             });
         });

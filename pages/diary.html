@@ -1,174 +1,230 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="orange">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Портфолио - Дневник</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Дневник разработки | Онучин Михаил</title>
+    <meta name="description" content="Дневник разработки и обучения Онучина Михаила">
+    
+    <!-- Preload критичных ресурсов -->
+    <link rel="preload" href="../styles/styles.css" as="style">
+    <link rel="preload" href="../scripts/diary-manager.js" as="script">
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
-    <div class="page-container">
-        <div class="fast-nav-progress"></div>
-        <div class="sakura-container"></div>
-        
-        <div class="theme-switcher">
-            <span class="theme-switcher-icon">🎨</span>
-        </div>
-        
-        <div class="theme-panel">
-            <div class="theme-option theme-orange active" data-theme="orange">🍊</div>
-            <div class="theme-option theme-beige" data-theme="beige">🏾</div>
-            <div class="theme-option theme-dark" data-theme="dark">🌙</div>
-            <div class="theme-option theme-green" data-theme="green">🌿</div>
-            <div class="theme-option theme-blue" data-theme="blue">💙</div>
-            <div class="theme-option theme-pink" data-theme="pink">🌸</div>
-            <div class="theme-option theme-purple" data-theme="purple">💜</div>
-        </div>
+    <!-- Анимированный фон -->
+    <div class="sakura-container" aria-hidden="true"></div>
 
-        <header class="header">
-            <div class="container">
-                <div class="header-brand">
-                    <a href="index.html">Мое Портфолио</a>
-                </div>
-                <nav class="header-nav">
-                    <ul>
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="projects.html">Проекты</a></li>
-                        <li><a href="diary.html" class="active">Дневник</a></li>
-                        <li><a href="contacts.html">Контакты</a></li>
-                    </ul>
-                </nav>
+    <!-- Шапка сайта -->
+    <header class="header" role="banner">
+        <div class="container">
+            <div class="header-brand">
+                <a href="../index.html">Онучин М.С.</a>
             </div>
-        </header>
+            <nav class="header-nav" aria-label="Основная навигация">
+                <ul>
+                    <li><a href="../index.html">Главная</a></li>
+                    <li><a href="projects.html">Проекты</a></li>
+                    <li><a href="diary.html" class="active">Дневник</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-        <main>
-            <section class="diary-page">
-                <div class="container">
-                    <h1>Дневник разработки</h1>
-                    
-                    <div class="diary-layout">
-                        <div class="diary-entries">
+    <main role="main">
+        <section class="diary-page">
+            <div class="container">
+                <h1>Дневник разработки</h1>
+                
+                <!-- Быстрая навигация -->
+                <nav class="diary-quick-nav" aria-label="Быстрая навигация по дневнику">
+                    <button class="filter-btn active" data-filter="all">Все записи</button>
+                    <button class="filter-btn" data-filter="completed">Завершённые</button>
+                    <button class="filter-btn" data-filter="in-progress">В процессе</button>
+                    <button class="filter-btn" data-filter="planned">Запланированные</button>
+                </nav>
+
+                <div class="diary-layout">
+                    <!-- Основной контент -->
+                    <div class="diary-entries">
+                        <div class="entries-header">
                             <h2>Последние записи</h2>
-                            <div class="entries-list">
-                                <div class="entry-item completed">
-                                    <div class="entry-date">15 января 2024</div>
-                                    <h3 class="entry-title">Завершил разработку интернет-магазина</h3>
-                                    <p class="entry-description">Успешно завершил работу над крупным проектом - интернет-магазином с системой оплаты и личным кабинетом. Интегрировал Stripe для обработки платежей.</p>
-                                    <span class="entry-status">Завершено</span>
-                                </div>
-                                
-                                <div class="entry-item in-progress">
-                                    <div class="entry-date">10 января 2024</div>
-                                    <h3 class="entry-title">Работа над мобильным приложением</h3>
-                                    <p class="entry-description">Начал разработку мобильного приложения для управления задачами. Сейчас работаю над оффлайн-режимом и синхронизацией данных.</p>
-                                    <span class="entry-status">В процессе</span>
-                                </div>
-                                
-                                <div class="entry-item planned">
-                                    <div class="entry-date">5 января 2024</div>
-                                    <h3 class="entry-title">Планирование нового проекта</h3>
-                                    <p class="entry-description">Начал планирование системы аналитики для веб-приложений. Изучаю требования и технологии для реализации.</p>
-                                    <span class="entry-status">Запланировано</span>
-                                </div>
-                            </div>
-                            
-                            <div class="add-entry-form">
-                                <h3>Добавить новую запись</h3>
-                                <form id="diaryForm">
-                                    <div class="form-group">
-                                        <label for="entryDate">Дата</label>
-                                        <input type="date" id="entryDate" name="entryDate" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="entryTitle">Заголовок</label>
-                                        <input type="text" id="entryTitle" name="entryTitle" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="entryDescription">Описание</label>
-                                        <textarea id="entryDescription" name="entryDescription" rows="4" required></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="entryStatus">Статус</label>
-                                        <select id="entryStatus" name="entryStatus" required>
-                                            <option value="planned">Запланировано</option>
-                                            <option value="in-progress">В процессе</option>
-                                            <option value="completed">Завершено</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="button">Добавить запись</button>
-                                </form>
+                            <button class="button small" id="toggleFormBtn">
+                                ✏️ Добавить запись
+                            </button>
+                        </div>
+                        
+                        <div class="entries-list" id="entriesList">
+                            <!-- Записи будут загружены через JavaScript -->
+                            <div class="loading-state" id="loadingState">
+                                <div class="loading-spinner"></div>
+                                <p>Загрузка записей...</p>
                             </div>
                         </div>
                         
-                        <div class="diary-progress">
-                            <div class="progress-card">
-                                <h2>Прогресс обучения</h2>
-                                <div class="course-progress">
-                                    <div class="course-info">
-                                        <span class="course-name">React Advanced</span>
-                                        <span class="course-percent">85%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 85%"></div>
-                                    </div>
+                        <!-- Форма добавления записи (скрыта по умолчанию) -->
+                        <div class="add-entry-form hidden" id="addEntryForm">
+                            <h3>Добавить новую запись</h3>
+                            <form id="diaryForm" novalidate>
+                                <div class="form-group">
+                                    <label for="entryDate">Дата *</label>
+                                    <input 
+                                        type="date" 
+                                        id="entryDate" 
+                                        name="entryDate" 
+                                        required
+                                        max=""
+                                    >
                                 </div>
-                                <div class="course-progress">
-                                    <div class="course-info">
-                                        <span class="course-name">Node.js Backend</span>
-                                        <span class="course-percent">70%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 70%"></div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="entryTitle">Заголовок *</label>
+                                    <input 
+                                        type="text" 
+                                        id="entryTitle" 
+                                        name="entryTitle" 
+                                        required
+                                        minlength="5"
+                                        maxlength="100"
+                                    >
                                 </div>
-                                <div class="course-progress">
-                                    <div class="course-info">
-                                        <span class="course-name">UI/UX Design</span>
-                                        <span class="course-percent">60%</span>
-                                    </div>
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 60%"></div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="entryDescription">Описание *</label>
+                                    <textarea 
+                                        id="entryDescription" 
+                                        name="entryDescription" 
+                                        rows="4" 
+                                        required
+                                        minlength="10"
+                                        maxlength="500"
+                                        placeholder="Опишите ваши достижения, проблемы или планы..."
+                                    ></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="entryStatus">Статус *</label>
+                                    <select id="entryStatus" name="entryStatus" required>
+                                        <option value="">Выберите статус</option>
+                                        <option value="planned">Запланировано</option>
+                                        <option value="in-progress">В процессе</option>
+                                        <option value="completed">Завершено</option>
+                                    </select>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="button">Добавить запись</button>
+                                    <button type="button" class="button outline" id="cancelFormBtn">Отмена</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Боковая панель -->
+                    <div class="diary-progress">
+                        <div class="progress-card">
+                            <h2>Прогресс обучения</h2>
+                            <div class="course-progress">
+                                <div class="course-info">
+                                    <span class="course-name">React Advanced</span>
+                                    <span class="course-percent">85%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%" aria-label="Прогресс: 85%"></div>
                                 </div>
                             </div>
-                            
-                            <div class="stats-card">
-                                <h3>Статистика</h3>
-                                <div class="stats-grid">
-                                    <div class="stat-item">
-                                        <div class="stat-number">24</div>
-                                        <div class="stat-label">Завершенных проекта</div>
-                                    </div>
-                                    <div class="stat-item">
-                                        <div class="stat-number">156</div>
-                                        <div class="stat-label">Часов кодинга</div>
-                                    </div>
-                                    <div class="stat-item">
-                                        <div class="stat-number">89%</div>
-                                        <div class="stat-label">Успешность</div>
-                                    </div>
-                                    <div class="stat-item">
-                                        <div class="stat-number">12</div>
-                                        <div class="stat-label">Технологий</div>
-                                    </div>
+                            <div class="course-progress">
+                                <div class="course-info">
+                                    <span class="course-name">Node.js Backend</span>
+                                    <span class="course-percent">70%</span>
                                 </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 70%" aria-label="Прогресс: 70%"></div>
+                                </div>
+                            </div>
+                            <div class="course-progress">
+                                <div class="course-info">
+                                    <span class="course-name">UI/UX Design</span>
+                                    <span class="course-percent">60%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%" aria-label="Прогресс: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <h3>Статистика</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="completedCount">24</div>
+                                    <div class="stat-label">Завершенных проекта</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="codingHours">156</div>
+                                    <div class="stat-label">Часов кодинга</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="successRate">89%</div>
+                                    <div class="stat-label">Успешность</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="techCount">12</div>
+                                    <div class="stat-label">Технологий</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Быстрый экспорт -->
+                        <div class="export-card">
+                            <h3>Экспорт данных</h3>
+                            <div class="export-actions">
+                                <button class="button small outline" id="exportJSON">
+                                    📊 JSON
+                                </button>
+                                <button class="button small outline" id="exportPDF">
+                                    📄 PDF
+                                </button>
+                                <button class="button small outline" id="printDiary">
+                                    🖨️ Печать
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
-
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; 2024 Мое Портфолио. Все права защищены.</p>
-                <div class="footer-contacts">
-                    <p>Email: example@portfolio.com | Телефон: +7 (999) 123-45-67</p>
-                </div>
             </div>
-        </footer>
-    </div>
+        </section>
+    </main>
 
-    <script src="script.js"></script>
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p>&copy; 2024 Онучин Михаил Сергеевич. ЭФБО-15-24</p>
+            <div class="footer-contacts">
+                <p>📧 mikhail.onuchin@edu.ru | 📱 GitHub: D0n1s1m0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../scripts/diary-manager.js" defer></script>
+    
+    <!-- Inline скрипт для быстрой инициализации -->
+    <script>
+        // Быстрая инициализация дневника
+        document.addEventListener('DOMContentLoaded', function() {
+            // Установка максимальной даты как сегодня
+            const dateInput = document.getElementById('entryDate');
+            if (dateInput) {
+                dateInput.max = new Date().toISOString().split('T')[0];
+            }
+
+            // Быстрая загрузка записей
+            setTimeout(() => {
+                const loadingState = document.getElementById('loadingState');
+                if (loadingState) {
+                    loadingState.style.display = 'none';
+                    // Здесь будет загрузка реальных данных
+                }
+            }, 500);
+        });
+    </script>
 </body>
 </html>

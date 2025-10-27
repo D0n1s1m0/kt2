@@ -1,4 +1,4 @@
-* CSS Reset и базовые стили */
+
 * {
     margin: 0;
     padding: 0;
@@ -1252,4 +1252,4 @@ html {
     .entry-item {
         will-change: transform;
     }
-}aaaaaaaaaaaaaaaaaaaaaaa
+}

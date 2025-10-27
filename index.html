@@ -4,81 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Портфолио | Онучин Михаил Сергеевич</title>
+    <meta name="description" content="Портфолио Онучина Михаила - студента ЭФБО-15-24, веб-разработчика">
+    
+    <!-- Preload критичных ресурсов -->
+    <link rel="preload" href="./styles/styles.css" as="style">
+    <link rel="preload" href="./scripts/main.js" as="script">
+    
+    <!-- Предзагрузка ключевых изображений -->
+    <link rel="preload" href="./images/photo.jpg" as="image" importance="high">
+    
+    <!-- Основные стили -->
     <link rel="stylesheet" href="./styles/styles.css">
+    
+    <!-- Предзагрузка шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
+    <!-- Добавлен noscript для случаев без JavaScript -->
+    <noscript>
+        <div style="padding: 20px; text-align: center; background: #fff3e6;">
+            <h2>Включите JavaScript для полной функциональности сайта</h2>
+        </div>
+    </noscript>
+
+    <!-- Анимированный фон -->
+    <div class="sakura-container" aria-hidden="true">
+        <!-- Листья генерируются через JavaScript -->
+    </div>
+
+    <!-- Плавающие blob элементы -->
+    <div class="blob-container" aria-hidden="true">
+        <!-- Blobs генерируются через JavaScript -->
+    </div>
+
     <!-- Шапка сайта -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="container">
             <div class="header-brand">
-                <a href="index.html">Онучин М.С.</a>
+                <a href="index.html" aria-label="На главную страницу">Онучин М.С.</a>
             </div>
-            <nav class="header-nav">
-                <ul>
-                    <li><a href="index.html" class="active">Главная</a></li>
-                    <li><a href="pages/projects.html">Проекты</a></li>
-                    <li><a href="pages/diary.html">Дневник</a></li>
-                    <li><a href="pages/contacts.html">Контакты</a></li>
+            <nav class="header-nav" aria-label="Основная навигация">
+                <ul role="menubar">
+                    <li role="none"><a href="index.html" class="active" role="menuitem">Главная</a></li>
+                    <li role="none"><a href="pages/projects.html" role="menuitem">Проекты</a></li>
+                    <li role="none"><a href="pages/diary.html" role="menuitem">Дневник</a></li>
+                    <li role="none"><a href="pages/contacts.html" role="menuitem">Контакты</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
+    <main role="main">
         <!-- Секция "Приветствие" -->
         <section class="intro">
             <div class="container">
                 <div class="intro-wrapper">
-                    <img src="./images/photo.jpg" alt="Фотография Онучина Михаила" class="intro-photo">
+                    <img 
+                        src="./images/photo.jpg" 
+                        alt="Фотография Онучина Михаила"
+                        class="intro-photo"
+                        loading="eager"
+                        width="280"
+                        height="280"
+                    >
                     <div class="intro-text">
                         <h1>Привет! Я Онучин Михаил</h1>
                         <p>Студент ЭФБО-15-24</p>
                         <p>Увлекаюсь веб-разработкой и изучаю современные технологии. Стремлюсь стать профессиональным фронтенд-разработчиком.</p>
-                        <a href="./assets/resume.pdf" class="button" download>Скачать резюме</a>
+                        <a href="./assets/resume.pdf" class="button" download aria-label="Скачать резюме">
+                            Скачать резюме
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Секция "Навыки" -->
-        <section class="skills">
+        <section class="skills" aria-labelledby="skills-heading">
             <div class="container">
-                <h2>Мои навыки</h2>
+                <h2 id="skills-heading">Мои навыки</h2>
                 <div class="skills-list">
                     <div class="skill">
                         <span class="skill-name">HTML/CSS</span>
                         <div class="skill-bar">
-                            <div class="skill-level" style="width: 90%;">90%</div>
+                            <div class="skill-level" style="width: 90%;" aria-label="Уровень владения HTML/CSS: 90%">90%</div>
                         </div>
                     </div>
                     <div class="skill">
                         <span class="skill-name">JavaScript</span>
                         <div class="skill-bar">
-                            <div class="skill-level" style="width: 80%;">80%</div>
+                            <div class="skill-level" style="width: 80%;" aria-label="Уровень владения JavaScript: 80%">80%</div>
                         </div>
                     </div>
                     <div class="skill">
                         <span class="skill-name">Bootstrap</span>
                         <div class="skill-bar">
-                            <div class="skill-level" style="width: 85%;">85%</div>
+                            <div class="skill-level" style="width: 85%;" aria-label="Уровень владения Bootstrap: 85%">85%</div>
                         </div>
                     </div>
                     <div class="skill">
                         <span class="skill-name">React</span>
                         <div class="skill-bar">
-                            <div class="skill-level" style="width: 60%;">60%</div>
+                            <div class="skill-level" style="width: 60%;" aria-label="Уровень владения React: 60%">60%</div>
                         </div>
                     </div>
                     <div class="skill">
                         <span class="skill-name">Git</span>
                         <div class="skill-bar">
-                            <div class="skill-level" style="width: 75%;">75%</div>
+                            <div class="skill-level" style="width: 75%;" aria-label="Уровень владения Git: 75%">75%</div>
                         </div>
                     </div>
                     <div class="skill">
                         <span class="skill-name">Figma</span>
                         <div class="skill-bar">
-                            <div class="skill-level" style="width: 70%;">70%</div>
+                            <div class="skill-level" style="width: 70%;" aria-label="Уровень владения Figma: 70%">70%</div>
                         </div>
                     </div>
                 </div>
@@ -86,13 +126,19 @@
         </section>
 
         <!-- Секция "Лучшие проекты" -->
-        <section class="featured-projects">
+        <section class="featured-projects" aria-labelledby="projects-heading">
             <div class="container">
-                <h2>Лучшие проекты</h2>
+                <h2 id="projects-heading">Лучшие проекты</h2>
                 <div class="projects-grid">
                     <!-- Проект 1 -->
-                    <article class="project-card">
-                        <img src="./images/project1.jpg" alt="Личный сайт">
+                    <article class="project-card" role="article">
+                        <img 
+                            src="./images/project1.jpg" 
+                            alt="Личный сайт-визитка"
+                            loading="lazy"
+                            width="400"
+                            height="220"
+                        >
                         <div class="project-card-content">
                             <h3>Личный сайт-визитка</h3>
                             <p>Мой первый проект в веб-разработке. Адаптивный дизайн, семантическая верстка.</p>
@@ -103,9 +149,16 @@
                             <a href="pages/projects.html#project1" class="project-link">Подробнее</a>
                         </div>
                     </article>
+                    
                     <!-- Проект 2 -->
-                    <article class="project-card">
-                        <img src="./images/project2.jpg" alt="Todo приложение">
+                    <article class="project-card" role="article">
+                        <img 
+                            src="./images/project2.jpg" 
+                            alt="Todo приложение"
+                            loading="lazy"
+                            width="400"
+                            height="220"
+                        >
                         <div class="project-card-content">
                             <h3>Todo приложение</h3>
                             <p>Приложение для управления задачами с возможностью добавления, удаления и отметки выполненных дел.</p>
@@ -116,9 +169,16 @@
                             <a href="pages/projects.html#project2" class="project-link">Подробнее</a>
                         </div>
                     </article>
+                    
                     <!-- Проект 3 -->
-                    <article class="project-card">
-                        <img src="./images/project3.jpg" alt="Интернет-магазин">
+                    <article class="project-card" role="article">
+                        <img 
+                            src="./images/project3.jpg" 
+                            alt="Интернет-магазин"
+                            loading="lazy"
+                            width="400"
+                            height="220"
+                        >
                         <div class="project-card-content">
                             <h3>Интернет-магазин</h3>
                             <p>Учебный проект интернет-магазина с корзиной товаров и фильтрацией по категориям.</p>
@@ -138,7 +198,7 @@
     </main>
 
     <!-- Подвал сайта -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="container">
             <p>&copy; 2024 Онучин Михаил Сергеевич. ЭФБО-15-24</p>
             <div class="footer-contacts">
@@ -147,6 +207,8 @@
         </div>
     </footer>
 
-    <script src="./scripts/main.js"></script>
+    <!-- Скрипты в конце body для быстрой загрузки -->
+    <script src="./scripts/main.js" defer></script>
+    <script src="./scripts/filters.js" defer></script>
 </body>
 </html>
